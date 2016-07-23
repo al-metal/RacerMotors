@@ -34,6 +34,7 @@
             this.tbDescription = new System.Windows.Forms.TextBox();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.btnSaveTemplate = new System.Windows.Forms.Button();
+            this.btnActualPrice = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // rtbMiniText
@@ -83,11 +84,22 @@
             this.btnSaveTemplate.UseVisualStyleBackColor = true;
             this.btnSaveTemplate.Click += new System.EventHandler(this.btnSaveTemplate_Click);
             // 
+            // btnActualPrice
+            // 
+            this.btnActualPrice.Location = new System.Drawing.Point(724, 26);
+            this.btnActualPrice.Name = "btnActualPrice";
+            this.btnActualPrice.Size = new System.Drawing.Size(168, 54);
+            this.btnActualPrice.TabIndex = 6;
+            this.btnActualPrice.Text = "Актуализировать сайт";
+            this.btnActualPrice.UseVisualStyleBackColor = true;
+            this.btnActualPrice.Click += new System.EventHandler(this.btnActualPrice_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(919, 429);
+            this.Controls.Add(this.btnActualPrice);
             this.Controls.Add(this.btnSaveTemplate);
             this.Controls.Add(this.tbKeywords);
             this.Controls.Add(this.tbDescription);
@@ -109,6 +121,7 @@
         private System.Windows.Forms.TextBox tbDescription;
         private System.Windows.Forms.TextBox tbKeywords;
         private System.Windows.Forms.Button btnSaveTemplate;
+        private System.Windows.Forms.Button btnActualPrice;
     }
 }
 
