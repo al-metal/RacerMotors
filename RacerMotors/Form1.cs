@@ -21,6 +21,8 @@ namespace RacerMotors
         CHPU chpu = new CHPU();
         string otv = null;
         double discount = 0.02;
+        int countUpdate = 0;
+        int countDelete = 0;
 
         public Form1()
         {
@@ -143,25 +145,25 @@ namespace RacerMotors
         {
             File.Delete("naSite.csv");
             List<string> newProduct = new List<string>();
-            newProduct.Add("id");                                                                                       //id
-            newProduct.Add("Артикул *");                                                                   //артикул
-            newProduct.Add("Название товара *");                                                                 //название
-            newProduct.Add("Стоимость товара *");                                                                //стоимость
-            newProduct.Add("Стоимость со скидкой");                                                                        //со скидкой
-            newProduct.Add("Раздел товара *");                                                                      //раздел товара
-            newProduct.Add("Товар в наличии *");                                                                       //в наличии
-            newProduct.Add("Поставка под заказ *");                                                                         //поставка
-            newProduct.Add("Срок поставки (дни) *");                                                                         //срок поставки
-            newProduct.Add("Краткий текст");                                                                    //краткий текст
-            newProduct.Add("Текст полностью");                                                                   //полностью текст
-            newProduct.Add("Заголовок страницы (title)");                                                                   //заголовок страницы
-            newProduct.Add("Описание страницы (description)");                                                           //описание
-            newProduct.Add("Ключевые слова страницы (keywords)");                                                                //ключевые слова
-            newProduct.Add("ЧПУ страницы (slug)");                                                                //ЧПУ
-            newProduct.Add("С этим товаром покупают");                                                                           //с этим товаром покупают
+            newProduct.Add("id");                                                                               //id
+            newProduct.Add("Артикул *");                                                 //артикул
+            newProduct.Add("Название товара *");                                          //название
+            newProduct.Add("Стоимость товара *");                                    //стоимость
+            newProduct.Add("Стоимость со скидкой");                                       //со скидкой
+            newProduct.Add("Раздел товара *");                                         //раздел товара
+            newProduct.Add("Товар в наличии *");                                                    //в наличии
+            newProduct.Add("Поставка под заказ *");                                                 //поставка
+            newProduct.Add("Срок поставки (дни) *");                                           //срок поставки
+            newProduct.Add("Краткий текст");                                 //краткий текст
+            newProduct.Add("Текст полностью");                                          //полностью текст
+            newProduct.Add("Заголовок страницы (title)");                               //заголовок страницы
+            newProduct.Add("Описание страницы (description)");                                 //описание
+            newProduct.Add("Ключевые слова страницы (keywords)");                                 //ключевые слова
+            newProduct.Add("ЧПУ страницы (slug)");                                   //ЧПУ
+            newProduct.Add("С этим товаром покупают");                              //с этим товаром покупают
             newProduct.Add("Рекламные метки");
-            newProduct.Add("Показывать на сайте *");                                                                        //показывать
-            newProduct.Add("Удалить *");                                                                        //удалить
+            newProduct.Add("Показывать на сайте *");                                           //показывать
+            newProduct.Add("Удалить *");                                    //удалить
             file.fileWriterCSV(newProduct, "naSite");
 
             otv = webRequest.getRequestEncod("http://racer-motors.ru/spare-parts/");
@@ -222,6 +224,7 @@ namespace RacerMotors
                                     List<string> tovarList = webRequest.arraySaveimage(urlTovar);
                                     tovarList[9] = priceActual.ToString();
                                     webRequest.saveImage(tovarList);
+                                    countUpdate++;
                                 }
 
                                 if (priceRacerMotors[m].ToString() == "0")
@@ -229,6 +232,7 @@ namespace RacerMotors
                                     urlTovar = urlTovar.Replace("http://bike18.ru/", "http://bike18.nethouse.ru/");
                                     List<string> tovarList = webRequest.arraySaveimage(urlTovar);
                                     webRequest.deleteProduct(tovarList);
+                                    countDelete++;
                                 }
                             }
                             else
@@ -342,25 +346,25 @@ namespace RacerMotors
                                     }
 
                                     newProduct = new List<string>();
-                                    newProduct.Add("");                                                                                    //id
-                                    newProduct.Add("\"" + articlRacerMotors[m].ToString() + "\"");                                                                   //артикул
-                                    newProduct.Add("\"" + nameTovarRacerMotors + "\"");                                                                  //название
-                                    newProduct.Add("\"" + priceActual + "\"");                                                             //стоимость
-                                    newProduct.Add("\"" + "" + "\"");                                                                     //со скидкой
-                                    newProduct.Add("\"" + razdel + "\"");                                                               //раздел товара
-                                    newProduct.Add("\"" + "100" + "\"");                                                                      //в наличии
-                                    newProduct.Add("\"" + "0" + "\"");                                                                         //поставка
-                                    newProduct.Add("\"" + "1" + "\"");                                                                    //срок поставки
-                                    newProduct.Add("\"" + minitext + "\"");                                                               //краткий текст
-                                    newProduct.Add("\"" + fullText + "\"");                                                             //полностью текст
-                                    newProduct.Add("\"" + titleText + "\"");                                                          //заголовок страницы
-                                    newProduct.Add("\"" + descriptionText + "\"");                                                             //описание
-                                    newProduct.Add("\"" + keywordsText + "\"");                                                          //ключевые слова
-                                    newProduct.Add("\"" + slug + "\"");                                                                  //ЧПУ
-                                    newProduct.Add("");                                                                         //с этим товаром покупают
-                                    newProduct.Add("");                                                                                //рекламные метки
-                                    newProduct.Add("\"" + "1" + "\"");                                                                    //показывать
-                                    newProduct.Add("\"" + "0" + "\"");                                                                         //удалить
+                                    newProduct.Add(""); //id
+                                    newProduct.Add("\"" + articlRacerMotors[m].ToString() + "\""); //артикул
+                                    newProduct.Add("\"" + nameTovarRacerMotors + "\"");  //название
+                                    newProduct.Add("\"" + priceActual + "\""); //стоимость
+                                    newProduct.Add("\"" + "" + "\""); //со скидкой
+                                    newProduct.Add("\"" + razdel + "\""); //раздел товара
+                                    newProduct.Add("\"" + "100" + "\""); //в наличии
+                                    newProduct.Add("\"" + "0" + "\"");//поставка
+                                    newProduct.Add("\"" + "1" + "\"");//срок поставки
+                                    newProduct.Add("\"" + minitext + "\"");//краткий текст
+                                    newProduct.Add("\"" + fullText + "\"");//полностью текст
+                                    newProduct.Add("\"" + titleText + "\""); //заголовок страницы
+                                    newProduct.Add("\"" + descriptionText + "\""); //описание
+                                    newProduct.Add("\"" + keywordsText + "\"");//ключевые слова
+                                    newProduct.Add("\"" + slug + "\""); //ЧПУ
+                                    newProduct.Add(""); //с этим товаром покупают
+                                    newProduct.Add("");   //рекламные метки
+                                    newProduct.Add("\"" + "1" + "\"");  //показывать
+                                    newProduct.Add("\"" + "0" + "\""); //удалить
 
                                     file.fileWriterCSV(newProduct, "naSite");
                                 }
@@ -369,6 +373,7 @@ namespace RacerMotors
                     }
                 }
             }
+            MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
         }
     }
 }
