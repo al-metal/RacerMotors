@@ -144,6 +144,7 @@ namespace RacerMotors
         private void btnActualPrice_Click(object sender, EventArgs e)
         {
             File.Delete("naSite.csv");
+            File.Delete("allProducts.csv");
             List<string> newProduct = new List<string>();
             newProduct.Add("id");                                                                               //id
             newProduct.Add("Артикул *");                                                 //артикул
@@ -369,6 +370,12 @@ namespace RacerMotors
                                     file.fileWriterCSV(newProduct, "naSite");
                                 }
                             }
+                            List<string> allProducts = new List<string>();
+                            allProducts.Add(nameTovarRacerMotors);
+                            allProducts.Add(articlRacerMotors[m].ToString());
+                            allProducts.Add(section1);
+                            allProducts.Add(section2);
+                            file.fileWriterCSV(allProducts, "allProducts");
                         }
                     }
                 }
