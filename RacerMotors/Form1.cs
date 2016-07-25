@@ -402,6 +402,7 @@ namespace RacerMotors
                         string allProductsArticl = allProducts[1].Replace("\"", "");
                         if (articlNewProduct == allProductsArticl)
                         {
+                            dblProduct += "<br />-" + boldOpen + allProducts[2].Replace("\"", "") + boldClose + " раздел " + boldOpen + allProducts[3].Replace("\"", "") + boldClose;
                         }
                     }
                     dblProduct = dblProduct + "<br />и аналогичных моделей.";
