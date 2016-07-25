@@ -384,30 +384,32 @@ namespace RacerMotors
             }
             string[] allProductsLines = File.ReadAllLines("allProducts.csv", Encoding.GetEncoding(1251));
             string[] noProducts = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
-            File.Delete("naSite.csv");
-            List<string> newPro = new List<string>();
-            string str0 = noProducts[0].ToString();
-            newPro.Add(str0);
-            for (int i = 1; noProducts.Length > i; i++)
+            if(noProducts.Length != 1)
             {
-                string dblProduct = "";
-                string[] newProducts = noProducts[i].Split(';');
-                string articlNewProduct = newProducts[1].Replace("\"", "");
-                string nameNewProduct = newProducts[2].Replace("\"", "");
-                foreach (string str in allProductsLines)
+                File.Delete("naSite.csv");
+                List<string> newPro = new List<string>();
+                string str0 = noProducts[0].ToString();
+                newPro.Add(str0);
+                for (int i = 1; noProducts.Length > i; i++)
                 {
-                    string[] allProducts = str.Split(';');
-                    string allProductsArticl = allProducts[1].Replace("\"", "");
-                    if (articlNewProduct == allProductsArticl)
+                    string dblProduct = "";
+                    string[] newProducts = noProducts[i].Split(';');
+                    string articlNewProduct = newProducts[1].Replace("\"", "");
+                    string nameNewProduct = newProducts[2].Replace("\"", "");
+                    foreach (string str in allProductsLines)
                     {
-                        dblProduct += "\n-" + boldOpen + allProducts[2].Replace("\"", "") + boldClose + " раздел " + boldOpen + allProducts[3].Replace("\"", "") + boldClose;
+                        string[] allProducts = str.Split(';');
+                        string allProductsArticl = allProducts[1].Replace("\"", "");
+                        if (articlNewProduct == allProductsArticl)
+                        {
+                        }
                     }
+                    dblProduct = dblProduct + "<br />и аналогичных моделей.";
+                    string neww = noProducts[i].Replace("аналогичных моделей.", dblProduct);
+                    newPro.Add(neww);
+                    File.WriteAllLines("naSite.csv", newPro, Encoding.GetEncoding(1251));
                 }
-                dblProduct = dblProduct + "\nи аналогичных моделей.";
-                string neww = noProducts[i].Replace("аналогичных моделей.", dblProduct);
-                newPro.Add(neww);
-                File.WriteAllLines("naSite.csv", newPro, Encoding.GetEncoding(1251));
-            }
+            }         
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
         }
     }
