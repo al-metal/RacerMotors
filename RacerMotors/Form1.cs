@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -16,7 +17,8 @@ namespace RacerMotors
 {
     public partial class Form1 : Form
     {
-        WebRequest webRequest = new WebRequest();
+        web.WebRequest webRequest = new web.WebRequest();
+        WebClient webClient = new WebClient();
         FileEdit file = new FileEdit();
         CHPU chpu = new CHPU();
         string otv = null;
@@ -30,6 +32,10 @@ namespace RacerMotors
             if (!Directory.Exists("files"))
             {
                 Directory.CreateDirectory("files");
+            }
+            if (!Directory.Exists("pic"))
+            {
+                Directory.CreateDirectory("pic");
             }
 
             if (!File.Exists("files\\miniText.txt"))
@@ -210,6 +216,7 @@ namespace RacerMotors
                     {
                         for (int m = 0; articlRacerMotors.Count > m; m++)
                         {
+                            webClient.DownloadFile("http://racer-motors.ru" + imageProduct, "pic\\" + articlRacerMotors[m].ToString() + ".jpg");
                             otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=" + articlRacerMotors[m].ToString());
                             string urlTovar = new Regex("(?<=<a href=\").*(?=\"><div class=\"-relative item-image\")").Match(otv).ToString();
 
