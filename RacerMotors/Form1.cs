@@ -173,6 +173,9 @@ namespace RacerMotors
             MatchCollection modelTovar = new Regex("(?<=<li><a href=\")/spare-parts/.*?(?=\">)").Matches(otv);
             for (int i = 0; modelTovar.Count > i; i++)
             {
+                bool shlak = modelTovar[i].ToString().Contains("aksessuary");
+                if (shlak)
+                    break;
                 otv = webRequest.getRequestEncod("http://racer-motors.ru" + modelTovar[i].ToString());
 
                 string objProduct = null;
