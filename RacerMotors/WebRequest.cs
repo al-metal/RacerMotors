@@ -32,6 +32,7 @@ namespace web
         {
             HttpWebResponse res = null;
             HttpWebRequest req = (HttpWebRequest)System.Net.WebRequest.Create(url);
+            //req.Timeout = 10000;
             //req.Proxy = null;
             //HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
