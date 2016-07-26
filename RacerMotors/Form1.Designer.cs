@@ -110,6 +110,7 @@
             this.btnPrice.TabIndex = 7;
             this.btnPrice.Text = "Обработать прайс";
             this.btnPrice.UseVisualStyleBackColor = true;
+            this.btnPrice.Click += new System.EventHandler(this.btnPrice_Click);
             // 
             // Form1
             // 
