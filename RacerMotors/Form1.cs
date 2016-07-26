@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -522,6 +523,27 @@ namespace RacerMotors
             StreamReader ressrImg = new StreamReader(resimg.GetResponseStream());
             string otvimg = ressrImg.ReadToEnd();
             return otvimg;
+        }
+
+        private void btnPrice_Click(object sender, EventArgs e)
+        {
+            FileInfo file = new FileInfo("Запчасти.xlsx");
+            ExcelPackage p = new ExcelPackage(file);
+            ExcelWorksheet w = p.Workbook.Worksheets[1];
+            int q = w.Dimension.Rows;
+            for(int i = 14; q > i; i++)
+            {
+                if(w.Cells[i, 3].Value == null)
+                {
+                    string razdel = (string)w.Cells[i, 2].Value;
+                }
+                else
+                {
+                    string name = (string)w.Cells[i, 2].Value;
+                    string articl = (string)w.Cells[i, 3].Value;
+                    string nomenclatura = (string)w.Cells[i, 5].Value;
+                }
+            }
         }
     }
 }
