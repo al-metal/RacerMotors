@@ -739,6 +739,7 @@ namespace RacerMotors
                 else
                 {
                     string name = (string)w.Cells[i, 2].Value;
+                    name = name.Trim();
                     string articl = (string)w.Cells[i, 3].Value;
                     string nomenclatura = (string)w.Cells[i, 5].Value;
                     double priceCSV = (double)w.Cells[i, 13].Value;
@@ -807,20 +808,20 @@ namespace RacerMotors
 
                         string discount = "<p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> Сделай ТРОЙНОЙ удар по нашим ценам! </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 1. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Скидки за отзывы о товарах!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 2. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Друзьям скидки и подарки!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 3. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Нашли дешевле!? 110% разницы Ваши!</a></span></p>";
 
-                        minitext = minitext.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdel).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>");
+                        minitext = minitext.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>");
 
                         minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
 
-                        fullText = fullText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdel).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+                        fullText = fullText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
 
                         fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
 
-                        titleText = titleText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdel).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+                        titleText = titleText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
 
-                        descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdel).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+                        descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
 
 
-                        keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdel).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+                        keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
 
                         if (titleText.Length > 255)
                         {
