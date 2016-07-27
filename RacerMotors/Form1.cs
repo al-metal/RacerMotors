@@ -527,6 +527,7 @@ namespace RacerMotors
 
         private void btnPrice_Click(object sender, EventArgs e)
         {
+            string otv = null;
             FileInfo file = new FileInfo("Запчасти.xlsx");
             ExcelPackage p = new ExcelPackage(file);
             ExcelWorksheet w = p.Workbook.Worksheets[1];
@@ -542,6 +543,22 @@ namespace RacerMotors
                     string name = (string)w.Cells[i, 2].Value;
                     string articl = (string)w.Cells[i, 3].Value;
                     string nomenclatura = (string)w.Cells[i, 5].Value;
+                    double priceCSV = (double)w.Cells[i, 13].Value;
+                    otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=+" + articl);
+                    string urlTovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*?(?=\" >)").Match(otv).ToString();
+                    if(urlTovar != "")
+                    {
+                        string priceTovar = new Regex("(?<=<span class=\"product-price-data\" data-cost=\").*?(?=\">)").Match(otv).ToString();
+                        double actualPrice = webRequest.price(priceCSV, discount);
+                        if(actualPrice != Convert.ToDouble(priceTovar))
+                        {
+                            //Обновляем цену
+                        }
+                    }
+                    else
+                    {
+                        //Добавляем на сайт
+                    }
                 }
             }
         }
