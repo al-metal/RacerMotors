@@ -20,12 +20,13 @@ namespace RacerMotors
     {
         web.WebRequest webRequest = new web.WebRequest();
         WebClient webClient = new WebClient();
-        FileEdit file = new FileEdit();
+        
         CHPU chpu = new CHPU();
         string otv = null;
-        double discount = 0.02;
+        double discounts = 0.02;
         int countUpdate = 0;
         int countDelete = 0;
+        FileEdit files = new FileEdit();
 
         public Form1()
         {
@@ -174,7 +175,7 @@ namespace RacerMotors
             newProduct.Add("Рекламные метки");
             newProduct.Add("Показывать на сайте *");                                           //показывать
             newProduct.Add("Удалить *");                                    //удалить
-            file.fileWriterCSV(newProduct, "naSite");
+            files.fileWriterCSV(newProduct, "naSite");
 
             otv = webRequest.getRequestEncod("http://racer-motors.ru/spare-parts/");
             MatchCollection modelTovar = new Regex("(?<=<li><a href=\")/spare-parts/.*?(?=\">)").Matches(otv);
@@ -232,7 +233,7 @@ namespace RacerMotors
                             string nameTovarRacerMotors = namesRacerMotors[m].ToString().Trim();
                             int priceTovarRacerMotorsInt = Convert.ToInt32(priceRacerMotors[m].ToString());
                             double priceTovarRacerMotors = Convert.ToDouble(priceTovarRacerMotorsInt);
-                            int priceActual = webRequest.price(priceTovarRacerMotors, discount);
+                            int priceActual = webRequest.price(priceTovarRacerMotors, discounts);
 
                             if (urlTovar != "")
                             {
@@ -385,7 +386,7 @@ namespace RacerMotors
                                     newProduct.Add("\"" + "1" + "\"");  //показывать
                                     newProduct.Add("\"" + "0" + "\""); //удалить
 
-                                    file.fileWriterCSV(newProduct, "naSite");
+                                    files.fileWriterCSV(newProduct, "naSite");
                                 }
                             }
                             List<string> allProducts = new List<string>();
@@ -393,7 +394,7 @@ namespace RacerMotors
                             allProducts.Add(articlRacerMotors[m].ToString());
                             allProducts.Add(section1);
                             allProducts.Add(section2);
-                            file.fileWriterCSV(allProducts, "allProducts");
+                            files.fileWriterCSV(allProducts, "allProducts");
                         }
                     }
                 }
@@ -527,7 +528,33 @@ namespace RacerMotors
 
         private void btnPrice_Click(object sender, EventArgs e)
         {
+            File.Delete("naSite.csv");
+            string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
+            string boldClose = "</span>";
+            List<string> newProduct = new List<string>();
+            newProduct.Add("id");                                                                               //id
+            newProduct.Add("Артикул *");                                                 //артикул
+            newProduct.Add("Название товара *");                                          //название
+            newProduct.Add("Стоимость товара *");                                    //стоимость
+            newProduct.Add("Стоимость со скидкой");                                       //со скидкой
+            newProduct.Add("Раздел товара *");                                         //раздел товара
+            newProduct.Add("Товар в наличии *");                                                    //в наличии
+            newProduct.Add("Поставка под заказ *");                                                 //поставка
+            newProduct.Add("Срок поставки (дни) *");                                           //срок поставки
+            newProduct.Add("Краткий текст");                                 //краткий текст
+            newProduct.Add("Текст полностью");                                          //полностью текст
+            newProduct.Add("Заголовок страницы (title)");                               //заголовок страницы
+            newProduct.Add("Описание страницы (description)");                                 //описание
+            newProduct.Add("Ключевые слова страницы (keywords)");                                 //ключевые слова
+            newProduct.Add("ЧПУ страницы (slug)");                                   //ЧПУ
+            newProduct.Add("С этим товаром покупают");                              //с этим товаром покупают
+            newProduct.Add("Рекламные метки");
+            newProduct.Add("Показывать на сайте *");                                           //показывать
+            newProduct.Add("Удалить *");                                    //удалить
+            files.fileWriterCSV(newProduct, "naSite");
+
             string otv = null;
+            string razdelCSV = null;
             FileInfo file = new FileInfo("Запчасти.xlsx");
             ExcelPackage p = new ExcelPackage(file);
             ExcelWorksheet w = p.Workbook.Worksheets[1];
@@ -536,7 +563,176 @@ namespace RacerMotors
             {
                 if(w.Cells[i, 3].Value == null)
                 {
-                    string razdel = (string)w.Cells[i, 2].Value;
+                    razdelCSV = (string)w.Cells[i, 2].Value;
+                    razdelCSV = razdelCSV.Trim();
+                    switch (razdelCSV)
+                    {
+                        case "Двигатель 139QMB 50 cc":
+                            razdelCSV = "Запчасти на Двигатель 139QMB 50 cm3";
+                            break;
+                        case "Двигатель 147FMD 70 cc":
+                            razdelCSV = "Запчасти на Двигатель 147FMD 70 cm3";
+                            break;
+                        case "Двигатель 152QMI 125 cc":
+                            razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3, 152QMI 125 cm3";
+                            break;
+                        case "Двигатель 153FMI 125 cc":
+                            razdelCSV = "Запчасти на Двигатель 153FMI 125 cm3 (RC125-PE)";
+                            break;
+                        case "Двигатель 154FMI 130 cc":
+                            razdelCSV = "Запчасти на Двигатель 154FMI 130 cm3 (RC130CF)";
+                            break;
+                        case "Двигатель 157QMJ 150 cc":
+                            razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3, 152QMI 125 cm3";
+                            break;
+                        case "Двигатель 161FMJ 150 cc (RC150-23)":
+                            razdelCSV = "Запчасти на Двигатель 161FMJ 150 cm3 (RC150-23)";
+                            break;
+                        case "Двигатель 161FMJ 150 cc (RC150-GY)":
+                            razdelCSV = "Запчасти на Двигатель 161FMJ 150 cm3 (RC150-GY)";
+                            break;
+                        case "Двигатель 163FML 200 cc":
+                            razdelCSV = "Запчасти на Двигатель 163FML 200 cm3 (RC200XZT)";
+                            break;
+                        case "Двигатель 164FML 200 cc":
+                            razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK, RC200CS, RC200-C5B, RC200GY-C2, RC200-GY8), 166FMM 250 cc (RC250CK, RC250CK-N, RC250CS, RC250-C5B, RC250GY-C2)";
+                            break;
+                        case "Двигатель 164FML 200 cc (RC200ZH)":
+                            razdelCSV = "Запчасти на Двигатель 164FML 200 cm3 (RC200ZH)";
+                            break;
+                        case "Двигатель 165FML 200 cc":
+                            razdelCSV = "Запчасти на Двигатель 165FML 200 cm3 (RC200LT)";
+                            break;
+                        case "Двигатель 166FMM 250 cc":
+                            razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK, RC200CS, RC200-C5B, RC200GY-C2, RC200-GY8), 166FMM 250 cc (RC250CK, RC250CK-N, RC250CS, RC250-C5B, RC250GY-C2)";
+                            break;
+                        case "Двигатель 170FMN 300 cc":
+                            razdelCSV = "Запчасти на Двигатель 170FMN 300 cm3 (RC300-GY8, RC300CS)";
+                            break;
+                        case "Двигатель 1P39FMA 50 cc":
+                            razdelCSV = "Запчасти на Двигатель 1P39FMA 50 cm3";
+                            break;
+                        case "Двигатель 1P52FMH 110 cc":
+                            razdelCSV = "Запчасти на Двигатель 1P52FMH 110 cm3";
+                            break;
+                        case "Двигатель 1P54FMI 125 сс":
+                            razdelCSV = "Запчасти на двигатель 1P54FMI 125 cm3 (RC125-PM)";
+                            break;
+                        case "Двигатель 1P60FMK 160 сс":
+                            razdelCSV = "Запчасти на Двигатель 1P60FMK 160 cm3 (RC160-PM, RC160-PH)";
+                            break;
+                        case "Двигатель 257FMM 250 cc":
+                            razdelCSV = "Запчасти на Двигатель 257FMM 250 cm3 (RC250LV)";
+                            break;
+                        case "Двигатель ZS177MM 250 cc":
+                            razdelCSV = "Запчасти на Двигатель ZS177MM 250 cm3 (RC250XZR, RC250-GY8)";
+                            break;
+                        case "Мопед CM50Q-2 Delta":
+                            razdelCSV = "Запчасти на Мопед Racer CM50Q-2 Delta";
+                            break;
+                        case "Мопед RC125T-9X Flame":
+                            razdelCSV = "Запчасти на Скутер Racer RC125T-9X Flame";
+                            break;
+                        case "Мопед RC50QT-15 Stells":
+                            razdelCSV = "Запчасти на Скутер Racer RC50QT-15 Stells";
+                            break;
+                        case "Мопед RC50QT-15J Taurus":
+                            razdelCSV = "Запчасти на Скутер Racer RC50QT-15J Taurus";
+                            break;
+                        case "Мопед RC50QT-19 Arrow":
+                            razdelCSV = "Запчасти на Скутер Racer RC50QT-19 Arrow";
+                            break;
+                        case "Мопед RC50QT-3 Meteor":
+                            razdelCSV = "Запчасти на Скутер Racer RC50QT-3 Meteor";
+                            break;
+                        case "Мопед RC50QT-6 Sagita":
+                            razdelCSV = "Запчасти на Скутер Racer RC50QT-6 Sagita";
+                            break;
+                        case "Мопед RC50QT-9/RC125T-9 Lupus":
+                            razdelCSV = "Запчасти на Скутер Racer RC50QT-9 Lupus";
+                            break;
+                        case "Мопед RC50QT-9V Corvus":
+                            razdelCSV = "Запчасти на Скутер Racer RC50QT-9V Corvus";
+                            break;
+                        case "Мотоцикл CM110 Indigo":
+                            razdelCSV = "Запчасти на Мопед Racer CM110 Indigo";
+                            break;
+                        case "Мотоцикл RC110N Trophy":
+                            razdelCSV = "Запчасти на Мопед Racer RC110N Trophy";
+                            break;
+                        case "Мотоцикл RC125, RC160 Pitbike":
+                            razdelCSV = "Запчасти на Питбайки Racer RC125-PE, RC125-PM, RC160-PM, RC160-PH Pitbike";
+                            break;
+                        case "Мотоцикл RC130CF Viper":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC130CF Viper";
+                            break;
+                        case "Мотоцикл RC150-10D Triumph":
+                            razdelCSV = "Разное";
+                            break;
+                        case "Мотоцикл RC150-23 Tiger":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC150-23 Tiger";
+                            break;
+                        case "Мотоцикл RC150-GY Enduro":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC150-GY Enduro";
+                            break;
+                        case "Мотоцикл RC150T-11 Dragon":
+                            razdelCSV = "Запчасти на Скутер Racer RC150T-11 Dragon";
+                            break;
+                        case "Мотоцикл RC200-C5B Magnum":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200-C5B, RC250-C5B Magnum";
+                            break;
+                        case "Мотоцикл RC200-CS Skyway":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200-CS Skyway";
+                            break;
+                        case "Мотоцикл RC200-GY8 Ranger":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200-GY8 Ranger";
+                            break;
+                        case "Мотоцикл RC200CK/RC250CK Nitro":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200CK/RC250CK Nitro";
+                            break;
+                        case "Мотоцикл RC200GY-C2 Panther":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2, RC250GY-C2 Panther";
+                            break;
+                        case "Мотоцикл RC200LT Forester":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200LT Forester";
+                            break;
+                        case "Мотоцикл RC200XZT Enduro":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200XZT Enduro";
+                            break;
+                        case "Мотоцикл RC200ZH Muravei":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200ZH Muravei";
+                            break;
+                        case "Мотоцикл RC250-GY8 Crossrunner":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC250-GY8 Crossrunner";
+                            break;
+                        case "Мотоцикл RC250CK-N Fighter":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC250CK-N Fighter";
+                            break;
+                        case "Мотоцикл RC250CS/RC300CS Skyway":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC250CS Skyway";
+                            break;
+                        case "Мотоцикл RC250LV Cruiser":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC250LV Cruiser";
+                            break;
+                        case "Мотоцикл RC250NC-X1 Phantom":
+                            razdelCSV = "Разное";
+                            break;
+                        case "Мотоцикл RC250XZR Enduro":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC250XZR Enduro";
+                            break;
+                        case "Мотоцикл RC300-GY8 Ranger":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC300-GY8 Ranger";
+                            break;
+                        case "Мотоцикл RC50/CM70 Alpha":
+                            razdelCSV = "Запчасти на Мопед Racer RC70 Alpha";
+                            break;
+                        case "Универсальные запчасти":
+                            razdelCSV = "Разное";
+                            break;
+                        default:
+                            razdelCSV = "Разное";
+                            break;
+                    }
                 }
                 else
                 {
@@ -544,20 +740,146 @@ namespace RacerMotors
                     string articl = (string)w.Cells[i, 3].Value;
                     string nomenclatura = (string)w.Cells[i, 5].Value;
                     double priceCSV = (double)w.Cells[i, 13].Value;
+                    string dopnomenrlatura = (string)w.Cells[i, 4].Value;
                     otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=+" + articl);
                     string urlTovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*?(?=\" >)").Match(otv).ToString();
                     if(urlTovar != "")
                     {
                         string priceTovar = new Regex("(?<=<span class=\"product-price-data\" data-cost=\").*?(?=\">)").Match(otv).ToString();
-                        double actualPrice = webRequest.price(priceCSV, discount);
+                        double actualPrice = webRequest.price(priceCSV, discounts);
                         if(actualPrice != Convert.ToDouble(priceTovar))
                         {
-                            //Обновляем цену
+                            urlTovar = urlTovar.Replace("http://bike18.ru/", "http://bike18.nethouse.ru/");
+                            List<string> tovar = webRequest.arraySaveimage(urlTovar);
+                            tovar[9] = actualPrice.ToString();
+                            webRequest.saveImage(tovar);
                         }
                     }
                     else
                     {
                         //Добавляем на сайт
+                        string razdel = "Запчасти и расходники => Каталог запчастей RACER => ";
+                        string slug = chpu.vozvr(name);
+                        double actualPrice = webRequest.price(priceCSV, discounts);
+
+                        razdel = razdel + razdelCSV;
+                        string minitext = null;
+                        string titleText = null;
+                        string descriptionText = null;
+                        string keywordsText = null;
+                        string fullText = null;
+                        string dblProdSEO = null;
+
+                        string dblProduct = "НАЗВАНИЕ также подходит для:<br />" + boldOpen + dopnomenrlatura + boldClose + " аналогичных моделей.";
+
+                        //switch (objProduct)
+                        //{
+                        //    case ("motorcycles"):
+                        //        razdel = razdel + "Мотоцикл " + section1;
+                        //        break;
+                        //    case ("scooters"):
+                        //        razdel = razdel + "Скутер " + section1;
+                        //        break;
+                        //    case ("mopeds"):
+                        //        razdel = razdel + "Мопед " + section1;
+                        //        break;
+                        //    case ("pitbike"):
+                        //        razdel = razdel + "Питбайки " + section1;
+                        //        break;
+                        //    default:
+                        //        razdel = razdel + " " + section1;
+                        //        break;
+                        //}
+                        string nameText = boldOpen + name + boldClose;
+
+                        for (int z = 0; rtbMiniText.Lines.Length > z; z++)
+                        {
+                            if (rtbMiniText.Lines[z].ToString() == "")
+                            {
+                                minitext += "<p><br /></p>";
+                            }
+                            else
+                            {
+                                minitext += "<p>" + rtbMiniText.Lines[z].ToString() + "</p>";
+                            }
+                        }
+
+                        for (int z = 0; rtbFullText.Lines.Length > z; z++)
+                        {
+                            if (rtbFullText.Lines[z].ToString() == "")
+                            {
+                                fullText += "<p><br /></p>";
+                            }
+                            else
+                            {
+                                fullText += "<p>" + rtbFullText.Lines[z].ToString() + "</p>";
+                            }
+                        }
+
+                        titleText = tbTitle.Lines[0].ToString();
+                        descriptionText = tbDescription.Lines[0].ToString() + " " + dblProdSEO;
+                        keywordsText = tbKeywords.Lines[0].ToString();
+
+                        string discount = "<p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> Сделай ТРОЙНОЙ удар по нашим ценам! </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 1. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Скидки за отзывы о товарах!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 2. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Друзьям скидки и подарки!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 3. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Нашли дешевле!? 110% разницы Ваши!</a></span></p>";
+
+                        minitext = minitext.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdel).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>");
+
+                        minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
+
+                        fullText = fullText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdel).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+
+                        fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
+
+                        titleText = titleText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdel).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+
+                        descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdel).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+
+
+                        keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdel).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+
+                        if (titleText.Length > 255)
+                        {
+                            titleText = titleText.Remove(255);
+                            titleText = titleText.Remove(titleText.LastIndexOf(" "));
+                        }
+                        if (descriptionText.Length > 200)
+                        {
+                            descriptionText = descriptionText.Remove(200);
+                            descriptionText = descriptionText.Remove(descriptionText.LastIndexOf(" "));
+                        }
+                        if (keywordsText.Length > 100)
+                        {
+                            keywordsText = keywordsText.Remove(100);
+                            keywordsText = keywordsText.Remove(keywordsText.LastIndexOf(" "));
+                        }
+                        if (slug.Length > 64)
+                        {
+                            slug = slug.Remove(64);
+                            slug = slug.Remove(slug.LastIndexOf(" "));
+                        }
+
+                        newProduct = new List<string>();
+                        newProduct.Add(""); //id
+                        newProduct.Add("\"" + articl + "\""); //артикул
+                        newProduct.Add("\"" + name + "\"");  //название
+                        newProduct.Add("\"" + actualPrice + "\""); //стоимость
+                        newProduct.Add("\"" + "" + "\""); //со скидкой
+                        newProduct.Add("\"" + razdel + "\""); //раздел товара
+                        newProduct.Add("\"" + "100" + "\""); //в наличии
+                        newProduct.Add("\"" + "0" + "\"");//поставка
+                        newProduct.Add("\"" + "1" + "\"");//срок поставки
+                        newProduct.Add("\"" + minitext + "\"");//краткий текст
+                        newProduct.Add("\"" + fullText + "\"");//полностью текст
+                        newProduct.Add("\"" + titleText + "\""); //заголовок страницы
+                        newProduct.Add("\"" + descriptionText + "\""); //описание
+                        newProduct.Add("\"" + keywordsText + "\"");//ключевые слова
+                        newProduct.Add("\"" + slug + "\""); //ЧПУ
+                        newProduct.Add(""); //с этим товаром покупают
+                        newProduct.Add("");   //рекламные метки
+                        newProduct.Add("\"" + "1" + "\"");  //показывать
+                        newProduct.Add("\"" + "0" + "\""); //удалить
+
+                        files.fileWriterCSV(newProduct, "naSite");
                     }
                 }
             }
