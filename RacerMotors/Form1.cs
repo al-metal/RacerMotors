@@ -528,6 +528,8 @@ namespace RacerMotors
 
         private void btnPrice_Click(object sender, EventArgs e)
         {
+            int countEditPrice = 0;
+            int countAddCSV = 0;
             File.Delete("naSite.csv");
             string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
             string boldClose = "</span>";
@@ -753,6 +755,7 @@ namespace RacerMotors
                             List<string> tovar = webRequest.arraySaveimage(urlTovar);
                             tovar[9] = actualPrice.ToString();
                             webRequest.saveImage(tovar);
+                            countEditPrice++;
                         }
                     }
                     else
@@ -772,24 +775,6 @@ namespace RacerMotors
 
                         string dblProduct = "НАЗВАНИЕ также подходит для:<br />" + boldOpen + dopnomenrlatura + boldClose + " аналогичных моделей.";
 
-                        //switch (objProduct)
-                        //{
-                        //    case ("motorcycles"):
-                        //        razdel = razdel + "Мотоцикл " + section1;
-                        //        break;
-                        //    case ("scooters"):
-                        //        razdel = razdel + "Скутер " + section1;
-                        //        break;
-                        //    case ("mopeds"):
-                        //        razdel = razdel + "Мопед " + section1;
-                        //        break;
-                        //    case ("pitbike"):
-                        //        razdel = razdel + "Питбайки " + section1;
-                        //        break;
-                        //    default:
-                        //        razdel = razdel + " " + section1;
-                        //        break;
-                        //}
                         string nameText = boldOpen + name + boldClose;
 
                         for (int z = 0; rtbMiniText.Lines.Length > z; z++)
@@ -880,9 +865,11 @@ namespace RacerMotors
                         newProduct.Add("\"" + "0" + "\""); //удалить
 
                         files.fileWriterCSV(newProduct, "naSite");
+                        countAddCSV++;
                     }
                 }
             }
+            MessageBox.Show("Обновлено цен: " + countEditPrice + "\nДобавлено позиций: " + countAddCSV);
         }
     }
 }
