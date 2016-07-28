@@ -341,7 +341,6 @@ namespace RacerMotors
 
                                     descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", articlRacerMotors[m].ToString());
 
-
                                     keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", articlRacerMotors[m].ToString());
 
                                     if (titleText.Length > 255)
@@ -772,12 +771,12 @@ namespace RacerMotors
 
                         fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
 
-                        titleText = titleText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+                        titleText = titleText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
 
-                        descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+                        descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
 
 
-                        keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+                        keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
 
                         if (titleText.Length > 255)
                         {
@@ -946,37 +945,51 @@ namespace RacerMotors
                     {
                         MatchCollection prId = new Regex("(?<=data-id=\").*?(?=\")").Matches(otv);
                         int prodId = Convert.ToInt32(prId[0].ToString());
+                        bool b = true;
+                        double widthImg = 0;
+                        double heigthImg = 0;
 
-                        Image newImg = Image.FromFile("pic\\" + articl + ".jpg");
-                        double widthImg = newImg.Width;
-                        double heigthImg = newImg.Height;
-                        if (widthImg > heigthImg)
+                        try
                         {
-                            double dblx = widthImg * 0.9;
-                            if (dblx < heigthImg)
-                            {
-                                heigthImg = heigthImg * 0.9;
-                            }
-                            else
-                                widthImg = widthImg * 0.9;
+                            Image newImg = Image.FromFile("pic\\" + articl + ".jpg");
+                            widthImg = newImg.Width;
+                            heigthImg = newImg.Height;
                         }
-                        else
+                        catch
                         {
-                            double dblx = heigthImg * 0.9;
-                            if (dblx < widthImg)
-                            {
-                                widthImg = widthImg * 0.9;
-                            }
-                            else
-                                heigthImg = heigthImg * 0.9;
+                            b = false;
                         }
 
-                        string otvimg = DownloadImages(articl);
-                        string urlSaveImg = new Regex("(?<=url\":\").*?(?=\")").Match(otvimg).Value.Replace("\\/", "%2F");
-                        string otvSave = SaveImages(urlSaveImg, prodId, widthImg, heigthImg);
-                        List<string> listProd = webRequest.arraySaveimage(urlTovar);
-                        listProd[3] = "10833347";
-                        webRequest.saveImage(listProd);
+                        if (b)
+                        {
+                            if (widthImg > heigthImg)
+                            {
+                                double dblx = widthImg * 0.9;
+                                if (dblx < heigthImg)
+                                {
+                                    heigthImg = heigthImg * 0.9;
+                                }
+                                else
+                                    widthImg = widthImg * 0.9;
+                            }
+                            else
+                            {
+                                double dblx = heigthImg * 0.9;
+                                if (dblx < widthImg)
+                                {
+                                    widthImg = widthImg * 0.9;
+                                }
+                                else
+                                    heigthImg = heigthImg * 0.9;
+                            }
+
+                            string otvimg = DownloadImages(articl);
+                            string urlSaveImg = new Regex("(?<=url\":\").*?(?=\")").Match(otvimg).Value.Replace("\\/", "%2F");
+                            string otvSave = SaveImages(urlSaveImg, prodId, widthImg, heigthImg);
+                            List<string> listProd = webRequest.arraySaveimage(urlTovar);
+                            listProd[3] = "10833347";
+                            webRequest.saveImage(listProd);
+                        }
                     }
                 }
 
