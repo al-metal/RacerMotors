@@ -771,12 +771,12 @@ namespace RacerMotors
 
                         fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
 
-                        titleText = titleText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+                        titleText = titleText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
 
-                        descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+                        descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
 
 
-                        keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+                        keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
 
                         if (titleText.Length > 255)
                         {
