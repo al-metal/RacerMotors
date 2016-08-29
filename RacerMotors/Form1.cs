@@ -344,27 +344,11 @@ namespace RacerMotors
 
                                     keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", articlRacerMotors[m].ToString());
 
-                                    if (titleText.Length > 255)
-                                    {
-                                        titleText = titleText.Remove(255);
-                                        titleText = titleText.Remove(titleText.LastIndexOf(" "));
-                                    }
-                                    if (descriptionText.Length > 200)
-                                    {
-                                        descriptionText = descriptionText.Remove(200);
-                                        descriptionText = descriptionText.Remove(descriptionText.LastIndexOf(" "));
-                                    }
-                                    if (keywordsText.Length > 100)
-                                    {
-                                        keywordsText = keywordsText.Remove(100);
-                                        keywordsText = keywordsText.Remove(keywordsText.LastIndexOf(" "));
-                                    }
-                                    if (slug.Length > 64)
-                                    {
-                                        slug = slug.Remove(64);
-                                        slug = slug.Remove(slug.LastIndexOf(" "));
-                                    }
-
+                                    titleText = Replace(titleText, 255);
+                                    descriptionText = Replace(descriptionText, 200);
+                                    keywordsText = Replace(keywordsText, 100);
+                                    slug = Replace(slug, 64);
+                                    
                                     newProduct = newList();
                                 }
                             }
@@ -459,6 +443,16 @@ namespace RacerMotors
                 while (trueOtv != "2");
             }
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
+        }
+
+        private string Replace(string text, int v)
+        {
+            if (text.Length > v)
+            {
+                text = text.Remove(v);
+                text = text.Remove(text.LastIndexOf(" "));
+            }
+            return text;
         }
 
         private List<string> newList()
