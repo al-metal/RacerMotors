@@ -324,10 +324,10 @@ namespace RacerMotors
 
                                     keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", articlRacerMotors[m].ToString());
 
-                                    titleText = Replace(titleText, 255);
-                                    descriptionText = Replace(descriptionText, 200);
-                                    keywordsText = Replace(keywordsText, 100);
-                                    slug = Replace(slug, 64);
+                                    titleText = Remove(titleText, 255);
+                                    descriptionText = Remove(descriptionText, 200);
+                                    keywordsText = Remove(keywordsText, 100);
+                                    slug = Remove(slug, 64);
                                     
                                     newProduct = newList();
                                 }
@@ -431,7 +431,7 @@ namespace RacerMotors
             return discount;
         }
 
-        private string Replace(string text, int v)
+        private string Remove(string text, int v)
         {
             if (text.Length > v)
             {
