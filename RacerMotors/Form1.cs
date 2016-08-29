@@ -244,7 +244,7 @@ namespace RacerMotors
                                 {
                                     string slug = chpu.vozvr(nameTovarRacerMotors);
 
-                                    string razdel = "Запчасти и расходники => Каталог запчастей RACER => Запчасти на ";
+                                    string razdel = Razdel(objProduct, section1);
                                     string minitext = MinitextStr();
                                     string titleText = null;
                                     string descriptionText = null;
@@ -253,30 +253,6 @@ namespace RacerMotors
                                     string dblProdSEO = null;
 
                                     string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
-
-                                    switch (objProduct)
-                                    {
-                                        case ("motorcycles"):
-                                            razdel = razdel + "Мотоцикл " + section1;
-                                            break;
-                                        case ("scooters"):
-                                            razdel = razdel + "Скутер " + section1;
-                                            break;
-                                        case ("mopeds"):
-                                            razdel = razdel + "Мопед " + section1;
-                                            break;
-                                        case ("pitbike"):
-                                            razdel = razdel + "Питбайки " + section1;
-                                            break;
-                                        default:
-                                            razdel = razdel + " " + section1;
-                                            break;
-                                    }
-                                    
-
-                                    
-
-                                    
 
                                     titleText = tbTitle.Lines[0].ToString();
                                     descriptionText = tbDescription.Lines[0].ToString() + " " + dblProdSEO;
@@ -416,6 +392,30 @@ namespace RacerMotors
                 while (trueOtv != "2");
             }
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
+        }
+
+        private string Razdel(string objProduct, string section1)
+        {
+            string razdel = "Запчасти и расходники => Каталог запчастей RACER => Запчасти на ";
+            switch (objProduct)
+            {
+                case ("motorcycles"):
+                    razdel = razdel + "Мотоцикл " + section1;
+                    break;
+                case ("scooters"):
+                    razdel = razdel + "Скутер " + section1;
+                    break;
+                case ("mopeds"):
+                    razdel = razdel + "Мопед " + section1;
+                    break;
+                case ("pitbike"):
+                    razdel = razdel + "Питбайки " + section1;
+                    break;
+                default:
+                    razdel = razdel + " " + section1;
+                    break;
+            }
+            return razdel;
         }
 
         private string MinitextStr()
