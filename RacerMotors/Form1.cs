@@ -156,27 +156,7 @@ namespace RacerMotors
             string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
             string boldClose = "</span>";
             List<string> newProduct = newList();
-            newProduct.Add("id");                                                                               //id
-            newProduct.Add("Артикул *");                                                 //артикул
-            newProduct.Add("Название товара *");                                          //название
-            newProduct.Add("Стоимость товара *");                                    //стоимость
-            newProduct.Add("Стоимость со скидкой");                                       //со скидкой
-            newProduct.Add("Раздел товара *");                                         //раздел товара
-            newProduct.Add("Товар в наличии *");                                                    //в наличии
-            newProduct.Add("Поставка под заказ *");                                                 //поставка
-            newProduct.Add("Срок поставки (дни) *");                                           //срок поставки
-            newProduct.Add("Краткий текст");                                 //краткий текст
-            newProduct.Add("Текст полностью");                                          //полностью текст
-            newProduct.Add("Заголовок страницы (title)");                               //заголовок страницы
-            newProduct.Add("Описание страницы (description)");                                 //описание
-            newProduct.Add("Ключевые слова страницы (keywords)");                                 //ключевые слова
-            newProduct.Add("ЧПУ страницы (slug)");                                   //ЧПУ
-            newProduct.Add("С этим товаром покупают");                              //с этим товаром покупают
-            newProduct.Add("Рекламные метки");
-            newProduct.Add("Показывать на сайте *");                                           //показывать
-            newProduct.Add("Удалить *");                                    //удалить
-            files.fileWriterCSV(newProduct, "naSite");
-
+            
             otv = webRequest.getRequestEncod("http://racer-motors.ru/spare-parts/");
             MatchCollection modelTovar = new Regex("(?<=<li><a href=\")/spare-parts/.*?(?=\">)").Matches(otv);
             for (int i = 0; modelTovar.Count > i; i++)
@@ -328,7 +308,7 @@ namespace RacerMotors
                                     string strCodePage = "Номер " + codePicture[m].ToString() + " на схеме/фото";
                                     strCodePage = boldOpen + strCodePage + boldClose;
 
-                                    string discount = "<p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> Сделай ТРОЙНОЙ удар по нашим ценам! </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 1. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Скидки за отзывы о товарах!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 2. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Друзьям скидки и подарки!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 3. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Нашли дешевле!? 110% разницы Ваши!</a></span></p>";
+                                    string discount = Discount();
 
                                     minitext = minitext.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", namePodrazdel).Replace("РАЗДЕЛ", nameRazdel).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articlRacerMotors[m].ToString()).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>");
 
@@ -443,6 +423,12 @@ namespace RacerMotors
                 while (trueOtv != "2");
             }
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
+        }
+
+        private string Discount()
+        {
+            string discount = "<p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> Сделай ТРОЙНОЙ удар по нашим ценам! </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 1. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Скидки за отзывы о товарах!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 2. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Друзьям скидки и подарки!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 3. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Нашли дешевле!? 110% разницы Ваши!</a></span></p>";
+            return discount;
         }
 
         private string Replace(string text, int v)
