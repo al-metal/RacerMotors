@@ -155,7 +155,7 @@ namespace RacerMotors
             File.Delete("allProducts.csv");
             string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
             string boldClose = "</span>";
-            List<string> newProduct = new List<string>();
+            List<string> newProduct = newList();
             newProduct.Add("id");                                                                               //id
             newProduct.Add("Артикул *");                                                 //артикул
             newProduct.Add("Название товара *");                                          //название
@@ -204,6 +204,7 @@ namespace RacerMotors
 
                 MatchCollection podrazdel = new Regex("(?<=<li><a href=\")/spare-parts/.*/(?=\">)").Matches(otv);
                 string section1 = new Regex("(?<=\"  class=\"sel\">).*?(?=</a></li>)").Match(otv).ToString();
+                section1 = section1.Replace(",", "");
                 for (int n = 0; podrazdel.Count > n; n++)
                 {
                     otv = webRequest.getRequestEncod("http://racer-motors.ru" + podrazdel[n].ToString());
@@ -252,10 +253,10 @@ namespace RacerMotors
 
                                 if (priceRacerMotors[m].ToString() == "0")
                                 {
-                                    urlTovar = urlTovar.Replace("http://bike18.ru/", "http://bike18.nethouse.ru/");
-                                    List<string> tovarList = webRequest.arraySaveimage(urlTovar);
-                                    webRequest.deleteProduct(tovarList);
-                                    countDelete++;
+                                    //urlTovar = urlTovar.Replace("http://bike18.ru/", "http://bike18.nethouse.ru/");
+                                    //List<string> tovarList = webRequest.arraySaveimage(urlTovar);
+                                    //webRequest.deleteProduct(tovarList);
+                                    //countDelete++;
                                 }
                             }
                             else
@@ -364,28 +365,7 @@ namespace RacerMotors
                                         slug = slug.Remove(slug.LastIndexOf(" "));
                                     }
 
-                                    newProduct = new List<string>();
-                                    newProduct.Add(""); //id
-                                    newProduct.Add("\"" + articlRacerMotors[m].ToString() + "\""); //артикул
-                                    newProduct.Add("\"" + nameTovarRacerMotors + "\"");  //название
-                                    newProduct.Add("\"" + priceActual + "\""); //стоимость
-                                    newProduct.Add("\"" + "" + "\""); //со скидкой
-                                    newProduct.Add("\"" + razdel + "\""); //раздел товара
-                                    newProduct.Add("\"" + "100" + "\""); //в наличии
-                                    newProduct.Add("\"" + "0" + "\"");//поставка
-                                    newProduct.Add("\"" + "1" + "\"");//срок поставки
-                                    newProduct.Add("\"" + minitext + "\"");//краткий текст
-                                    newProduct.Add("\"" + fullText + "\"");//полностью текст
-                                    newProduct.Add("\"" + titleText + "\""); //заголовок страницы
-                                    newProduct.Add("\"" + descriptionText + "\""); //описание
-                                    newProduct.Add("\"" + keywordsText + "\"");//ключевые слова
-                                    newProduct.Add("\"" + slug + "\""); //ЧПУ
-                                    newProduct.Add(""); //с этим товаром покупают
-                                    newProduct.Add("");   //рекламные метки
-                                    newProduct.Add("\"" + "1" + "\"");  //показывать
-                                    newProduct.Add("\"" + "0" + "\""); //удалить
-
-                                    files.fileWriterCSV(newProduct, "naSite");
+                                    newProduct = newList();
                                 }
                             }
                             List<string> allProducts = new List<string>();
@@ -479,6 +459,32 @@ namespace RacerMotors
                 while (trueOtv != "2");
             }
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
+        }
+
+        private List<string> newList()
+        {
+            List<string> newProduct = new List<string>();
+            newProduct.Add("id");                                                                               //id
+            newProduct.Add("Артикул *");                                                 //артикул
+            newProduct.Add("Название товара *");                                          //название
+            newProduct.Add("Стоимость товара *");                                    //стоимость
+            newProduct.Add("Стоимость со скидкой");                                       //со скидкой
+            newProduct.Add("Раздел товара *");                                         //раздел товара
+            newProduct.Add("Товар в наличии *");                                                    //в наличии
+            newProduct.Add("Поставка под заказ *");                                                 //поставка
+            newProduct.Add("Срок поставки (дни) *");                                           //срок поставки
+            newProduct.Add("Краткий текст");                                 //краткий текст
+            newProduct.Add("Текст полностью");                                          //полностью текст
+            newProduct.Add("Заголовок страницы (title)");                               //заголовок страницы
+            newProduct.Add("Описание страницы (description)");                                 //описание
+            newProduct.Add("Ключевые слова страницы (keywords)");                                 //ключевые слова
+            newProduct.Add("ЧПУ страницы (slug)");                                   //ЧПУ
+            newProduct.Add("С этим товаром покупают");                              //с этим товаром покупают
+            newProduct.Add("Рекламные метки");
+            newProduct.Add("Показывать на сайте *");                                           //показывать
+            newProduct.Add("Удалить *");                                    //удалить
+            files.fileWriterCSV(newProduct, "naSite");
+            return newProduct;
         }
 
         private void btnPrice_Click(object sender, EventArgs e)

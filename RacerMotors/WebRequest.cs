@@ -55,7 +55,7 @@ namespace web
             req.Method = "POST";
             req.ContentType = "application/x-www-form-urlencoded";
             req.CookieContainer = cooc;
-            byte[] ms = Encoding.ASCII.GetBytes("login=bike18.ru&password=BIKE182016nethouse&quick_expire=0&submit=%D0%92%D0%BE%D0%B9%D1%82%D0%B8");
+            byte[] ms = Encoding.ASCII.GetBytes("login=bike18.ru&password=nethouse182016Bike&quick_expire=0&submit=%D0%92%D0%BE%D0%B9%D1%82%D0%B8");
             req.ContentLength = ms.Length;
             Stream stre = req.GetRequestStream();
             stre.Write(ms, 0, ms.Length);
