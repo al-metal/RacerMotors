@@ -22,6 +22,8 @@ namespace RacerMotors
         WebClient webClient = new WebClient();
         
         CHPU chpu = new CHPU();
+        string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
+        string boldClose = "</span>";
         string otv = null;
         double discounts = 0.02;
         int countUpdate = 0;
@@ -153,10 +155,7 @@ namespace RacerMotors
         {
             File.Delete("naSite.csv");
             File.Delete("allProducts.csv");
-            string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
-            string boldClose = "</span>";
             List<string> newProduct = newList();
-            
             otv = webRequest.getRequestEncod("http://racer-motors.ru/spare-parts/");
             MatchCollection modelTovar = new Regex("(?<=<li><a href=\")/spare-parts/.*?(?=\">)").Matches(otv);
             for (int i = 0; modelTovar.Count > i; i++)
@@ -273,9 +272,7 @@ namespace RacerMotors
                                             razdel = razdel + " " + section1;
                                             break;
                                     }
-                                    string nameText = boldOpen + nameTovarRacerMotors + boldClose;
-                                    string nameRazdel = boldOpen + section1 + boldClose;
-                                    string namePodrazdel = boldOpen + section2 + boldClose;
+                                    
 
                                     for (int z = 0; rtbMiniText.Lines.Length > z; z++)
                                     {
@@ -304,25 +301,20 @@ namespace RacerMotors
                                     titleText = tbTitle.Lines[0].ToString();
                                     descriptionText = tbDescription.Lines[0].ToString() + " " + dblProdSEO;
                                     keywordsText = tbKeywords.Lines[0].ToString();
+                                    string article = articlRacerMotors[m].ToString();
 
                                     string strCodePage = "Номер " + codePicture[m].ToString() + " на схеме/фото";
                                     strCodePage = boldOpen + strCodePage + boldClose;
 
-                                    string discount = Discount();
-
-                                    minitext = minitext.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", namePodrazdel).Replace("РАЗДЕЛ", nameRazdel).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articlRacerMotors[m].ToString()).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>");
-
+                                    minitext = Replace(minitext, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article);
                                     minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
 
-                                    fullText = fullText.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", namePodrazdel).Replace("РАЗДЕЛ", nameRazdel).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articlRacerMotors[m].ToString());
-
+                                    fullText = Replace(fullText, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article);
                                     fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
 
-                                    titleText = titleText.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", articlRacerMotors[m].ToString());
-
-                                    descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", articlRacerMotors[m].ToString());
-
-                                    keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", articlRacerMotors[m].ToString());
+                                    titleText = ReplaceSEO(titleText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+                                    descriptionText = ReplaceSEO(descriptionText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+                                    keywordsText = ReplaceSEO(keywordsText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
 
                                     titleText = Remove(titleText, 255);
                                     descriptionText = Remove(descriptionText, 200);
@@ -423,6 +415,23 @@ namespace RacerMotors
                 while (trueOtv != "2");
             }
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
+        }
+
+        private string Replace(string text, string section2, string section1, string strCodePage, string dblProduct, string nameTovarRacerMotors, string article)
+        {
+            string discount = Discount();
+            string nameText = boldOpen + nameTovarRacerMotors + boldClose;
+            string nameRazdel = boldOpen + section1 + boldClose;
+            string namePodrazdel = boldOpen + section2 + boldClose;
+            text = text.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", namePodrazdel).Replace("РАЗДЕЛ", nameRazdel).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", article).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>");
+            return text;
+        }
+
+        private string ReplaceSEO(string text, string nameTovarRacerMotors, string section1, string section2, string article, string dblProduct, string strCodePage)
+        {
+            string discount = Discount();
+            text = text.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", article);
+            return text;
         }
 
         private string Discount()
