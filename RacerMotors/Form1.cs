@@ -245,11 +245,11 @@ namespace RacerMotors
                                     string slug = chpu.vozvr(nameTovarRacerMotors);
 
                                     string razdel = "Запчасти и расходники => Каталог запчастей RACER => Запчасти на ";
-                                    string minitext = null;
+                                    string minitext = MinitextStr();
                                     string titleText = null;
                                     string descriptionText = null;
                                     string keywordsText = null;
-                                    string fullText = null;
+                                    string fullText = FulltextStr();
                                     string dblProdSEO = null;
 
                                     string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
@@ -274,29 +274,9 @@ namespace RacerMotors
                                     }
                                     
 
-                                    for (int z = 0; rtbMiniText.Lines.Length > z; z++)
-                                    {
-                                        if (rtbMiniText.Lines[z].ToString() == "")
-                                        {
-                                            minitext += "<p><br /></p>";
-                                        }
-                                        else
-                                        {
-                                            minitext += "<p>" + rtbMiniText.Lines[z].ToString() + "</p>";
-                                        }
-                                    }
+                                    
 
-                                    for (int z = 0; rtbFullText.Lines.Length > z; z++)
-                                    {
-                                        if (rtbFullText.Lines[z].ToString() == "")
-                                        {
-                                            fullText += "<p><br /></p>";
-                                        }
-                                        else
-                                        {
-                                            fullText += "<p>" + rtbFullText.Lines[z].ToString() + "</p>";
-                                        }
-                                    }
+                                    
 
                                     titleText = tbTitle.Lines[0].ToString();
                                     descriptionText = tbDescription.Lines[0].ToString() + " " + dblProdSEO;
@@ -320,8 +300,29 @@ namespace RacerMotors
                                     descriptionText = Remove(descriptionText, 200);
                                     keywordsText = Remove(keywordsText, 100);
                                     slug = Remove(slug, 64);
-                                    
-                                    newProduct = newList();
+
+                                    newProduct = new List<string>();
+                                    newProduct.Add(""); //id
+                                    newProduct.Add("\"" + articlRacerMotors[m].ToString() + "\""); //артикул
+                                    newProduct.Add("\"" + nameTovarRacerMotors + "\"");  //название
+                                    newProduct.Add("\"" + priceActual + "\""); //стоимость
+                                    newProduct.Add("\"" + "" + "\""); //со скидкой
+                                    newProduct.Add("\"" + razdel + "\""); //раздел товара
+                                    newProduct.Add("\"" + "100" + "\""); //в наличии
+                                    newProduct.Add("\"" + "0" + "\"");//поставка
+                                    newProduct.Add("\"" + "1" + "\"");//срок поставки
+                                    newProduct.Add("\"" + minitext + "\"");//краткий текст
+                                    newProduct.Add("\"" + fullText + "\"");//полностью текст
+                                    newProduct.Add("\"" + titleText + "\""); //заголовок страницы
+                                    newProduct.Add("\"" + descriptionText + "\""); //описание
+                                    newProduct.Add("\"" + keywordsText + "\"");//ключевые слова
+                                    newProduct.Add("\"" + slug + "\""); //ЧПУ
+                                    newProduct.Add(""); //с этим товаром покупают
+                                    newProduct.Add("");   //рекламные метки
+                                    newProduct.Add("\"" + "1" + "\"");  //показывать
+                                    newProduct.Add("\"" + "0" + "\""); //удалить
+
+                                    files.fileWriterCSV(newProduct, "naSite");
                                 }
                             }
                             List<string> allProducts = new List<string>();
@@ -415,6 +416,40 @@ namespace RacerMotors
                 while (trueOtv != "2");
             }
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
+        }
+
+        private string MinitextStr()
+        {
+            string minitext = "";
+            for (int z = 0; rtbMiniText.Lines.Length > z; z++)
+            {
+                if (rtbMiniText.Lines[z].ToString() == "")
+                {
+                    minitext += "<p><br /></p>";
+                }
+                else
+                {
+                    minitext += "<p>" + rtbMiniText.Lines[z].ToString() + "</p>";
+                }
+            }
+            return minitext;
+        }
+
+        private string FulltextStr()
+        {
+            string fullText = "";
+            for (int z = 0; rtbFullText.Lines.Length > z; z++)
+            {
+                if (rtbFullText.Lines[z].ToString() == "")
+                {
+                    fullText += "<p><br /></p>";
+                }
+                else
+                {
+                    fullText += "<p>" + rtbFullText.Lines[z].ToString() + "</p>";
+                }
+            }
+            return fullText;
         }
 
         private string Replace(string text, string section2, string section1, string strCodePage, string dblProduct, string nameTovarRacerMotors, string article)
