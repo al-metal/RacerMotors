@@ -370,7 +370,7 @@ namespace RacerMotors
                         //методом подбора ищется ЧПУ
                         int slug = strslug.Length;
                         string strslug2 = strslug.Remove(slug - 2);
-                        strslug2 += "1";
+                        strslug2 += "0";
                         naSite[u] = naSite[u].Replace(strslug, strslug2);
                         File.WriteAllLines("naSite.csv", naSite, Encoding.GetEncoding(1251));
                     }
@@ -955,7 +955,7 @@ namespace RacerMotors
         {
             CookieContainer cookie = webRequest.webCookieBike18();
             otv = webRequest.getRequest("http://bike18.ru/products/category/1185370");
-            MatchCollection razdel = new Regex("(?<=<div class=\"category-capt-txt -text-center\"><a href=\").*(?=\" class=\"blue\">)").Matches(otv);
+            MatchCollection razdel = new Regex("(?<=</div></a><div class=\"category-capt-txt -text-center\"><a href=\").*?(?=\" class=\"blue\">)").Matches(otv);
             for(int i = 0; razdel.Count > i; i++)
             {
                 otv = webRequest.getRequest(razdel[i].ToString() + "/page/all");
