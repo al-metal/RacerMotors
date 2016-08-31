@@ -25,9 +25,11 @@ namespace RacerMotors
         string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
         string boldClose = "</span>";
         string otv = null;
+        int addCount = 0;
         double discounts = 0.02;
         int countUpdate = 0;
         int countDelete = 0;
+        
         FileEdit files = new FileEdit();
 
         public Form1()
@@ -369,8 +371,10 @@ namespace RacerMotors
                         string strslug = strslug3[12].ToString();
                         //методом подбора ищется ЧПУ
                         int slug = strslug.Length;
-                        string strslug2 = strslug.Remove(slug - 2);
-                        strslug2 += "0";
+                        int countAdd = ReturnCountAdd();
+                        int countDel = countAdd.ToString().Length;
+                        string strslug2 = strslug.Remove(slug - countDel);
+                        strslug2 += countAdd;
                         naSite[u] = naSite[u].Replace(strslug, strslug2);
                         File.WriteAllLines("naSite.csv", naSite, Encoding.GetEncoding(1251));
                     }
@@ -383,15 +387,28 @@ namespace RacerMotors
                         string strslug = strslug3[12].ToString();
                         //методом подбора ищется ЧПУ
                         int slug = strslug.Length;
-                        string strslug2 = strslug.Remove(slug - 2);
-                        strslug2 += "1";
+                        int countAdd = ReturnCountAdd();
+                        int countDel = countAdd.ToString().Length;
+                        string strslug2 = strslug.Remove(slug - countDel);
+                        strslug2 += countAdd;
                         naSite[u] = naSite[u].Replace(strslug, strslug2);
                         File.WriteAllLines("naSite.csv", naSite, Encoding.GetEncoding(1251));
                     }
-                }
+                    if (error == "10")
+                    {
+                    }
+                    }
                 while (trueOtv != "2");
             }
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
+        }
+        
+        private int ReturnCountAdd()
+        {
+            if (addCount == 99)
+                addCount = 0;
+            addCount++;
+            return addCount;
         }
 
         private string Razdel(string objProduct, string section1)
