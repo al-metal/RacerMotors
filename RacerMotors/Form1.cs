@@ -561,7 +561,7 @@ namespace RacerMotors
                             razdelCSV = "Запчасти на Двигатель 147FMD 70 cm3";
                             break;
                         case "Двигатель 152QMI 125 cc":
-                            razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3, 152QMI 125 cm3";
+                            razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3 152QMI 125 cm3";
                             break;
                         case "Двигатель 153FMI 125 cc":
                             razdelCSV = "Запчасти на Двигатель 153FMI 125 cm3 (RC125-PE)";
@@ -570,7 +570,7 @@ namespace RacerMotors
                             razdelCSV = "Запчасти на Двигатель 154FMI 130 cm3 (RC130CF)";
                             break;
                         case "Двигатель 157QMJ 150 cc":
-                            razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3, 152QMI 125 cm3";
+                            razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3 152QMI 125 cm3";
                             break;
                         case "Двигатель 161FMJ 150 cc (RC150-23)":
                             razdelCSV = "Запчасти на Двигатель 161FMJ 150 cm3 (RC150-23)";
@@ -582,7 +582,7 @@ namespace RacerMotors
                             razdelCSV = "Запчасти на Двигатель 163FML 200 cm3 (RC200XZT)";
                             break;
                         case "Двигатель 164FML 200 cc":
-                            razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK, RC200CS, RC200-C5B, RC200GY-C2, RC200-GY8), 166FMM 250 cc (RC250CK, RC250CK-N, RC250CS, RC250-C5B, RC250GY-C2)";
+                            razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK RC200CS RC200-C5B RC200GY-C2 RC200-GY8) 166FMM 250 cc (RC250CK RC250CK-N RC250CS RC250-C5B RC250GY-C2)";
                             break;
                         case "Двигатель 164FML 200 cc (RC200ZH)":
                             razdelCSV = "Запчасти на Двигатель 164FML 200 cm3 (RC200ZH)";
@@ -591,10 +591,10 @@ namespace RacerMotors
                             razdelCSV = "Запчасти на Двигатель 165FML 200 cm3 (RC200LT)";
                             break;
                         case "Двигатель 166FMM 250 cc":
-                            razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK, RC200CS, RC200-C5B, RC200GY-C2, RC200-GY8), 166FMM 250 cc (RC250CK, RC250CK-N, RC250CS, RC250-C5B, RC250GY-C2)";
+                            razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK RC200CS RC200-C5B RC200GY-C2 RC200-GY8) 166FMM 250 cc (RC250CK RC250CK-N RC250CS RC250-C5B RC250GY-C2)";
                             break;
                         case "Двигатель 170FMN 300 cc":
-                            razdelCSV = "Запчасти на Двигатель 170FMN 300 cm3 (RC300-GY8, RC300CS)";
+                            razdelCSV = "Запчасти на Двигатель 170FMN 300 cm3 (RC300-GY8 RC300CS)";
                             break;
                         case "Двигатель 1P39FMA 50 cc":
                             razdelCSV = "Запчасти на Двигатель 1P39FMA 50 cm3";
@@ -606,13 +606,13 @@ namespace RacerMotors
                             razdelCSV = "Запчасти на двигатель 1P54FMI 125 cm3 (RC125-PM)";
                             break;
                         case "Двигатель 1P60FMK 160 сс":
-                            razdelCSV = "Запчасти на Двигатель 1P60FMK 160 cm3 (RC160-PM, RC160-PH)";
+                            razdelCSV = "Запчасти на Двигатель 1P60FMK 160 cm3 (RC160-PM RC160-PH)";
                             break;
                         case "Двигатель 257FMM 250 cc":
                             razdelCSV = "Запчасти на Двигатель 257FMM 250 cm3 (RC250LV)";
                             break;
                         case "Двигатель ZS177MM 250 cc":
-                            razdelCSV = "Запчасти на Двигатель ZS177MM 250 cm3 (RC250XZR, RC250-GY8)";
+                            razdelCSV = "Запчасти на Двигатель ZS177MM 250 cm3 (RC250XZR RC250-GY8)";
                             break;
                         case "Мопед CM50Q-2 Delta":
                             razdelCSV = "Запчасти на Мопед Racer CM50Q-2 Delta";
@@ -648,7 +648,7 @@ namespace RacerMotors
                             razdelCSV = "Запчасти на Мопед Racer RC110N Trophy";
                             break;
                         case "Мотоцикл RC125, RC160 Pitbike":
-                            razdelCSV = "Запчасти на Питбайки Racer RC125-PE, RC125-PM, RC160-PM, RC160-PH Pitbike";
+                            razdelCSV = "Запчасти на Питбайки Racer RC125-PE RC125-PM RC160-PM RC160-PH Pitbike";
                             break;
                         case "Мотоцикл RC130CF Viper":
                             razdelCSV = "Запчасти на Мотоцикл Racer RC130CF Viper";
@@ -666,7 +666,7 @@ namespace RacerMotors
                             razdelCSV = "Запчасти на Скутер Racer RC150T-11 Dragon";
                             break;
                         case "Мотоцикл RC200-C5B Magnum":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200-C5B, RC250-C5B Magnum";
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200-C5B RC250-C5B Magnum";
                             break;
                         case "Мотоцикл RC200-CS Skyway":
                             razdelCSV = "Запчасти на Мотоцикл Racer RC200-CS Skyway";
@@ -678,7 +678,7 @@ namespace RacerMotors
                             razdelCSV = "Запчасти на Мотоцикл Racer RC200CK/RC250CK Nitro";
                             break;
                         case "Мотоцикл RC200GY-C2 Panther":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2, RC250GY-C2 Panther";
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2 RC250GY-C2 Panther";
                             break;
                         case "Мотоцикл RC200LT Forester":
                             razdelCSV = "Запчасти на Мотоцикл Racer RC200LT Forester";
@@ -712,6 +712,9 @@ namespace RacerMotors
                             break;
                         case "Мотоцикл RC50/CM70 Alpha":
                             razdelCSV = "Запчасти на Мопед Racer RC70 Alpha";
+                            break;
+                        case "Мотоцикл RC200GY-C2/RC250GY-C2 Panther":
+                            razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2 RC250GY-C2 Panther";
                             break;
                         case "Универсальные запчасти":
                             razdelCSV = "Разное";
@@ -793,7 +796,7 @@ namespace RacerMotors
 
                         string discount = "<p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> Сделай ТРОЙНОЙ удар по нашим ценам! </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 1. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Скидки за отзывы о товарах!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 2. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Друзьям скидки и подарки!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 3. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Нашли дешевле!? 110% разницы Ваши!</a></span></p>";
 
-                        minitext = minitext.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>");
+                        minitext = minitext.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>").Replace("<p>НОМЕРФОТО</p>", "");
 
                         minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
 
@@ -849,9 +852,11 @@ namespace RacerMotors
                         newProduct.Add("");   //рекламные метки
                         newProduct.Add("\"" + "1" + "\"");  //показывать
                         newProduct.Add("\"" + "0" + "\""); //удалить
-
-                        files.fileWriterCSV(newProduct, "naSite");
-                        countAddCSV++;
+                        if(!name.Contains("Болт") || !name.Contains("Гайка") || !name.Contains("Винт"))
+                        {
+                            files.fileWriterCSV(newProduct, "naSite");
+                            countAddCSV++;
+                        }
                     }
                 }
             }
