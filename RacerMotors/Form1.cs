@@ -566,177 +566,7 @@ namespace RacerMotors
                 {
                     razdelCSV = (string)w.Cells[i, 2].Value;
                     razdelCSV = razdelCSV.Trim();
-                    switch (razdelCSV)
-                    {
-                        case "Двигатель 139QMB 50 cc":
-                            razdelCSV = "Запчасти на Двигатель 139QMB 50 cm3";
-                            break;
-                        case "Двигатель 147FMD 70 cc":
-                            razdelCSV = "Запчасти на Двигатель 147FMD 70 cm3";
-                            break;
-                        case "Двигатель 152QMI 125 cc":
-                            razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3 152QMI 125 cm3";
-                            break;
-                        case "Двигатель 153FMI 125 cc":
-                            razdelCSV = "Запчасти на Двигатель 153FMI 125 cm3 (RC125-PE)";
-                            break;
-                        case "Двигатель 154FMI 130 cc":
-                            razdelCSV = "Запчасти на Двигатель 154FMI 130 cm3 (RC130CF)";
-                            break;
-                        case "Двигатель 157QMJ 150 cc":
-                            razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3 152QMI 125 cm3";
-                            break;
-                        case "Двигатель 161FMJ 150 cc (RC150-23)":
-                            razdelCSV = "Запчасти на Двигатель 161FMJ 150 cm3 (RC150-23)";
-                            break;
-                        case "Двигатель 161FMJ 150 cc (RC150-GY)":
-                            razdelCSV = "Запчасти на Двигатель 161FMJ 150 cm3 (RC150-GY)";
-                            break;
-                        case "Двигатель 163FML 200 cc":
-                            razdelCSV = "Запчасти на Двигатель 163FML 200 cm3 (RC200XZT)";
-                            break;
-                        case "Двигатель 164FML 200 cc":
-                            razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK RC200CS RC200-C5B RC200GY-C2 RC200-GY8) 166FMM 250 cc (RC250CK RC250CK-N RC250CS RC250-C5B RC250GY-C2)";
-                            break;
-                        case "Двигатель 164FML 200 cc (RC200ZH)":
-                            razdelCSV = "Запчасти на Двигатель 164FML 200 cm3 (RC200ZH)";
-                            break;
-                        case "Двигатель 165FML 200 cc":
-                            razdelCSV = "Запчасти на Двигатель 165FML 200 cm3 (RC200LT)";
-                            break;
-                        case "Двигатель 166FMM 250 cc":
-                            razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK RC200CS RC200-C5B RC200GY-C2 RC200-GY8) 166FMM 250 cc (RC250CK RC250CK-N RC250CS RC250-C5B RC250GY-C2)";
-                            break;
-                        case "Двигатель 170FMN 300 cc":
-                            razdelCSV = "Запчасти на Двигатель 170FMN 300 cm3 (RC300-GY8 RC300CS)";
-                            break;
-                        case "Двигатель 1P39FMA 50 cc":
-                            razdelCSV = "Запчасти на Двигатель 1P39FMA 50 cm3";
-                            break;
-                        case "Двигатель 1P52FMH 110 cc":
-                            razdelCSV = "Запчасти на Двигатель 1P52FMH 110 cm3";
-                            break;
-                        case "Двигатель 1P54FMI 125 сс":
-                            razdelCSV = "Запчасти на двигатель 1P54FMI 125 cm3 (RC125-PM)";
-                            break;
-                        case "Двигатель 1P60FMK 160 сс":
-                            razdelCSV = "Запчасти на Двигатель 1P60FMK 160 cm3 (RC160-PM RC160-PH)";
-                            break;
-                        case "Двигатель 257FMM 250 cc":
-                            razdelCSV = "Запчасти на Двигатель 257FMM 250 cm3 (RC250LV)";
-                            break;
-                        case "Двигатель ZS177MM 250 cc":
-                            razdelCSV = "Запчасти на Двигатель ZS177MM 250 cm3 (RC250XZR RC250-GY8)";
-                            break;
-                        case "Мопед CM50Q-2 Delta":
-                            razdelCSV = "Запчасти на Мопед Racer CM50Q-2 Delta";
-                            break;
-                        case "Мопед RC125T-9X Flame":
-                            razdelCSV = "Запчасти на Скутер Racer RC125T-9X Flame";
-                            break;
-                        case "Мопед RC50QT-15 Stells":
-                            razdelCSV = "Запчасти на Скутер Racer RC50QT-15 Stells";
-                            break;
-                        case "Мопед RC50QT-15J Taurus":
-                            razdelCSV = "Запчасти на Скутер Racer RC50QT-15J Taurus";
-                            break;
-                        case "Мопед RC50QT-19 Arrow":
-                            razdelCSV = "Запчасти на Скутер Racer RC50QT-19 Arrow";
-                            break;
-                        case "Мопед RC50QT-3 Meteor":
-                            razdelCSV = "Запчасти на Скутер Racer RC50QT-3 Meteor";
-                            break;
-                        case "Мопед RC50QT-6 Sagita":
-                            razdelCSV = "Запчасти на Скутер Racer RC50QT-6 Sagita";
-                            break;
-                        case "Мопед RC50QT-9/RC125T-9 Lupus":
-                            razdelCSV = "Запчасти на Скутер Racer RC50QT-9 Lupus";
-                            break;
-                        case "Мопед RC50QT-9V Corvus":
-                            razdelCSV = "Запчасти на Скутер Racer RC50QT-9V Corvus";
-                            break;
-                        case "Мотоцикл CM110 Indigo":
-                            razdelCSV = "Запчасти на Мопед Racer CM110 Indigo";
-                            break;
-                        case "Мотоцикл RC110N Trophy":
-                            razdelCSV = "Запчасти на Мопед Racer RC110N Trophy";
-                            break;
-                        case "Мотоцикл RC125, RC160 Pitbike":
-                            razdelCSV = "Запчасти на Питбайки Racer RC125-PE RC125-PM RC160-PM RC160-PH Pitbike";
-                            break;
-                        case "Мотоцикл RC130CF Viper":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC130CF Viper";
-                            break;
-                        case "Мотоцикл RC150-10D Triumph":
-                            razdelCSV = "Разное";
-                            break;
-                        case "Мотоцикл RC150-23 Tiger":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC150-23 Tiger";
-                            break;
-                        case "Мотоцикл RC150-GY Enduro":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC150-GY Enduro";
-                            break;
-                        case "Мотоцикл RC150T-11 Dragon":
-                            razdelCSV = "Запчасти на Скутер Racer RC150T-11 Dragon";
-                            break;
-                        case "Мотоцикл RC200-C5B Magnum":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200-C5B RC250-C5B Magnum";
-                            break;
-                        case "Мотоцикл RC200-CS Skyway":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200-CS Skyway";
-                            break;
-                        case "Мотоцикл RC200-GY8 Ranger":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200-GY8 Ranger";
-                            break;
-                        case "Мотоцикл RC200CK/RC250CK Nitro":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200CK/RC250CK Nitro";
-                            break;
-                        case "Мотоцикл RC200GY-C2 Panther":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2 RC250GY-C2 Panther";
-                            break;
-                        case "Мотоцикл RC200LT Forester":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200LT Forester";
-                            break;
-                        case "Мотоцикл RC200XZT Enduro":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200XZT Enduro";
-                            break;
-                        case "Мотоцикл RC200ZH Muravei":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200ZH Muravei";
-                            break;
-                        case "Мотоцикл RC250-GY8 Crossrunner":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC250-GY8 Crossrunner";
-                            break;
-                        case "Мотоцикл RC250CK-N Fighter":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC250CK-N Fighter";
-                            break;
-                        case "Мотоцикл RC250CS/RC300CS Skyway":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC250CS Skyway";
-                            break;
-                        case "Мотоцикл RC250LV Cruiser":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC250LV Cruiser";
-                            break;
-                        case "Мотоцикл RC250NC-X1 Phantom":
-                            razdelCSV = "Разное";
-                            break;
-                        case "Мотоцикл RC250XZR Enduro":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC250XZR Enduro";
-                            break;
-                        case "Мотоцикл RC300-GY8 Ranger":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC300-GY8 Ranger";
-                            break;
-                        case "Мотоцикл RC50/CM70 Alpha":
-                            razdelCSV = "Запчасти на Мопед Racer RC70 Alpha";
-                            break;
-                        case "Мотоцикл RC200GY-C2/RC250GY-C2 Panther":
-                            razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2 RC250GY-C2 Panther";
-                            break;
-                        case "Универсальные запчасти":
-                            razdelCSV = "Разное";
-                            break;
-                        default:
-                            razdelCSV = "Разное";
-                            break;
-                    }
+                    razdelCSV = returnRazdel(razdelCSV);
                 }
                 else
                 {
@@ -763,6 +593,26 @@ namespace RacerMotors
                     }
                     else
                     {
+                        string razdelchik = "";
+                        if (razdelCSV.Contains("Разное"))
+                        {
+                            otv = webRequest.getRequestEncod("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
+                            string newSearch = new Regex("(?<=В запросе \"<a href=\").*(?=\" onclick=\")").Match(otv).ToString();
+                            string urlProductSearch = "";
+                            if (newSearch != "")
+                            {
+                                otv = webRequest.getRequestEncod("http://racer-motors.ru" + newSearch);
+                                urlProductSearch = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
+                            }
+                            if (urlProductSearch != "")
+                            {
+                                otv = webRequest.getRequestEncod("http://racer-motors.ru" + urlProductSearch);
+                                razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString();
+                            }
+                            razdelCSV = returnRazdel(razdelchik);
+                        }
+
+
                         //Добавляем на сайт
                         string razdel = "Запчасти и расходники => Каталог запчастей RACER => ";
                         string slug = chpu.vozvr(name);
@@ -924,6 +774,182 @@ namespace RacerMotors
                 while (trueOtv != "2");
             }
             MessageBox.Show("Обновлено цен: " + countEditPrice + "\nДобавлено позиций: " + countAddCSV);
+        }
+
+        private string returnRazdel(string razdelCSV)
+        {
+            switch (razdelCSV)
+            {
+                case "Двигатель 139QMB 50 cc":
+                    razdelCSV = "Запчасти на Двигатель 139QMB 50 cm3";
+                    break;
+                case "Двигатель 147FMD 70 cc":
+                    razdelCSV = "Запчасти на Двигатель 147FMD 70 cm3";
+                    break;
+                case "Двигатель 152QMI 125 cc":
+                    razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3 152QMI 125 cm3";
+                    break;
+                case "Двигатель 153FMI 125 cc":
+                    razdelCSV = "Запчасти на Двигатель 153FMI 125 cm3 (RC125-PE)";
+                    break;
+                case "Двигатель 154FMI 130 cc":
+                    razdelCSV = "Запчасти на Двигатель 154FMI 130 cm3 (RC130CF)";
+                    break;
+                case "Двигатель 157QMJ 150 cc":
+                    razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3 152QMI 125 cm3";
+                    break;
+                case "Двигатель 161FMJ 150 cc (RC150-23)":
+                    razdelCSV = "Запчасти на Двигатель 161FMJ 150 cm3 (RC150-23)";
+                    break;
+                case "Двигатель 161FMJ 150 cc (RC150-GY)":
+                    razdelCSV = "Запчасти на Двигатель 161FMJ 150 cm3 (RC150-GY)";
+                    break;
+                case "Двигатель 163FML 200 cc":
+                    razdelCSV = "Запчасти на Двигатель 163FML 200 cm3 (RC200XZT)";
+                    break;
+                case "Двигатель 164FML 200 cc":
+                    razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK RC200CS RC200-C5B RC200GY-C2 RC200-GY8) 166FMM 250 cc (RC250CK RC250CK-N RC250CS RC250-C5B RC250GY-C2)";
+                    break;
+                case "Двигатель 164FML 200 cc (RC200ZH)":
+                    razdelCSV = "Запчасти на Двигатель 164FML 200 cm3 (RC200ZH)";
+                    break;
+                case "Двигатель 165FML 200 cc":
+                    razdelCSV = "Запчасти на Двигатель 165FML 200 cm3 (RC200LT)";
+                    break;
+                case "Двигатель 166FMM 250 cc":
+                    razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK RC200CS RC200-C5B RC200GY-C2 RC200-GY8) 166FMM 250 cc (RC250CK RC250CK-N RC250CS RC250-C5B RC250GY-C2)";
+                    break;
+                case "Двигатель 170FMN 300 cc":
+                    razdelCSV = "Запчасти на Двигатель 170FMN 300 cm3 (RC300-GY8 RC300CS)";
+                    break;
+                case "Двигатель 1P39FMA 50 cc":
+                    razdelCSV = "Запчасти на Двигатель 1P39FMA 50 cm3";
+                    break;
+                case "Двигатель 1P52FMH 110 cc":
+                    razdelCSV = "Запчасти на Двигатель 1P52FMH 110 cm3";
+                    break;
+                case "Двигатель 1P54FMI 125 сс":
+                    razdelCSV = "Запчасти на двигатель 1P54FMI 125 cm3 (RC125-PM)";
+                    break;
+                case "Двигатель 1P60FMK 160 сс":
+                    razdelCSV = "Запчасти на Двигатель 1P60FMK 160 cm3 (RC160-PM RC160-PH)";
+                    break;
+                case "Двигатель 257FMM 250 cc":
+                    razdelCSV = "Запчасти на Двигатель 257FMM 250 cm3 (RC250LV)";
+                    break;
+                case "Двигатель ZS177MM 250 cc":
+                    razdelCSV = "Запчасти на Двигатель ZS177MM 250 cm3 (RC250XZR RC250-GY8)";
+                    break;
+                case "Мопед CM50Q-2 Delta":
+                    razdelCSV = "Запчасти на Мопед Racer CM50Q-2 Delta";
+                    break;
+                case "Мопед RC125T-9X Flame":
+                    razdelCSV = "Запчасти на Скутер Racer RC125T-9X Flame";
+                    break;
+                case "Мопед RC50QT-15 Stells":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-15 Stells";
+                    break;
+                case "Мопед RC50QT-15J Taurus":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-15J Taurus";
+                    break;
+                case "Мопед RC50QT-19 Arrow":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-19 Arrow";
+                    break;
+                case "Мопед RC50QT-3 Meteor":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-3 Meteor";
+                    break;
+                case "Мопед RC50QT-6 Sagita":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-6 Sagita";
+                    break;
+                case "Мопед RC50QT-9/RC125T-9 Lupus":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-9 Lupus";
+                    break;
+                case "Мопед RC50QT-9V Corvus":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-9V Corvus";
+                    break;
+                case "Мотоцикл CM110 Indigo":
+                    razdelCSV = "Запчасти на Мопед Racer CM110 Indigo";
+                    break;
+                case "Мотоцикл RC110N Trophy":
+                    razdelCSV = "Запчасти на Мопед Racer RC110N Trophy";
+                    break;
+                case "Мотоцикл RC125, RC160 Pitbike":
+                    razdelCSV = "Запчасти на Питбайки Racer RC125-PE RC125-PM RC160-PM RC160-PH Pitbike";
+                    break;
+                case "Мотоцикл RC130CF Viper":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC130CF Viper";
+                    break;
+                case "Мотоцикл RC150-10D Triumph":
+                    razdelCSV = "Разное";
+                    break;
+                case "Мотоцикл RC150-23 Tiger":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC150-23 Tiger";
+                    break;
+                case "Мотоцикл RC150-GY Enduro":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC150-GY Enduro";
+                    break;
+                case "Мотоцикл RC150T-11 Dragon":
+                    razdelCSV = "Запчасти на Скутер Racer RC150T-11 Dragon";
+                    break;
+                case "Мотоцикл RC200-C5B Magnum":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200-C5B RC250-C5B Magnum";
+                    break;
+                case "Мотоцикл RC200-CS Skyway":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200-CS Skyway";
+                    break;
+                case "Мотоцикл RC200-GY8 Ranger":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200-GY8 Ranger";
+                    break;
+                case "Мотоцикл RC200CK/RC250CK Nitro":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200CK/RC250CK Nitro";
+                    break;
+                case "Мотоцикл RC200GY-C2 Panther":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2 RC250GY-C2 Panther";
+                    break;
+                case "Мотоцикл RC200LT Forester":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200LT Forester";
+                    break;
+                case "Мотоцикл RC200XZT Enduro":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200XZT Enduro";
+                    break;
+                case "Мотоцикл RC200ZH Muravei":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200ZH Muravei";
+                    break;
+                case "Мотоцикл RC250-GY8 Crossrunner":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250-GY8 Crossrunner";
+                    break;
+                case "Мотоцикл RC250CK-N Fighter":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250CK-N Fighter";
+                    break;
+                case "Мотоцикл RC250CS/RC300CS Skyway":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250CS Skyway";
+                    break;
+                case "Мотоцикл RC250LV Cruiser":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250LV Cruiser";
+                    break;
+                case "Мотоцикл RC250NC-X1 Phantom":
+                    razdelCSV = "Разное";
+                    break;
+                case "Мотоцикл RC250XZR Enduro":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250XZR Enduro";
+                    break;
+                case "Мотоцикл RC300-GY8 Ranger":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC300-GY8 Ranger";
+                    break;
+                case "Мотоцикл RC50/CM70 Alpha":
+                    razdelCSV = "Запчасти на Мопед Racer RC70 Alpha";
+                    break;
+                case "Мотоцикл RC200GY-C2/RC250GY-C2 Panther":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2 RC250GY-C2 Panther";
+                    break;
+                case "Универсальные запчасти":
+                    razdelCSV = "Разное";
+                    break;
+                default:
+                    razdelCSV = "Разное";
+                    break;
+            }
+            return razdelCSV;
         }
 
         public string DownloadNaSite()
