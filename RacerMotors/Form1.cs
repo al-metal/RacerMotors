@@ -345,7 +345,6 @@ namespace RacerMotors
 
             System.Threading.Thread.Sleep(20000);
             string trueOtv = null;
-            //cookie = webRequest.webCookieBike18();
             string[] naSite1 = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
             if (naSite1.Length > 1)
             {
@@ -367,9 +366,8 @@ namespace RacerMotors
                         string errstr = new Regex("(?<=errorLine\":).*?(?=,\")").Match(otvimg).ToString();
                         string[] naSite = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
                         int u = Convert.ToInt32(errstr) - 1;
-                        MatchCollection strslug3 = new Regex("(?<=\\\";\\\").*?(?=\\\")").Matches(naSite[u]);
-                        string strslug = strslug3[12].ToString();
-                        //методом подбора ищется ЧПУ
+                        string[] strslug3 = naSite[u].ToString().Split(';');
+                        string strslug = strslug3[strslug3.Length - 5];
                         int slug = strslug.Length;
                         int countAdd = ReturnCountAdd();
                         int countDel = countAdd.ToString().Length;
@@ -383,9 +381,8 @@ namespace RacerMotors
                         string errstr = new Regex("(?<=errorLine\":).*?(?=,\")").Match(otvimg).ToString();
                         string[] naSite = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
                         int u = Convert.ToInt32(errstr) - 1;
-                        MatchCollection strslug3 = new Regex("(?<=\\\";\\\").*?(?=\\\")").Matches(naSite[u]);
-                        string strslug = strslug3[12].ToString();
-                        //методом подбора ищется ЧПУ
+                        string[] strslug3 = naSite[u].ToString().Split(';');
+                        string strslug = strslug3[strslug3.Length - 5];
                         int slug = strslug.Length;
                         int countAdd = ReturnCountAdd();
                         int countDel = countAdd.ToString().Length;
@@ -429,7 +426,7 @@ namespace RacerMotors
                     razdel = razdel + "Питбайки " + section1;
                     break;
                 default:
-                    razdel = razdel + " " + section1;
+                    razdel = razdel + section1;
                     break;
             }
             return razdel;
