@@ -824,8 +824,10 @@ namespace RacerMotors
                         int slugint = strslug3.Length - 5;
                         string strslug = strslug3[slugint].ToString();
                         int slug = strslug.Length;
-                        string strslug2 = strslug.Remove(slug - 2);
-                        strslug2 += "1";
+                        int countAdd = ReturnCountAdd();
+                        int countDel = countAdd.ToString().Length;
+                        string strslug2 = strslug.Remove(slug - countDel);
+                        strslug2 += countAdd;
                         naSite[u] = naSite[u].Replace(strslug, strslug2);
                         File.WriteAllLines("naSite.csv", naSite, Encoding.GetEncoding(1251));
                     }
@@ -838,8 +840,10 @@ namespace RacerMotors
                         int slugint = strslug3.Length - 5;
                         string strslug = strslug3[slugint].ToString();
                         int slug = strslug.Length;
-                        string strslug2 = strslug.Remove(slug - 2);
-                        strslug2 += "1";
+                        int countAdd = ReturnCountAdd();
+                        int countDel = countAdd.ToString().Length;
+                        string strslug2 = strslug.Remove(slug - countDel);
+                        strslug2 += countAdd;
                         naSite[u] = naSite[u].Replace(strslug, strslug2);
                         File.WriteAllLines("naSite.csv", naSite, Encoding.GetEncoding(1251));
                     }
