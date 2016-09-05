@@ -555,6 +555,7 @@ namespace RacerMotors
             files.fileWriterCSV(newProduct, "naSite");
 
             string otv = null;
+            bool b = false;
             string razdelCSV = null;
             FileInfo file = new FileInfo("Запчасти.xlsx");
             ExcelPackage p = new ExcelPackage(file);
@@ -566,7 +567,13 @@ namespace RacerMotors
                 {
                     razdelCSV = (string)w.Cells[i, 2].Value;
                     razdelCSV = razdelCSV.Trim();
-                    razdelCSV = returnRazdel(razdelCSV);
+                    if(razdelCSV != "Метизы" & razdelCSV != "Универсальные запчасти")
+                        razdelCSV = returnRazdel(razdelCSV);
+                    if (razdelCSV == "Универсальные запчасти")
+                        b = true;
+                    else
+                        b = false;
+
                 }
                 else
                 {
@@ -594,31 +601,93 @@ namespace RacerMotors
                     else
                     {
                         string razdelchik = "";
+                        if (razdelCSV == "Универсальные запчасти")
+                        {
+                            otv = webRequest.getRequestEncod("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
+                            string newSearch = new Regex("(?<=В запросе \"<a href=\").*(?=\" onclick=\")").Match(otv).ToString();
+                            razdelchik = new Regex("(?<=<br /><hr />)[\\w\\W]*(?=<p></p>)").Match(otv).ToString();
+                            if (razdelchik != "")
+                            {
+                                razdelchik = new Regex("(?<=<a href=\").*(?=\">)").Match(razdelchik).ToString();
+                                otv = webRequest.getRequestEncod("http://racer-motors.ru" + razdelchik);
+                                MatchCollection articlesNames = new Regex("(?<=<td >).*?(?=</td>)").Matches(otv);
+                                foreach(Match str in articlesNames)
+                                {
+                                    if (str.ToString() == articl)
+                                    {
+                                        razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "").Replace("! ", "").Replace("Racer ", "");
+                                        razdelCSV = returnRazdel(razdelchik);
+                                        break;
+                                    }
+                                    //else
+                                        //razdelCSV = "Разное";
+                                }  
+                            }
+                            else
+                            {
+                                string urlProductSearch = "";
+                                if (newSearch != "")
+                                {
+                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + newSearch);
+                                    urlProductSearch = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
+                                }
+                                else
+                                {
+                                    urlProductSearch = new Regex("(?<=<br /><hr />)[\\w\\W]*(?=<p></p>)").Match(otv).ToString();
+                                    urlProductSearch = new Regex("(?<=<a href=\").*(?=\">)").Match(urlProductSearch).ToString();
+                                }
+
+                                if (urlProductSearch != "")
+                                {
+                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + urlProductSearch);
+                                    razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "");
+                                }
+                            }
+                        }
                         if (razdelCSV.Contains("Разное"))
                         {
                             otv = webRequest.getRequestEncod("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
                             string newSearch = new Regex("(?<=В запросе \"<a href=\").*(?=\" onclick=\")").Match(otv).ToString();
-                            string urlProductSearch = "";
-                            if (newSearch != "")
+                            razdelchik = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
+                            if(razdelchik != "")
                             {
-                                otv = webRequest.getRequestEncod("http://racer-motors.ru" + newSearch);
-                                urlProductSearch = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
+                                otv = webRequest.getRequestEncod("http://racer-motors.ru" + razdelchik);
+                                razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "").Replace("! ", "");
                             }
-                            if (urlProductSearch != "")
+                            else
                             {
-                                otv = webRequest.getRequestEncod("http://racer-motors.ru" + urlProductSearch);
-                                razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString();
-                            }
+                                string urlProductSearch = "";
+                                if (newSearch != "")
+                                {
+                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + newSearch);
+                                    urlProductSearch = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
+                                }
+                                else
+                                {
+                                    urlProductSearch = new Regex("(?<=<br /><hr />)[\\w\\W]*(?=<p></p>)").Match(otv).ToString();
+                                    urlProductSearch = new Regex("(?<=<a href=\").*(?=\">)").Match(urlProductSearch).ToString();
+                                }
+
+                                if (urlProductSearch != "")
+                                {
+                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + urlProductSearch);
+                                    razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "");
+                                }
+                            }                            
                             razdelCSV = returnRazdel(razdelchik);
                         }
-
-
-                        //Добавляем на сайт
+                        if (razdelCSV == "Универсальные запчасти")
+                            razdelCSV = "Разное";
                         string razdel = "Запчасти и расходники => Каталог запчастей RACER => ";
+                        razdel = razdel + razdelCSV;
+                        
+
+                            //Добавляем на сайт
+                            
                         string slug = chpu.vozvr(name);
                         double actualPrice = webRequest.price(priceCSV, discounts);
-
-                        razdel = razdel + razdelCSV;
+                        
+                        
                         string minitext = null;
                         string titleText = null;
                         string descriptionText = null;
@@ -716,10 +785,14 @@ namespace RacerMotors
                         newProduct.Add("");   //рекламные метки
                         newProduct.Add("\"" + "1" + "\"");  //показывать
                         newProduct.Add("\"" + "0" + "\""); //удалить
-                        if(!name.Contains("Болт") || !name.Contains("Гайка") || !name.Contains("Винт"))
+                        if(razdelCSV != "Метизы")
                         {
                             files.fileWriterCSV(newProduct, "naSite");
                             countAddCSV++;
+                        }
+                        if(b)
+                        {
+                            razdelCSV = "Универсальные запчасти";
                         }
                     }
                 }
@@ -778,6 +851,7 @@ namespace RacerMotors
 
         private string returnRazdel(string razdelCSV)
         {
+            razdelCSV = razdelCSV.Replace("Racer ", "");
             switch (razdelCSV)
             {
                 case "Двигатель 139QMB 50 cc":
@@ -812,6 +886,9 @@ namespace RacerMotors
                     break;
                 case "Двигатель 164FML 200 cc (RC200ZH)":
                     razdelCSV = "Запчасти на Двигатель 164FML 200 cm3 (RC200ZH)";
+                    break;
+                case "Двигатель 153FMH 110 cm3":
+                    razdelCSV = "Запчасти на Двигатель 153FMH 110 cm3";
                     break;
                 case "Двигатель 165FML 200 cc":
                     razdelCSV = "Запчасти на Двигатель 165FML 200 cm3 (RC200LT)";
@@ -940,6 +1017,184 @@ namespace RacerMotors
                     razdelCSV = "Запчасти на Мопед Racer RC70 Alpha";
                     break;
                 case "Мотоцикл RC200GY-C2/RC250GY-C2 Panther":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2 RC250GY-C2 Panther";
+                    break;
+
+
+                //----------------------------------------------------
+
+
+
+
+                case "139QMB 50 cc":
+                    razdelCSV = "Запчасти на Двигатель 139QMB 50 cm3";
+                    break;
+                case "147FMD 70 cc":
+                    razdelCSV = "Запчасти на Двигатель 147FMD 70 cm3";
+                    break;
+                case "152QMI 125 cc":
+                    razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3 152QMI 125 cm3";
+                    break;
+                case "153FMI 125 cc":
+                    razdelCSV = "Запчасти на Двигатель 153FMI 125 cm3 (RC125-PE)";
+                    break;
+                case "154FMI 130 cc":
+                    razdelCSV = "Запчасти на Двигатель 154FMI 130 cm3 (RC130CF)";
+                    break;
+                case "157QMJ 150 cc":
+                    razdelCSV = "Запчасти на Двигатель 157QMJ 150 cm3 152QMI 125 cm3";
+                    break;
+                case "161FMJ 150 cc (RC150-23)":
+                    razdelCSV = "Запчасти на Двигатель 161FMJ 150 cm3 (RC150-23)";
+                    break;
+                case "161FMJ 150 cc (RC150-GY)":
+                    razdelCSV = "Запчасти на Двигатель 161FMJ 150 cm3 (RC150-GY)";
+                    break;
+                case "163FML 200 cc":
+                    razdelCSV = "Запчасти на Двигатель 163FML 200 cm3 (RC200XZT)";
+                    break;
+                case "164FML 200 cc":
+                    razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK RC200CS RC200-C5B RC200GY-C2 RC200-GY8) 166FMM 250 cc (RC250CK RC250CK-N RC250CS RC250-C5B RC250GY-C2)";
+                    break;
+                case "164FML 200 cc (RC200ZH)":
+                    razdelCSV = "Запчасти на Двигатель 164FML 200 cm3 (RC200ZH)";
+                    break;
+                case "153FMH 110 cm3":
+                    razdelCSV = "Запчасти на Двигатель 153FMH 110 cm3";
+                    break;
+                case "165FML 200 cc":
+                    razdelCSV = "Запчасти на Двигатель 165FML 200 cm3 (RC200LT)";
+                    break;
+                case "166FMM 250 cc":
+                    razdelCSV = "Запчасти на Двигатель 164FML 200 cc (RC200CK RC200CS RC200-C5B RC200GY-C2 RC200-GY8) 166FMM 250 cc (RC250CK RC250CK-N RC250CS RC250-C5B RC250GY-C2)";
+                    break;
+                case "170FMN 300 cc":
+                    razdelCSV = "Запчасти на Двигатель 170FMN 300 cm3 (RC300-GY8 RC300CS)";
+                    break;
+                case "1P39FMA 50 cc":
+                    razdelCSV = "Запчасти на Двигатель 1P39FMA 50 cm3";
+                    break;
+                case "1P52FMH 110 cc":
+                    razdelCSV = "Запчасти на Двигатель 1P52FMH 110 cm3";
+                    break;
+                case "1P54FMI 125 сс":
+                    razdelCSV = "Запчасти на двигатель 1P54FMI 125 cm3 (RC125-PM)";
+                    break;
+                case "1P60FMK 160 сс":
+                    razdelCSV = "Запчасти на Двигатель 1P60FMK 160 cm3 (RC160-PM RC160-PH)";
+                    break;
+                case "257FMM 250 cc":
+                    razdelCSV = "Запчасти на Двигатель 257FMM 250 cm3 (RC250LV)";
+                    break;
+                case "ZS177MM 250 cc":
+                    razdelCSV = "Запчасти на Двигатель ZS177MM 250 cm3 (RC250XZR RC250-GY8)";
+                    break;
+                case "CM50Q-2 Delta":
+                    razdelCSV = "Запчасти на Мопед Racer CM50Q-2 Delta";
+                    break;
+                case "RC125T-9X Flame":
+                    razdelCSV = "Запчасти на Скутер Racer RC125T-9X Flame";
+                    break;
+                case "RC50QT-15 Stells":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-15 Stells";
+                    break;
+                case "RC50QT-15J Taurus":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-15J Taurus";
+                    break;
+                case "RC50QT-19 Arrow":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-19 Arrow";
+                    break;
+                case "RC50QT-3 Meteor":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-3 Meteor";
+                    break;
+                case "RC50QT-6 Sagita":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-6 Sagita";
+                    break;
+                case "RC50QT-9/RC125T-9 Lupus":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-9 Lupus";
+                    break;
+                case "RC50QT-9V Corvus":
+                    razdelCSV = "Запчасти на Скутер Racer RC50QT-9V Corvus";
+                    break;
+                case "CM110 Indigo":
+                    razdelCSV = "Запчасти на Мопед Racer CM110 Indigo";
+                    break;
+                case "RC110N Trophy":
+                    razdelCSV = "Запчасти на Мопед Racer RC110N Trophy";
+                    break;
+                case "RC125, RC160 Pitbike":
+                    razdelCSV = "Запчасти на Питбайки Racer RC125-PE RC125-PM RC160-PM RC160-PH Pitbike";
+                    break;
+                case "RC130CF Viper":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC130CF Viper";
+                    break;
+                case "RC150-10D Triumph":
+                    razdelCSV = "Разное";
+                    break;
+                case "RC150-23 Tiger":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC150-23 Tiger";
+                    break;
+                case "RC150-GY Enduro":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC150-GY Enduro";
+                    break;
+                case "RC150T-11 Dragon":
+                    razdelCSV = "Запчасти на Скутер Racer RC150T-11 Dragon";
+                    break;
+                case "RC200-C5B Magnum":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200-C5B RC250-C5B Magnum";
+                    break;
+                case "RC200-CS Skyway":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200-CS Skyway";
+                    break;
+                case "RC200-GY8 Ranger":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200-GY8 Ranger";
+                    break;
+                case "RC200CK/RC250CK Nitro":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200CK/RC250CK Nitro";
+                    break;
+                case "RC200GY-C2 Panther":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2 RC250GY-C2 Panther";
+                    break;
+                case "RC200LT Forester":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200LT Forester";
+                    break;
+                case "RC200XZT Enduro":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200XZT Enduro";
+                    break;
+                case "RC200ZH Muravei":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC200ZH Muravei";
+                    break;
+                case "RC250-GY8 Crossrunner":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250-GY8 Crossrunner";
+                    break;
+                case "RC250CK-N Fighter":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250CK-N Fighter";
+                    break;
+                case "RC250CS/RC300CS Skyway":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250CS Skyway";
+                    break;
+                case "RC250CS Skyway":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250CS Skyway";
+                    break;
+                case "RC250LV Cruiser":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250LV Cruiser";
+                    break;
+                case "RC125T-19 Arrow":
+                    razdelCSV = "Запчасти на Скутер Racer RC125T-19 Arrow";
+                    break;
+                case "RC250NC-X1 Phantom":
+                    razdelCSV = "Разное";
+                    break;
+                case "RC250XZR Enduro":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC250XZR Enduro";
+                    break;
+                case "RC300-GY8 Ranger":
+                    razdelCSV = "Запчасти на Мотоцикл Racer RC300-GY8 Ranger";
+                    break;
+                case "RC50/CM70 Alpha":
+                    razdelCSV = "Запчасти на Мопед Racer RC70 Alpha";
+                    break;
+                case "RC200GY-C2 RC250GY-C2 Panther":
                     razdelCSV = "Запчасти на Мотоцикл Racer RC200GY-C2 RC250GY-C2 Panther";
                     break;
                 case "Универсальные запчасти":
