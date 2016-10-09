@@ -20,7 +20,6 @@ namespace RacerMotors
     public partial class Form1 : Form
     {
         web.WebRequest webRequest = new web.WebRequest();
-        WebClient webClient = new WebClient();
         nethouse nethouse = new nethouse();
 
         CHPU chpu = new CHPU();
@@ -209,14 +208,7 @@ namespace RacerMotors
                         {
                             for (int m = 0; articlRacerMotors.Count > m; m++)
                             {
-                                try
-                                {
-                                    webClient.DownloadFile("http://racer-motors.ru" + imageProduct, "pic\\" + articlRacerMotors[m].ToString() + ".jpg");
-                                }
-                                catch
-                                {
-
-                                }
+                                nethouse.DownloadImage("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString());
 
                                 otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=" + articlRacerMotors[m].ToString());
                                 string urlTovar = new Regex("(?<=<a href=\").*(?=\"><div class=\"-relative item-image\")").Match(otv).ToString();

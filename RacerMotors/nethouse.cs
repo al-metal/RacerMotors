@@ -11,6 +11,8 @@ namespace Bike18
 {
     class nethouse
     {
+        WebClient webClient = new WebClient();
+
         public string PostRequest(CookieContainer cookie, string url)
         {
             string otv = null;
@@ -289,6 +291,18 @@ namespace Bike18
             newProductcsv.Write(newProduct[count], Encoding.GetEncoding("windows-1251"));
             newProductcsv.WriteLine();
             newProductcsv.Close();
+        }
+
+        internal void DownloadImage(string urlImg, string article)
+        {
+            try
+            {
+                webClient.DownloadFile(urlImg, "pic\\" + article + ".jpg");
+            }
+            catch
+            {
+
+            }
         }
     }
 }
