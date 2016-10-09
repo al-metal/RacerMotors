@@ -448,178 +448,181 @@ namespace RacerMotors
                 }
                 else
                 {
-                    string name = (string)w.Cells[i, 2].Value;
-                    name = name.Trim();
-                    string articl = (string)w.Cells[i, 3].Value;
-                    string nomenclatura = (string)w.Cells[i, 5].Value;
-                    double priceCSV = (double)w.Cells[i, 13].Value;
-                    string dopnomenrlatura = (string)w.Cells[i, 4].Value;
-                    if (dopnomenrlatura != null)
-                        dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
-
-                    otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=+" + articl);
-                    string urlTovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*?(?=\" >)").Match(otv).ToString();
-
-                    if (urlTovar != "")
+                    if (razdelCSV != "Метизы")
                     {
-                        string priceTovar = new Regex("(?<=<span class=\"product-price-data\" data-cost=\").*?(?=\">)").Match(otv).ToString();
-                        double actualPrice = webRequest.price(priceCSV, discounts);
+                        string name = (string)w.Cells[i, 2].Value;
+                        name = name.Trim();
+                        string articl = (string)w.Cells[i, 3].Value;
+                        string nomenclatura = (string)w.Cells[i, 5].Value;
+                        double priceCSV = (double)w.Cells[i, 13].Value;
+                        string dopnomenrlatura = (string)w.Cells[i, 4].Value;
+                        if (dopnomenrlatura != null)
+                            dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
 
-                        if (actualPrice != Convert.ToDouble(priceTovar))
+                        otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=+" + articl);
+                        string urlTovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*?(?=\" >)").Match(otv).ToString();
+
+                        if (urlTovar != "")
                         {
-                            urlTovar = urlTovar.Replace("http://bike18.ru/", "http://bike18.nethouse.ru/");
-                            List<string> tovar = nethouse.getProductList(cookie, urlTovar);
-                            tovar[9] = actualPrice.ToString();
-                            nethouse.saveTovar(cookie, tovar);
-                            countEditPrice++;
-                        }
-                    }
-                    else
-                    {
-                        string razdelchik = "";
-                        if (razdelCSV == "Универсальные запчасти")
-                        {
-                            otv = webRequest.getRequestEncod("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
-                            string newSearch = new Regex("(?<=В запросе \"<a href=\").*(?=\" onclick=\")").Match(otv).ToString();
-                            razdelchik = new Regex("(?<=<br /><hr />)[\\w\\W]*(?=<p></p>)").Match(otv).ToString();
-                            if (razdelchik != "")
+                            string priceTovar = new Regex("(?<=<span class=\"product-price-data\" data-cost=\").*?(?=\">)").Match(otv).ToString();
+                            double actualPrice = webRequest.price(priceCSV, discounts);
+
+                            if (actualPrice != Convert.ToDouble(priceTovar))
                             {
-                                razdelchik = new Regex("(?<=<a href=\").*(?=\">)").Match(razdelchik).ToString();
-                                otv = webRequest.getRequestEncod("http://racer-motors.ru" + razdelchik);
-                                MatchCollection articlesNames = new Regex("(?<=<td >).*?(?=</td>)").Matches(otv);
-                                foreach (Match str in articlesNames)
+                                urlTovar = urlTovar.Replace("http://bike18.ru/", "http://bike18.nethouse.ru/");
+                                List<string> tovar = nethouse.getProductList(cookie, urlTovar);
+                                tovar[9] = actualPrice.ToString();
+                                nethouse.saveTovar(cookie, tovar);
+                                countEditPrice++;
+                            }
+                        }
+                        else
+                        {
+                            string razdelchik = "";
+                            if (razdelCSV == "Универсальные запчасти")
+                            {
+                                otv = webRequest.getRequestEncod("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
+                                string newSearch = new Regex("(?<=В запросе \"<a href=\").*(?=\" onclick=\")").Match(otv).ToString();
+                                razdelchik = new Regex("(?<=<br /><hr />)[\\w\\W]*(?=<p></p>)").Match(otv).ToString();
+                                if (razdelchik != "")
                                 {
-                                    if (str.ToString() == articl)
+                                    razdelchik = new Regex("(?<=<a href=\").*(?=\">)").Match(razdelchik).ToString();
+                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + razdelchik);
+                                    MatchCollection articlesNames = new Regex("(?<=<td >).*?(?=</td>)").Matches(otv);
+                                    foreach (Match str in articlesNames)
                                     {
-                                        razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "").Replace("! ", "").Replace("Racer ", "");
-                                        razdelCSV = returnRazdel(razdelchik);
-                                        break;
+                                        if (str.ToString() == articl)
+                                        {
+                                            razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "").Replace("! ", "").Replace("Racer ", "");
+                                            razdelCSV = returnRazdel(razdelchik);
+                                            break;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    string urlProductSearch = "";
+                                    if (newSearch != "")
+                                    {
+                                        otv = webRequest.getRequestEncod("http://racer-motors.ru" + newSearch);
+                                        urlProductSearch = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
+                                    }
+                                    else
+                                    {
+                                        urlProductSearch = new Regex("(?<=<br /><hr />)[\\w\\W]*(?=<p></p>)").Match(otv).ToString();
+                                        urlProductSearch = new Regex("(?<=<a href=\").*(?=\">)").Match(urlProductSearch).ToString();
+                                    }
+
+                                    if (urlProductSearch != "")
+                                    {
+                                        otv = webRequest.getRequestEncod("http://racer-motors.ru" + urlProductSearch);
+                                        razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "");
                                     }
                                 }
                             }
-                            else
+                            if (razdelCSV.Contains("Разное"))
                             {
-                                string urlProductSearch = "";
-                                if (newSearch != "")
+                                otv = webRequest.getRequestEncod("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
+                                string newSearch = new Regex("(?<=В запросе \"<a href=\").*(?=\" onclick=\")").Match(otv).ToString();
+                                razdelchik = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
+                                if (razdelchik != "")
                                 {
-                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + newSearch);
-                                    urlProductSearch = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
+                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + razdelchik);
+                                    razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "").Replace("! ", "");
                                 }
                                 else
                                 {
-                                    urlProductSearch = new Regex("(?<=<br /><hr />)[\\w\\W]*(?=<p></p>)").Match(otv).ToString();
-                                    urlProductSearch = new Regex("(?<=<a href=\").*(?=\">)").Match(urlProductSearch).ToString();
-                                }
+                                    string urlProductSearch = "";
+                                    if (newSearch != "")
+                                    {
+                                        otv = webRequest.getRequestEncod("http://racer-motors.ru" + newSearch);
+                                        urlProductSearch = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
+                                    }
+                                    else
+                                    {
+                                        urlProductSearch = new Regex("(?<=<br /><hr />)[\\w\\W]*(?=<p></p>)").Match(otv).ToString();
+                                        urlProductSearch = new Regex("(?<=<a href=\").*(?=\">)").Match(urlProductSearch).ToString();
+                                    }
 
-                                if (urlProductSearch != "")
-                                {
-                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + urlProductSearch);
-                                    razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "");
+                                    if (urlProductSearch != "")
+                                    {
+                                        otv = webRequest.getRequestEncod("http://racer-motors.ru" + urlProductSearch);
+                                        razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "");
+                                    }
                                 }
+                                razdelCSV = returnRazdel(razdelchik);
                             }
-                        }
-                        if (razdelCSV.Contains("Разное"))
-                        {
-                            otv = webRequest.getRequestEncod("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
-                            string newSearch = new Regex("(?<=В запросе \"<a href=\").*(?=\" onclick=\")").Match(otv).ToString();
-                            razdelchik = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
-                            if (razdelchik != "")
+                            if (razdelCSV == "Универсальные запчасти")
+                                razdelCSV = "Разное";
+                            string razdel = "Запчасти и расходники => Каталог запчастей RACER => ";
+                            razdel = razdel + razdelCSV;
+
+                            //Добавляем на сайт
+                            string slug = chpu.vozvr(name);
+                            double actualPrice = webRequest.price(priceCSV, discounts);
+
+                            string minitext = MinitextStr();
+                            string titleText = null;
+                            string descriptionText = null;
+                            string keywordsText = null;
+                            string fullText = FulltextStr();
+                            string dblProdSEO = null;
+
+                            string dblProduct = "НАЗВАНИЕ также подходит для:<br />" + boldOpen + dopnomenrlatura + boldClose + " аналогичных моделей.";
+                            string nameText = boldOpen + name + boldClose;
+                            titleText = tbTitle.Lines[0].ToString();
+                            descriptionText = tbDescription.Lines[0].ToString() + " " + dblProdSEO;
+                            keywordsText = tbKeywords.Lines[0].ToString();
+                            string discount = Discount();
+
+                            minitext = minitext.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>").Replace("<p>НОМЕРФОТО</p>", "");
+
+                            minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
+
+                            fullText = fullText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
+
+                            fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
+
+                            titleText = titleText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
+
+                            descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
+
+                            keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
+
+                            titleText = Remove(titleText, 255);
+                            descriptionText = Remove(descriptionText, 200);
+                            keywordsText = Remove(keywordsText, 100);
+                            slug = Remove(slug, 64);
+
+                            newProduct = new List<string>();
+                            newProduct.Add(""); //id
+                            newProduct.Add("\"" + articl + "\""); //артикул
+                            newProduct.Add("\"" + name + "\"");  //название
+                            newProduct.Add("\"" + actualPrice + "\""); //стоимость
+                            newProduct.Add("\"" + "" + "\""); //со скидкой
+                            newProduct.Add("\"" + razdel + "\""); //раздел товара
+                            newProduct.Add("\"" + "100" + "\""); //в наличии
+                            newProduct.Add("\"" + "0" + "\"");//поставка
+                            newProduct.Add("\"" + "1" + "\"");//срок поставки
+                            newProduct.Add("\"" + minitext + "\"");//краткий текст
+                            newProduct.Add("\"" + fullText + "\"");//полностью текст
+                            newProduct.Add("\"" + titleText + "\""); //заголовок страницы
+                            newProduct.Add("\"" + descriptionText + "\""); //описание
+                            newProduct.Add("\"" + keywordsText + "\"");//ключевые слова
+                            newProduct.Add("\"" + slug + "\""); //ЧПУ
+                            newProduct.Add(""); //с этим товаром покупают
+                            newProduct.Add("");   //рекламные метки
+                            newProduct.Add("\"" + "1" + "\"");  //показывать
+                            newProduct.Add("\"" + "0" + "\""); //удалить
+                            if (razdelCSV != "Метизы")
                             {
-                                otv = webRequest.getRequestEncod("http://racer-motors.ru" + razdelchik);
-                                razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "").Replace("! ", "");
+                                files.fileWriterCSV(newProduct, "naSite");
+                                countAddCSV++;
                             }
-                            else
+                            if (b)
                             {
-                                string urlProductSearch = "";
-                                if (newSearch != "")
-                                {
-                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + newSearch);
-                                    urlProductSearch = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
-                                }
-                                else
-                                {
-                                    urlProductSearch = new Regex("(?<=<br /><hr />)[\\w\\W]*(?=<p></p>)").Match(otv).ToString();
-                                    urlProductSearch = new Regex("(?<=<a href=\").*(?=\">)").Match(urlProductSearch).ToString();
-                                }
-
-                                if (urlProductSearch != "")
-                                {
-                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + urlProductSearch);
-                                    razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "");
-                                }
+                                razdelCSV = "Универсальные запчасти";
                             }
-                            razdelCSV = returnRazdel(razdelchik);
-                        }
-                        if (razdelCSV == "Универсальные запчасти")
-                            razdelCSV = "Разное";
-                        string razdel = "Запчасти и расходники => Каталог запчастей RACER => ";
-                        razdel = razdel + razdelCSV;
-
-                        //Добавляем на сайт
-                        string slug = chpu.vozvr(name);
-                        double actualPrice = webRequest.price(priceCSV, discounts);
-
-                        string minitext = MinitextStr();
-                        string titleText = null;
-                        string descriptionText = null;
-                        string keywordsText = null;
-                        string fullText = FulltextStr();
-                        string dblProdSEO = null;
-
-                        string dblProduct = "НАЗВАНИЕ также подходит для:<br />" + boldOpen + dopnomenrlatura + boldClose + " аналогичных моделей.";
-                        string nameText = boldOpen + name + boldClose;
-                        titleText = tbTitle.Lines[0].ToString();
-                        descriptionText = tbDescription.Lines[0].ToString() + " " + dblProdSEO;
-                        keywordsText = tbKeywords.Lines[0].ToString();
-                        string discount = Discount();
-
-                        minitext = minitext.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>").Replace("<p>НОМЕРФОТО</p>", "");
-
-                        minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
-
-                        fullText = fullText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl);
-
-                        fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
-
-                        titleText = titleText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
-
-                        descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
-
-                        keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
-
-                        titleText = Remove(titleText, 255);
-                        descriptionText = Remove(descriptionText, 200);
-                        keywordsText = Remove(keywordsText, 100);
-                        slug = Remove(slug, 64);
-
-                        newProduct = new List<string>();
-                        newProduct.Add(""); //id
-                        newProduct.Add("\"" + articl + "\""); //артикул
-                        newProduct.Add("\"" + name + "\"");  //название
-                        newProduct.Add("\"" + actualPrice + "\""); //стоимость
-                        newProduct.Add("\"" + "" + "\""); //со скидкой
-                        newProduct.Add("\"" + razdel + "\""); //раздел товара
-                        newProduct.Add("\"" + "100" + "\""); //в наличии
-                        newProduct.Add("\"" + "0" + "\"");//поставка
-                        newProduct.Add("\"" + "1" + "\"");//срок поставки
-                        newProduct.Add("\"" + minitext + "\"");//краткий текст
-                        newProduct.Add("\"" + fullText + "\"");//полностью текст
-                        newProduct.Add("\"" + titleText + "\""); //заголовок страницы
-                        newProduct.Add("\"" + descriptionText + "\""); //описание
-                        newProduct.Add("\"" + keywordsText + "\"");//ключевые слова
-                        newProduct.Add("\"" + slug + "\""); //ЧПУ
-                        newProduct.Add(""); //с этим товаром покупают
-                        newProduct.Add("");   //рекламные метки
-                        newProduct.Add("\"" + "1" + "\"");  //показывать
-                        newProduct.Add("\"" + "0" + "\""); //удалить
-                        if (razdelCSV != "Метизы")
-                        {
-                            files.fileWriterCSV(newProduct, "naSite");
-                            countAddCSV++;
-                        }
-                        if (b)
-                        {
-                            razdelCSV = "Универсальные запчасти";
                         }
                     }
                 }
