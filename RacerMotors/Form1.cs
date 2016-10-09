@@ -245,7 +245,6 @@ namespace RacerMotors
                                         nethouse.saveTovar(cookie, tovar);
                                         countUpdate++;
                                     }
-
                                 }
                                 else
                                 {
@@ -416,163 +415,15 @@ namespace RacerMotors
             }
         }
 
-        private int ReturnCountAdd()
-        {
-            if (addCount == 99)
-                addCount = 0;
-            addCount++;
-            return addCount;
-        }
-
-        private string Razdel(string objProduct, string section1)
-        {
-            string razdel = "Запчасти и расходники => Каталог запчастей RACER => Запчасти на ";
-            switch (objProduct)
-            {
-                case ("motorcycles"):
-                    razdel = razdel + "Мотоцикл " + section1;
-                    break;
-                case ("scooters"):
-                    razdel = razdel + "Скутер " + section1;
-                    break;
-                case ("mopeds"):
-                    razdel = razdel + "Мопед " + section1;
-                    break;
-                case ("pitbike"):
-                    razdel = razdel + "Питбайки " + section1;
-                    break;
-                default:
-                    razdel = razdel + section1;
-                    break;
-            }
-            return razdel;
-        }
-
-        private string MinitextStr()
-        {
-            string minitext = "";
-            for (int z = 0; rtbMiniText.Lines.Length > z; z++)
-            {
-                if (rtbMiniText.Lines[z].ToString() == "")
-                {
-                    minitext += "<p><br /></p>";
-                }
-                else
-                {
-                    minitext += "<p>" + rtbMiniText.Lines[z].ToString() + "</p>";
-                }
-            }
-            return minitext;
-        }
-
-        private string FulltextStr()
-        {
-            string fullText = "";
-            for (int z = 0; rtbFullText.Lines.Length > z; z++)
-            {
-                if (rtbFullText.Lines[z].ToString() == "")
-                {
-                    fullText += "<p><br /></p>";
-                }
-                else
-                {
-                    fullText += "<p>" + rtbFullText.Lines[z].ToString() + "</p>";
-                }
-            }
-            return fullText;
-        }
-
-        private string Replace(string text, string section2, string section1, string strCodePage, string dblProduct, string nameTovarRacerMotors, string article)
-        {
-            string discount = Discount();
-            string nameText = boldOpen + nameTovarRacerMotors + boldClose;
-            string nameRazdel = boldOpen + section1 + boldClose;
-            string namePodrazdel = boldOpen + section2 + boldClose;
-            text = text.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", namePodrazdel).Replace("РАЗДЕЛ", nameRazdel).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", article).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>");
-            return text;
-        }
-
-        private string ReplaceSEO(string text, string nameTovarRacerMotors, string section1, string section2, string article, string dblProduct, string strCodePage)
-        {
-            string discount = Discount();
-            text = text.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", article);
-            return text;
-        }
-
-        private string Discount()
-        {
-            string discount = "<p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> Сделай ТРОЙНОЙ удар по нашим ценам! </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 1. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Скидки за отзывы о товарах!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 2. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Друзьям скидки и подарки!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 3. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Нашли дешевле!? 110% разницы Ваши!</a></span></p>";
-            return discount;
-        }
-
-        private string Remove(string text, int v)
-        {
-            if (text.Length > v)
-            {
-                text = text.Remove(v);
-                text = text.Remove(text.LastIndexOf(" "));
-            }
-            return text;
-        }
-
-        private List<string> newList()
-        {
-            List<string> newProduct = new List<string>();
-            newProduct.Add("id");                                                                               //id
-            newProduct.Add("Артикул *");                                                 //артикул
-            newProduct.Add("Название товара *");                                          //название
-            newProduct.Add("Стоимость товара *");                                    //стоимость
-            newProduct.Add("Стоимость со скидкой");                                       //со скидкой
-            newProduct.Add("Раздел товара *");                                         //раздел товара
-            newProduct.Add("Товар в наличии *");                                                    //в наличии
-            newProduct.Add("Поставка под заказ *");                                                 //поставка
-            newProduct.Add("Срок поставки (дни) *");                                           //срок поставки
-            newProduct.Add("Краткий текст");                                 //краткий текст
-            newProduct.Add("Текст полностью");                                          //полностью текст
-            newProduct.Add("Заголовок страницы (title)");                               //заголовок страницы
-            newProduct.Add("Описание страницы (description)");                                 //описание
-            newProduct.Add("Ключевые слова страницы (keywords)");                                 //ключевые слова
-            newProduct.Add("ЧПУ страницы (slug)");                                   //ЧПУ
-            newProduct.Add("С этим товаром покупают");                              //с этим товаром покупают
-            newProduct.Add("Рекламные метки");
-            newProduct.Add("Показывать на сайте *");                                           //показывать
-            newProduct.Add("Удалить *");                                    //удалить
-            files.fileWriterCSV(newProduct, "naSite");
-            return newProduct;
-        }
-
         private void btnPrice_Click(object sender, EventArgs e)
         {
             int countEditPrice = 0;
             int countAddCSV = 0;
             File.Delete("naSite.csv");
-            string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
-            string boldClose = "</span>";
-            List<string> newProduct = new List<string>();
-            newProduct.Add("id");                                                                               //id
-            newProduct.Add("Артикул *");                                                 //артикул
-            newProduct.Add("Название товара *");                                          //название
-            newProduct.Add("Стоимость товара *");                                    //стоимость
-            newProduct.Add("Стоимость со скидкой");                                       //со скидкой
-            newProduct.Add("Раздел товара *");                                         //раздел товара
-            newProduct.Add("Товар в наличии *");                                                    //в наличии
-            newProduct.Add("Поставка под заказ *");                                                 //поставка
-            newProduct.Add("Срок поставки (дни) *");                                           //срок поставки
-            newProduct.Add("Краткий текст");                                 //краткий текст
-            newProduct.Add("Текст полностью");                                          //полностью текст
-            newProduct.Add("Заголовок страницы (title)");                               //заголовок страницы
-            newProduct.Add("Описание страницы (description)");                                 //описание
-            newProduct.Add("Ключевые слова страницы (keywords)");                                 //ключевые слова
-            newProduct.Add("ЧПУ страницы (slug)");                                   //ЧПУ
-            newProduct.Add("С этим товаром покупают");                              //с этим товаром покупают
-            newProduct.Add("Рекламные метки");
-            newProduct.Add("Показывать на сайте *");                                           //показывать
-            newProduct.Add("Удалить *");                                    //удалить
-            files.fileWriterCSV(newProduct, "naSite");
-
-            string otv = null;
+            List<string> newProduct = newList();
             bool b = false;
             string razdelCSV = null;
+
             FileInfo file = new FileInfo("Запчасти.xlsx");
             ExcelPackage p = new ExcelPackage(file);
             ExcelWorksheet w = p.Workbook.Worksheets[1];
@@ -600,6 +451,7 @@ namespace RacerMotors
                     string dopnomenrlatura = (string)w.Cells[i, 4].Value;
                     if (dopnomenrlatura != null)
                         dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
+
                     otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=+" + articl);
                     string urlTovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*?(?=\" >)").Match(otv).ToString();
                     if (urlTovar != "")
@@ -868,6 +720,133 @@ namespace RacerMotors
                 while (trueOtv != "2");
             }
             MessageBox.Show("Обновлено цен: " + countEditPrice + "\nДобавлено позиций: " + countAddCSV);
+        }
+
+
+
+        private int ReturnCountAdd()
+        {
+            if (addCount == 99)
+                addCount = 0;
+            addCount++;
+            return addCount;
+        }
+
+        private string Razdel(string objProduct, string section1)
+        {
+            string razdel = "Запчасти и расходники => Каталог запчастей RACER => Запчасти на ";
+            switch (objProduct)
+            {
+                case ("motorcycles"):
+                    razdel = razdel + "Мотоцикл " + section1;
+                    break;
+                case ("scooters"):
+                    razdel = razdel + "Скутер " + section1;
+                    break;
+                case ("mopeds"):
+                    razdel = razdel + "Мопед " + section1;
+                    break;
+                case ("pitbike"):
+                    razdel = razdel + "Питбайки " + section1;
+                    break;
+                default:
+                    razdel = razdel + section1;
+                    break;
+            }
+            return razdel;
+        }
+
+        private string MinitextStr()
+        {
+            string minitext = "";
+            for (int z = 0; rtbMiniText.Lines.Length > z; z++)
+            {
+                if (rtbMiniText.Lines[z].ToString() == "")
+                {
+                    minitext += "<p><br /></p>";
+                }
+                else
+                {
+                    minitext += "<p>" + rtbMiniText.Lines[z].ToString() + "</p>";
+                }
+            }
+            return minitext;
+        }
+
+        private string FulltextStr()
+        {
+            string fullText = "";
+            for (int z = 0; rtbFullText.Lines.Length > z; z++)
+            {
+                if (rtbFullText.Lines[z].ToString() == "")
+                {
+                    fullText += "<p><br /></p>";
+                }
+                else
+                {
+                    fullText += "<p>" + rtbFullText.Lines[z].ToString() + "</p>";
+                }
+            }
+            return fullText;
+        }
+
+        private string Replace(string text, string section2, string section1, string strCodePage, string dblProduct, string nameTovarRacerMotors, string article)
+        {
+            string discount = Discount();
+            string nameText = boldOpen + nameTovarRacerMotors + boldClose;
+            string nameRazdel = boldOpen + section1 + boldClose;
+            string namePodrazdel = boldOpen + section2 + boldClose;
+            text = text.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", namePodrazdel).Replace("РАЗДЕЛ", nameRazdel).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", article).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>");
+            return text;
+        }
+
+        private string ReplaceSEO(string text, string nameTovarRacerMotors, string section1, string section2, string article, string dblProduct, string strCodePage)
+        {
+            string discount = Discount();
+            text = text.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", article);
+            return text;
+        }
+
+        private string Discount()
+        {
+            string discount = "<p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> Сделай ТРОЙНОЙ удар по нашим ценам! </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 1. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Скидки за отзывы о товарах!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 2. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Друзьям скидки и подарки!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 3. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Нашли дешевле!? 110% разницы Ваши!</a></span></p>";
+            return discount;
+        }
+
+        private string Remove(string text, int v)
+        {
+            if (text.Length > v)
+            {
+                text = text.Remove(v);
+                text = text.Remove(text.LastIndexOf(" "));
+            }
+            return text;
+        }
+
+        private List<string> newList()
+        {
+            List<string> newProduct = new List<string>();
+            newProduct.Add("id");                                                                               //id
+            newProduct.Add("Артикул *");                                                 //артикул
+            newProduct.Add("Название товара *");                                          //название
+            newProduct.Add("Стоимость товара *");                                    //стоимость
+            newProduct.Add("Стоимость со скидкой");                                       //со скидкой
+            newProduct.Add("Раздел товара *");                                         //раздел товара
+            newProduct.Add("Товар в наличии *");                                                    //в наличии
+            newProduct.Add("Поставка под заказ *");                                                 //поставка
+            newProduct.Add("Срок поставки (дни) *");                                           //срок поставки
+            newProduct.Add("Краткий текст");                                 //краткий текст
+            newProduct.Add("Текст полностью");                                          //полностью текст
+            newProduct.Add("Заголовок страницы (title)");                               //заголовок страницы
+            newProduct.Add("Описание страницы (description)");                                 //описание
+            newProduct.Add("Ключевые слова страницы (keywords)");                                 //ключевые слова
+            newProduct.Add("ЧПУ страницы (slug)");                                   //ЧПУ
+            newProduct.Add("С этим товаром покупают");                              //с этим товаром покупают
+            newProduct.Add("Рекламные метки");
+            newProduct.Add("Показывать на сайте *");                                           //показывать
+            newProduct.Add("Удалить *");                                    //удалить
+            files.fileWriterCSV(newProduct, "naSite");
+            return newProduct;
         }
 
         private string returnRazdel(string razdelCSV)
