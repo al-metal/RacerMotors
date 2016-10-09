@@ -417,6 +417,11 @@ namespace RacerMotors
 
         private void btnPrice_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.login = tbLogin.Text;
+            Properties.Settings.Default.password = tbPasswords.Text;
+            Properties.Settings.Default.Save();
+
+            CookieContainer cookie = nethouse.cookieNethouse(tbLogin.Text, tbPasswords.Text);
             int countEditPrice = 0;
             int countAddCSV = 0;
             File.Delete("naSite.csv");
@@ -454,16 +459,18 @@ namespace RacerMotors
 
                     otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=+" + articl);
                     string urlTovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*?(?=\" >)").Match(otv).ToString();
+
                     if (urlTovar != "")
                     {
                         string priceTovar = new Regex("(?<=<span class=\"product-price-data\" data-cost=\").*?(?=\">)").Match(otv).ToString();
                         double actualPrice = webRequest.price(priceCSV, discounts);
+
                         if (actualPrice != Convert.ToDouble(priceTovar))
                         {
                             urlTovar = urlTovar.Replace("http://bike18.ru/", "http://bike18.nethouse.ru/");
-                            List<string> tovar = webRequest.arraySaveimage(urlTovar);
+                            List<string> tovar = nethouse.getProductList(cookie, urlTovar);
                             tovar[9] = actualPrice.ToString();
-                            webRequest.saveImage(tovar);
+                            nethouse.saveTovar(cookie, tovar);
                             countEditPrice++;
                         }
                     }
@@ -488,8 +495,6 @@ namespace RacerMotors
                                         razdelCSV = returnRazdel(razdelchik);
                                         break;
                                     }
-                                    //else
-                                    //razdelCSV = "Разное";
                                 }
                             }
                             else
@@ -550,53 +555,23 @@ namespace RacerMotors
                         string razdel = "Запчасти и расходники => Каталог запчастей RACER => ";
                         razdel = razdel + razdelCSV;
 
-
                         //Добавляем на сайт
-
                         string slug = chpu.vozvr(name);
                         double actualPrice = webRequest.price(priceCSV, discounts);
 
-
-                        string minitext = null;
+                        string minitext = MinitextStr();
                         string titleText = null;
                         string descriptionText = null;
                         string keywordsText = null;
-                        string fullText = null;
+                        string fullText = FulltextStr();
                         string dblProdSEO = null;
 
                         string dblProduct = "НАЗВАНИЕ также подходит для:<br />" + boldOpen + dopnomenrlatura + boldClose + " аналогичных моделей.";
-
                         string nameText = boldOpen + name + boldClose;
-
-                        for (int z = 0; rtbMiniText.Lines.Length > z; z++)
-                        {
-                            if (rtbMiniText.Lines[z].ToString() == "")
-                            {
-                                minitext += "<p><br /></p>";
-                            }
-                            else
-                            {
-                                minitext += "<p>" + rtbMiniText.Lines[z].ToString() + "</p>";
-                            }
-                        }
-
-                        for (int z = 0; rtbFullText.Lines.Length > z; z++)
-                        {
-                            if (rtbFullText.Lines[z].ToString() == "")
-                            {
-                                fullText += "<p><br /></p>";
-                            }
-                            else
-                            {
-                                fullText += "<p>" + rtbFullText.Lines[z].ToString() + "</p>";
-                            }
-                        }
-
                         titleText = tbTitle.Lines[0].ToString();
                         descriptionText = tbDescription.Lines[0].ToString() + " " + dblProdSEO;
                         keywordsText = tbKeywords.Lines[0].ToString();
-
-                        string discount = "<p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> Сделай ТРОЙНОЙ удар по нашим ценам! </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 1. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Скидки за отзывы о товарах!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 2. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Друзьям скидки и подарки!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 3. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Нашли дешевле!? 110% разницы Ваши!</a></span></p>";
+                        string discount = Discount();
 
                         minitext = minitext.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>").Replace("<p>НОМЕРФОТО</p>", "");
 
@@ -610,29 +585,12 @@ namespace RacerMotors
 
                         descriptionText = descriptionText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
 
-
                         keywordsText = keywordsText.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", razdelCSV).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", name).Replace("АРТИКУЛ", articl);
 
-                        if (titleText.Length > 255)
-                        {
-                            titleText = titleText.Remove(255);
-                            titleText = titleText.Remove(titleText.LastIndexOf(" "));
-                        }
-                        if (descriptionText.Length > 200)
-                        {
-                            descriptionText = descriptionText.Remove(200);
-                            descriptionText = descriptionText.Remove(descriptionText.LastIndexOf(" "));
-                        }
-                        if (keywordsText.Length > 100)
-                        {
-                            keywordsText = keywordsText.Remove(100);
-                            keywordsText = keywordsText.Remove(keywordsText.LastIndexOf(" "));
-                        }
-                        if (slug.Length > 64)
-                        {
-                            slug = slug.Remove(64);
-                            slug = slug.Remove(slug.LastIndexOf(" "));
-                        }
+                        titleText = Remove(titleText, 255);
+                        descriptionText = Remove(descriptionText, 200);
+                        keywordsText = Remove(keywordsText, 100);
+                        slug = Remove(slug, 64);
 
                         newProduct = new List<string>();
                         newProduct.Add(""); //id
