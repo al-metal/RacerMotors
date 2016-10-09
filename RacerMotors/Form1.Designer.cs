@@ -37,6 +37,8 @@
             this.btnActualPrice = new System.Windows.Forms.Button();
             this.btnPrice = new System.Windows.Forms.Button();
             this.btnUpdateImg = new System.Windows.Forms.Button();
+            this.tbLogin = new System.Windows.Forms.TextBox();
+            this.tbPasswords = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // rtbMiniText
@@ -123,11 +125,28 @@
             this.btnUpdateImg.UseVisualStyleBackColor = true;
             this.btnUpdateImg.Click += new System.EventHandler(this.btnUpdateImg_Click);
             // 
+            // tbLogin
+            // 
+            this.tbLogin.Location = new System.Drawing.Point(543, 159);
+            this.tbLogin.Name = "tbLogin";
+            this.tbLogin.Size = new System.Drawing.Size(100, 20);
+            this.tbLogin.TabIndex = 9;
+            // 
+            // tbPasswords
+            // 
+            this.tbPasswords.Location = new System.Drawing.Point(543, 185);
+            this.tbPasswords.Name = "tbPasswords";
+            this.tbPasswords.Size = new System.Drawing.Size(100, 20);
+            this.tbPasswords.TabIndex = 10;
+            this.tbPasswords.UseSystemPasswordChar = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(689, 349);
+            this.Controls.Add(this.tbPasswords);
+            this.Controls.Add(this.tbLogin);
             this.Controls.Add(this.btnUpdateImg);
             this.Controls.Add(this.btnPrice);
             this.Controls.Add(this.btnActualPrice);
@@ -141,6 +160,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -157,6 +177,8 @@
         private System.Windows.Forms.Button btnActualPrice;
         private System.Windows.Forms.Button btnPrice;
         private System.Windows.Forms.Button btnUpdateImg;
+        private System.Windows.Forms.TextBox tbLogin;
+        private System.Windows.Forms.TextBox tbPasswords;
     }
 }
 
