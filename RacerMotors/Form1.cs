@@ -231,7 +231,7 @@ namespace RacerMotors
 
                                         if (priceRacerMotors[m].ToString() == "0" || tovar[39] != "")
                                         {
-                                            tovar[43] = "0";
+                                            tovar[43] = "100";
                                             izmen = true;
                                         }
 
@@ -451,7 +451,7 @@ namespace RacerMotors
                         name = name.Trim();
                         string articl = (string)w.Cells[i, 3].Value;
                         string nomenclatura = (string)w.Cells[i, 5].Value;
-                        double priceCSV = (double)w.Cells[i, 13].Value;
+                        double priceCSV = (double)w.Cells[i, 11].Value;
                         string dopnomenrlatura = (string)w.Cells[i, 4].Value;
                         if (dopnomenrlatura != null)
                             dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
