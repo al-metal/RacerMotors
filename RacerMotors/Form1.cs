@@ -447,8 +447,16 @@ namespace RacerMotors
                         string name = (string)w.Cells[i, 2].Value;
                         name = name.Trim();
                         string articl = (string)w.Cells[i, 3].Value;
-                        string nomenclatura = (string)w.Cells[i, 5].Value;
-                        double priceCSV = (double)w.Cells[i, 11].Value;
+                        string nomenclatura = "";
+                        try
+                        {
+                            nomenclatura = (string)w.Cells[i, 5].Value;
+                        }
+                        catch
+                        {
+                            nomenclatura = "";
+                        }
+                            double priceCSV = (double)w.Cells[i, 11].Value;
                         string dopnomenrlatura = (string)w.Cells[i, 4].Value;
                         if (dopnomenrlatura != null)
                             dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
@@ -917,6 +925,9 @@ namespace RacerMotors
                     razdelCSV = "Запчасти на Двигатель 164FML 200 cm3 (RC200ZH)";
                     break;
                 case "Двигатель 153FMH 110 cm3":
+                    razdelCSV = "Запчасти на Двигатель 153FMH 110 cm3";
+                    break;
+                case "Двигатель 153FMH 110 cc":
                     razdelCSV = "Запчасти на Двигатель 153FMH 110 cm3";
                     break;
                 case "Двигатель 165FML 200 cc":
