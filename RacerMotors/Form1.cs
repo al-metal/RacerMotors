@@ -224,10 +224,10 @@ namespace RacerMotors
                                 DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString());
 
                                 string urlTovar = nethouse.searchTovar(nameTovarRacerMotors, nameTovarRacerMotors);
-                                if (urlTovar == "")
+                                if (urlTovar == null)
                                     urlTovar = nethouse.searchTovar(nameTovarRacerMotors, articlRacer);
 
-                                if (urlTovar != "")
+                                if (urlTovar != null)
                                 {
                                     List<string> tovar = nethouse.GetProductList(cookie, urlTovar);
                                     string nameTovarBike = tovar[4].ToString();
