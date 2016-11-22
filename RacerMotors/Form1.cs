@@ -21,6 +21,8 @@ namespace RacerMotors
     {
         web.WebRequest webRequest = new web.WebRequest();
         nethouse nethouse = new nethouse();
+        WebClient webClient = new WebClient();
+        httpRequest httprequest = new httpRequest();
 
         CHPU chpu = new CHPU();
         string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
@@ -110,7 +112,7 @@ namespace RacerMotors
             altText.Close();
         }
 
-        #region
+        #region Нажатие кнопок
         private void btnSaveTemplate_Click(object sender, EventArgs e)
         {
             int count = 0;
@@ -183,7 +185,7 @@ namespace RacerMotors
                 if (!shlak)
                 {
                     otv = webRequest.getRequestEncod("http://racer-motors.ru" + modelTovar[i].ToString());
-                    
+
                     bool b = modelTovar[i].ToString().Contains("pitbike");
                     bool a = modelTovar[i].ToString().Contains("dvigatel");
 
@@ -219,7 +221,7 @@ namespace RacerMotors
                                 int priceActual = webRequest.price(priceTovarRacerMotors, discounts);
                                 string articlRacer = articlRacerMotors[m].ToString();
 
-                                nethouse.DownloadImages(cookie, articlRacerMotors[m].ToString());
+                                DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString());
 
                                 otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=" + articlRacer);
                                 string urlTovar = new Regex("(?<=<a href=\").*(?=\"><div class=\"-relative item-image\")").Match(otv).ToString();
@@ -252,7 +254,15 @@ namespace RacerMotors
                                 }
                                 else
                                 {
-                                    if (priceActual != 0)
+                                    bool t = false;
+                                    string[] tovars = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
+                                    foreach (string str in tovars)
+                                    {
+                                        string[] strTovar = str.Split(';');
+                                        if (strTovar[1] == articlRacerMotors[m].ToString())
+                                            t = true;
+                                    }
+                                    if (priceActual != 0 & !t)
                                     {
                                         string slug = chpu.vozvr(nameTovarRacerMotors);
                                         string razdel = Razdel(objProduct, section1);
@@ -356,8 +366,20 @@ namespace RacerMotors
             string[] naSite1 = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
             if (naSite1.Length > 1)
                 nethouse.UploadCSVNethouse(cookie, "naSite.csv");
-            
+
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
+        }
+
+        private void DownloadImages(string urlImg, object article)
+        {
+            try
+            {
+                webClient.DownloadFile(urlImg, "Pic\\" + article + ".jpg");
+            }
+            catch
+            {
+
+            }
         }
 
         private void btnPrice_Click(object sender, EventArgs e)
@@ -407,7 +429,7 @@ namespace RacerMotors
                         {
                             nomenclatura = "";
                         }
-                            double priceCSV = (double)w.Cells[i, 11].Value;
+                        double priceCSV = (double)w.Cells[i, 11].Value;
                         string dopnomenrlatura = (string)w.Cells[i, 4].Value;
                         if (dopnomenrlatura != null)
                             dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
@@ -592,76 +614,37 @@ namespace RacerMotors
 
         private void btnUpdateImg_Click(object sender, EventArgs e)
         {
+            int countUpdateImage = 0;
             CookieContainer cookie = webRequest.webCookieBike18();
             otv = webRequest.getRequest("http://bike18.ru/products/category/1185370");
             MatchCollection razdel = new Regex("(?<=</div></a><div class=\"category-capt-txt -text-center\"><a href=\").*?(?=\" class=\"blue\">)").Matches(otv);
             for (int i = 0; razdel.Count > i; i++)
             {
-                otv = webRequest.getRequest(razdel[i].ToString() + "/page/all");
+                otv = webRequest.getRequest("http://bike18.ru" + razdel[i].ToString() + "/page/all");
                 MatchCollection tovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*(?=\" >)").Matches(otv);
                 for (int n = 0; tovar.Count > n; n++)
                 {
+                    bool b = false;
                     string articl = null;
-                    string urlTovar = tovar[n].ToString().Replace("http://bike18.ru/", "http://bike18.nethouse.ru/");
-                    otv = webRequest.PostRequest(cookie, urlTovar);
-                    articl = new Regex("(?<=Артикул:)[\\w\\W]*?(?=</div><div>)").Match(otv).ToString();
-                    if (articl.Length > 11)
+                    List<string> listProd = nethouse.GetProductList(cookie, tovar[n].ToString());
+                                        
+                    if (listProd[32] == "")
                     {
-                        articl = new Regex("(?<=Артикул:)[\\w\\W]*(?=</title>)").Match(otv).ToString().Trim();
+                        articl = listProd[6];
+                        if (File.Exists("Pic\\" + articl + ".jpg"))
+                        {
+                            nethouse.UploadImage(cookie, tovar[n].ToString());
+                            b = true;
+                            countUpdateImage++;
+                        }
                     }
-                    articl = articl.Trim();
-                    if (File.Exists("pic\\" + articl + ".jpg"))
+
+                    if(listProd[3] != "10833347" || b)
                     {
-                        MatchCollection prId = new Regex("(?<=data-id=\").*?(?=\")").Matches(otv);
-                        int prodId = Convert.ToInt32(prId[0].ToString());
-                        bool b = true;
-                        double widthImg = 0;
-                        double heigthImg = 0;
-
-                        try
-                        {
-                            Image newImg = Image.FromFile("pic\\" + articl + ".jpg");
-                            widthImg = newImg.Width;
-                            heigthImg = newImg.Height;
-                        }
-                        catch
-                        {
-                            b = false;
-                        }
-
-                        if (b)
-                        {
-                            if (widthImg > heigthImg)
-                            {
-                                double dblx = widthImg * 0.9;
-                                if (dblx < heigthImg)
-                                {
-                                    heigthImg = heigthImg * 0.9;
-                                }
-                                else
-                                    widthImg = widthImg * 0.9;
-                            }
-                            else
-                            {
-                                double dblx = heigthImg * 0.9;
-                                if (dblx < widthImg)
-                                {
-                                    widthImg = widthImg * 0.9;
-                                }
-                                else
-                                    heigthImg = heigthImg * 0.9;
-                            }
-
-                            string otvimg = nethouse.DownloadImages(cookie, articl);
-                            string urlSaveImg = new Regex("(?<=url\":\").*?(?=\")").Match(otvimg).Value.Replace("\\/", "%2F");
-                            string otvSave = nethouse.SaveImages(cookie, urlSaveImg, prodId, widthImg, heigthImg);
-                            List<string> listProd = webRequest.arraySaveimage(urlTovar);
-                            listProd[3] = "10833347";
-                            webRequest.saveImage(listProd);
-                        }
+                        listProd[3] = "10833347";
+                        nethouse.SaveTovar(cookie, listProd);
                     }
                 }
-
             }
         }
         #endregion
