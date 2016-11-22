@@ -223,8 +223,9 @@ namespace RacerMotors
 
                                 DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString());
 
-                                otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=" + articlRacer);
-                                string urlTovar = new Regex("(?<=<a href=\").*(?=\"><div class=\"-relative item-image\")").Match(otv).ToString();
+                                string urlTovar = nethouse.searchTovar(nameTovarRacerMotors, nameTovarRacerMotors);
+                                if (urlTovar == "")
+                                    urlTovar = nethouse.searchTovar(nameTovarRacerMotors, articlRacer);
 
                                 if (urlTovar != "")
                                 {
@@ -262,6 +263,7 @@ namespace RacerMotors
                                         if (strTovar[1] == articlRacerMotors[m].ToString())
                                             t = true;
                                     }
+
                                     if (priceActual != 0 & !t)
                                     {
                                         string slug = chpu.vozvr(nameTovarRacerMotors);
