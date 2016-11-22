@@ -372,13 +372,16 @@ namespace RacerMotors
 
         private void DownloadImages(string urlImg, object article)
         {
-            try
+            if(!File.Exists("Pic\\" + article + ".jpg"))
             {
-                webClient.DownloadFile(urlImg, "Pic\\" + article + ".jpg");
-            }
-            catch
-            {
+                try
+                {
+                    webClient.DownloadFile(urlImg, "Pic\\" + article + ".jpg");
+                }
+                catch
+                {
 
+                }
             }
         }
 
