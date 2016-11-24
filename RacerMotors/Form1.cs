@@ -601,20 +601,16 @@ namespace RacerMotors
                                 countAddCSV++;
                             }
                             if (b)
-                            {
                                 razdelCSV = "Универсальные запчасти";
-                            }
                         }
                     }
                 }
             }
             System.Threading.Thread.Sleep(20000);
-            string trueOtv = null;
             string[] naSite1 = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
             if (naSite1.Length > 1)
-            {
                 nethouse.UploadCSVNethouse(cookie, "naSite.csv");
-            }
+            
             MessageBox.Show("Обновлено цен: " + countEditPrice + "\nДобавлено позиций: " + countAddCSV);
         }
 
