@@ -242,9 +242,15 @@ namespace RacerMotors
                                         izmen = true;
                                     }
 
-                                    if (priceRacerMotors[m].ToString() == "0" || tovar[39] != "")
+                                    if (priceRacerMotors[m].ToString() == "0")
                                     {
                                         tovar[43] = "100";
+                                        izmen = true;
+                                    }
+
+                                    if(tovar[39] != "")
+                                    {
+                                        tovar[39] = "";
                                         izmen = true;
                                     }
 

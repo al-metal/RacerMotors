@@ -44,31 +44,43 @@ namespace Bike18
             if (otv != null)
             {
                 string productId = new Regex("(?<=<section class=\"comment\" id=\").*?(?=\">)").Match(otv).ToString();
-                String article = new Regex("(?<=Артикул:)[\\w\\W]*?(?=</div>)").Match(otv).Value.Trim();
+                string article = new Regex("(?<=Артикул:)[\\w\\W]*?(?=</div>)").Match(otv).Value.Trim();
                 if (article.Length > 15)
                 {
                     article = new Regex("(?<=Артикул:)[\\w\\W]*(?=</title>)").Match(otv).ToString().Trim();
                 }
-                String prodName = new Regex("(?<=<h1>).*(?=</h1>)").Match(otv).Value;
-                String price = new Regex("(?<=<span class=\"product-price-data\" data-cost=\").*?(?=\">)").Match(otv).Value;
-                String imgId = new Regex("(?<=<div id=\"avatar-).*(?=\")").Match(otv).Value;
-                String desc = new Regex("(?<=<div class=\"user-inner\">).*?(?=</div>)").Match(otv).Value;
+                string prodName = new Regex("(?<=<h1>).*(?=</h1>)").Match(otv).Value;
+                string price = new Regex("(?<=<span class=\"product-price-data\" data-cost=\").*?(?=\">)").Match(otv).Value;
+                string imgId = new Regex("(?<=<div id=\"avatar-).*(?=\")").Match(otv).Value;
+                string desc = new Regex("(?<=<div class=\"user-inner\">).*?(?=</div>)").Match(otv).Value;
                 desc = desc.Replace("&nbsp;", " ");
-                String fulldesc = new Regex("(?<=<div id=\"product-full-desc\" data-ng-non-bindable class=\"user-inner\">).*?(?=</div>)").Match(otv).Value.Replace("&nbsp;&nbsp;", " ").Replace("&deg;", "°");
+                string fulldesc = new Regex("(?<=<div id=\"product-full-desc\" data-ng-non-bindable class=\"user-inner\">).*?(?=</div>)").Match(otv).Value.Replace("&nbsp;&nbsp;", " ").Replace("&deg;", "°");
                 fulldesc = fulldesc.Replace("&nbsp;", " ");
-                String seometa = new Regex("(?<=<meta name=\"description\" content=\").*?(?=\" >)").Match(otv).Value;
-                String keywords = new Regex("(?<=<meta name=\"keywords\" content=\").*?(?=\" >)").Match(otv).Value;
-                String title = new Regex("(?<=<title>).*?(?=</title>)").Match(otv).Value;
-                String visible = new Regex("(?<=,\"balance\":).*?(?=,\")").Match(otv).Value;
-                string reklama = new Regex("(?<=<div class=\"marker-icon size-big type-4\"><div class=\"left\"></div><div class=\"center\"><div class=\"text\">).*?(?=</div></div>)").Match(otv).ToString();
+                string seometa = new Regex("(?<=<meta name=\"description\" content=\").*?(?=\" >)").Match(otv).Value;
+                string keywords = new Regex("(?<=<meta name=\"keywords\" content=\").*?(?=\" >)").Match(otv).Value;
+                string title = new Regex("(?<=<title>).*?(?=</title>)").Match(otv).Value;
+                string visible = new Regex("(?<=,\"balance\":).*?(?=,\")").Match(otv).Value;
+                string reklama = new Regex("(?<=<div class=\"left\"></div><div class=\"center\"><div class=\"text\">).*?(?=</div>)").Match(otv).ToString();
                 if (reklama == "акция")
-                {
                     reklama = "&markers[3]=1";
-                }
+                
                 if (reklama == "новинка")
-                {
                     reklama = "&markers[1]=1";
-                }
+                
+                if(reklama == "хит")
+                    reklama = "&markers[2]=1";
+
+                if (reklama == "распродажа")
+                    reklama = "&markers[4]=1";
+
+                if (reklama == "товар дня")
+                    reklama = "&markers[5]=1";
+
+                if (reklama == "товар недели")
+                    reklama = "&markers[6]=1";
+
+                if (reklama == "товар месяца")
+                    reklama = "&markers[7]=1";
 
                 otv = webRequest.PostRequest(cookie, "https://bike18.nethouse.ru/api/catalog/getproduct?id=" + productId);
                 string slug = new Regex("(?<=\",\"slug\":\").*?(?=\")").Match(otv).ToString();
