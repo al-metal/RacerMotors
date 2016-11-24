@@ -221,6 +221,8 @@ namespace RacerMotors
                                 int priceActual = webRequest.price(priceTovarRacerMotors, discounts);
                                 string articlRacer = articlRacerMotors[m].ToString();
 
+
+
                                 DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString());
 
                                 string urlTovar = nethouse.searchTovar(nameTovarRacerMotors, nameTovarRacerMotors);
@@ -259,8 +261,9 @@ namespace RacerMotors
                                     string[] tovars = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
                                     foreach (string str in tovars)
                                     {
+                                        string articl = articlRacerMotors[m].ToString();
                                         string[] strTovar = str.Split(';');
-                                        if (strTovar[1] == articlRacerMotors[m].ToString())
+                                        if (strTovar[1] == "\"" + articl + "\"")
                                             t = true;
                                     }
 
@@ -374,7 +377,7 @@ namespace RacerMotors
 
         private void DownloadImages(string urlImg, object article)
         {
-            if(!File.Exists("Pic\\" + article + ".jpg"))
+            if (!File.Exists("Pic\\" + article + ".jpg"))
             {
                 try
                 {
@@ -632,7 +635,7 @@ namespace RacerMotors
                     bool b = false;
                     string articl = null;
                     List<string> listProd = nethouse.GetProductList(cookie, tovar[n].ToString());
-                                        
+
                     if (listProd[32] == "")
                     {
                         articl = listProd[6];
@@ -644,7 +647,7 @@ namespace RacerMotors
                         }
                     }
 
-                    if(listProd[3] != "10833347" || b)
+                    if (listProd[3] != "10833347" || b)
                     {
                         listProd[3] = "10833347";
                         nethouse.SaveTovar(cookie, listProd);
