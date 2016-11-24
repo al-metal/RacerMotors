@@ -220,9 +220,7 @@ namespace RacerMotors
                                 double priceTovarRacerMotors = Convert.ToDouble(priceTovarRacerMotorsInt);
                                 int priceActual = webRequest.price(priceTovarRacerMotors, discounts);
                                 string articlRacer = articlRacerMotors[m].ToString();
-
-
-
+                                
                                 DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString());
 
                                 string urlTovar = nethouse.searchTovar(nameTovarRacerMotors, nameTovarRacerMotors);
@@ -231,6 +229,7 @@ namespace RacerMotors
 
                                 if (urlTovar != null)
                                 {
+                                    #region Обновление данных товара
                                     List<string> tovar = nethouse.GetProductList(cookie, urlTovar);
                                     string nameTovarBike = tovar[4].ToString();
                                     string preciTovarBike = tovar[9].ToString();
@@ -260,9 +259,12 @@ namespace RacerMotors
                                         nethouse.SaveTovar(cookie, tovar);
                                         countUpdate++;
                                     }
+
+                                    #endregion
                                 }
                                 else
                                 {
+                                    #region Запись товара в файл для загрузки
                                     bool t = false;
                                     string[] tovars = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
                                     foreach (string str in tovars)
@@ -332,6 +334,8 @@ namespace RacerMotors
                                         files.fileWriterCSV(newProduct, "naSite");
                                     }
                                 }
+                                #endregion
+
                                 List<string> allProducts = new List<string>();
                                 allProducts.Add(nameTovarRacerMotors);
                                 allProducts.Add(articlRacerMotors[m].ToString());
@@ -343,6 +347,8 @@ namespace RacerMotors
                     }
                 }
             }
+
+            #region Аналогичные товары в краткое описание товара
             string[] allProductsLines = File.ReadAllLines("allProducts.csv", Encoding.GetEncoding(1251));
             string[] noProducts = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
             if (noProducts.Length != 1)
@@ -372,6 +378,7 @@ namespace RacerMotors
                     File.WriteAllLines("naSite.csv", newPro, Encoding.GetEncoding(1251));
                 }
             }
+            #endregion
 
             System.Threading.Thread.Sleep(20000);
             string[] naSite1 = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
@@ -379,21 +386,6 @@ namespace RacerMotors
                 nethouse.UploadCSVNethouse(cookie, "naSite.csv");
 
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
-        }
-
-        private void DownloadImages(string urlImg, object article)
-        {
-            if (!File.Exists("Pic\\" + article + ".jpg"))
-            {
-                try
-                {
-                    webClient.DownloadFile(urlImg, "Pic\\" + article + ".jpg");
-                }
-                catch
-                {
-
-                }
-            }
         }
 
         private void btnPrice_Click(object sender, EventArgs e)
@@ -669,6 +661,21 @@ namespace RacerMotors
                 addCount = 0;
             addCount++;
             return addCount;
+        }
+
+        private void DownloadImages(string urlImg, object article)
+        {
+            if (!File.Exists("Pic\\" + article + ".jpg"))
+            {
+                try
+                {
+                    webClient.DownloadFile(urlImg, "Pic\\" + article + ".jpg");
+                }
+                catch
+                {
+
+                }
+            }
         }
 
         private string Razdel(string objProduct, string section1)
