@@ -383,7 +383,10 @@ namespace Bike18
 
             MatchCollection prId = new Regex("(?<=data-id=\").*?(?=\")").Matches(otv);
             string productId = prId[0].ToString();
+            try
+            {
 
+            
             Image newImg = Image.FromFile("Pic\\" + artProd + ".jpg");
             double widthImg = newImg.Width;
             double heigthImg = newImg.Height;
@@ -444,6 +447,11 @@ namespace Bike18
             ressrImg.Close();
 
             string otvSave = ressrSave.ReadToEnd();
+            }
+            catch
+            {
+
+            }
         }
         #endregion
 
