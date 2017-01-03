@@ -30,6 +30,8 @@ namespace web
 
         public string getRequest(string url)
         {
+            if (url == "http://bike18.ru/products/category/zapchasti-na-motocikl-racer-rc150-23-tiger-new/page/all")
+                url = "http://bike18.ru/products/category/1919265/page/all";
             HttpWebResponse res = null;
             HttpWebRequest req = (HttpWebRequest)System.Net.WebRequest.Create(url);
             //req.Timeout = 10000;
