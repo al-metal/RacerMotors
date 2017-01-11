@@ -30,6 +30,7 @@ namespace Bike18
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
             req.UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0";
+            req.Proxy = null;
             res = (HttpWebResponse)req.GetResponse();
             StreamReader ressr = new StreamReader(res.GetResponseStream());
             string otv = ressr.ReadToEnd();

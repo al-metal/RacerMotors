@@ -628,11 +628,18 @@ namespace RacerMotors
                 {
                     bool b = false;
                     string articl = null;
-                    List<string> listProd = nethouse.GetProductList(cookie, tovar[n].ToString());
+                    string images = null;
+                    string alsoby = null;
+                    string productGroupe = null;
 
-                    if (listProd[32] == "")
+                    List<string> listProd = nethouse.GetProductList(cookie, tovar[n].ToString());
+                    articl = listProd[6];
+                    images = listProd[32];
+                    alsoby = listProd[42];
+                    productGroupe = listProd[3];
+
+                    if (images == "")
                     {
-                        articl = listProd[6];
                         if (File.Exists("Pic\\" + articl + ".jpg"))
                         {
                             nethouse.UploadImage(cookie, tovar[n].ToString());
@@ -641,13 +648,25 @@ namespace RacerMotors
                         }
                     }
 
-                    if (listProd[3] != "10833347" || b)
+                    if(alsoby == "&alsoBuy[0]=0")
+                    {
+                        listProd[42] = nethouse.alsoBuyTovars(listProd);
+                        b = true;
+                        countUpdateImage++;
+                    }
+
+                    if(productGroupe != "10833347")
                     {
                         listProd[3] = "10833347";
-                        nethouse.SaveTovar(cookie, listProd);
+                        b = true;
+                        countUpdateImage++;
                     }
+
+                    if (b)
+                        nethouse.SaveTovar(cookie, listProd);
                 }
             }
+            MessageBox.Show("Было изменено: " + countUpdateImage + " товаров");
         }
         #endregion
 
