@@ -435,7 +435,7 @@ namespace RacerMotors
                         {
                             nomenclatura = "";
                         }
-                        double priceCSV = (double)w.Cells[i, 11].Value;
+                        double priceCSV = (double)w.Cells[i, 13].Value;
                         string dopnomenrlatura = (string)w.Cells[i, 4].Value;
                         if (dopnomenrlatura != null)
                             dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
