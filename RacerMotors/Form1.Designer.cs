@@ -39,6 +39,8 @@
             this.btnUpdateImg = new System.Windows.Forms.Button();
             this.tbLogin = new System.Windows.Forms.TextBox();
             this.tbPasswords = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // rtbMiniText
@@ -85,10 +87,10 @@
             // 
             // btnSaveTemplate
             // 
-            this.btnSaveTemplate.Location = new System.Drawing.Point(558, 292);
+            this.btnSaveTemplate.Location = new System.Drawing.Point(543, 315);
             this.btnSaveTemplate.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveTemplate.Name = "btnSaveTemplate";
-            this.btnSaveTemplate.Size = new System.Drawing.Size(122, 41);
+            this.btnSaveTemplate.Size = new System.Drawing.Size(126, 29);
             this.btnSaveTemplate.TabIndex = 5;
             this.btnSaveTemplate.Text = "Сохранить шаблон";
             this.btnSaveTemplate.UseVisualStyleBackColor = true;
@@ -96,7 +98,7 @@
             // 
             // btnActualPrice
             // 
-            this.btnActualPrice.Location = new System.Drawing.Point(543, 21);
+            this.btnActualPrice.Location = new System.Drawing.Point(543, 10);
             this.btnActualPrice.Margin = new System.Windows.Forms.Padding(2);
             this.btnActualPrice.Name = "btnActualPrice";
             this.btnActualPrice.Size = new System.Drawing.Size(126, 44);
@@ -107,7 +109,7 @@
             // 
             // btnPrice
             // 
-            this.btnPrice.Location = new System.Drawing.Point(543, 82);
+            this.btnPrice.Location = new System.Drawing.Point(543, 59);
             this.btnPrice.Name = "btnPrice";
             this.btnPrice.Size = new System.Drawing.Size(126, 29);
             this.btnPrice.TabIndex = 7;
@@ -117,7 +119,7 @@
             // 
             // btnUpdateImg
             // 
-            this.btnUpdateImg.Location = new System.Drawing.Point(543, 124);
+            this.btnUpdateImg.Location = new System.Drawing.Point(543, 94);
             this.btnUpdateImg.Name = "btnUpdateImg";
             this.btnUpdateImg.Size = new System.Drawing.Size(125, 29);
             this.btnUpdateImg.TabIndex = 8;
@@ -127,24 +129,44 @@
             // 
             // tbLogin
             // 
-            this.tbLogin.Location = new System.Drawing.Point(543, 159);
+            this.tbLogin.Location = new System.Drawing.Point(543, 146);
             this.tbLogin.Name = "tbLogin";
-            this.tbLogin.Size = new System.Drawing.Size(100, 20);
+            this.tbLogin.Size = new System.Drawing.Size(125, 20);
             this.tbLogin.TabIndex = 9;
             // 
             // tbPasswords
             // 
             this.tbPasswords.Location = new System.Drawing.Point(543, 185);
             this.tbPasswords.Name = "tbPasswords";
-            this.tbPasswords.Size = new System.Drawing.Size(100, 20);
+            this.tbPasswords.Size = new System.Drawing.Size(125, 20);
             this.tbPasswords.TabIndex = 10;
             this.tbPasswords.UseSystemPasswordChar = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(543, 130);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Логин:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(543, 169);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(48, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Пароль:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(689, 349);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.tbPasswords);
             this.Controls.Add(this.tbLogin);
             this.Controls.Add(this.btnUpdateImg);
@@ -159,7 +181,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Racer Motors";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -179,6 +201,8 @@
         private System.Windows.Forms.Button btnUpdateImg;
         private System.Windows.Forms.TextBox tbLogin;
         private System.Windows.Forms.TextBox tbPasswords;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
