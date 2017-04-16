@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using web;
@@ -19,6 +20,8 @@ namespace RacerMotors
 {
     public partial class Form1 : Form
     {
+        Thread forms;
+
         web.WebRequest webRequest = new web.WebRequest();
         nethouse nethouse = new nethouse();
         WebClient webClient = new WebClient();
@@ -162,6 +165,18 @@ namespace RacerMotors
             Properties.Settings.Default.login = tbLogin.Text;
             Properties.Settings.Default.password = tbPasswords.Text;
             Properties.Settings.Default.Save();
+            
+            //btnActualPrice.Enabled = false;
+            Thread tabl = new Thread(() => UpdateTovar());
+            forms = tabl;
+            forms.IsBackground = true;
+            forms.Start();
+            //btnActualPrice.Enabled = true;
+            //UpdateTovar();
+        }
+
+        private void UpdateTovar()
+        {
 
             CookieContainer cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
             if (cookie.Count == 1)
@@ -170,14 +185,28 @@ namespace RacerMotors
                 return;
             }
 
+            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = false));
+            btnPrice.Invoke(new Action(() => btnPrice.Enabled = false));
+            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = false));
+            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = false));
+            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = false));
+            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = false));
+            tbDescription.Invoke(new Action(() => tbDescription.Enabled = false));
+            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = false));
+            tbLogin.Invoke(new Action(() => tbLogin.Enabled = false));
+            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = false));
+            tbTitle.Invoke(new Action(() => tbTitle.Enabled = false));
+
             File.Delete("naSite.csv");
             File.Delete("allProducts.csv");
             List<string> newProduct = newList();
 
             otv = webRequest.getRequestEncod("http://racer-motors.ru/spare-parts/");
             MatchCollection modelTovar = new Regex("(?<=<li><a href=\")/spare-parts/.*?(?=\">)").Matches(otv);
+            lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = modelTovar.Count.ToString()));
             for (int i = 0; modelTovar.Count > i; i++)
             {
+                lblRazdel.Invoke(new Action(() => lblRazdel.Text = (i + 1).ToString()));
                 string objProduct = null;
                 bool shlak = false;
                 shlak = modelTovar[i].ToString().Contains("aksessuary");
@@ -220,7 +249,7 @@ namespace RacerMotors
                                 double priceTovarRacerMotors = Convert.ToDouble(priceTovarRacerMotorsInt);
                                 int priceActual = webRequest.price(priceTovarRacerMotors, discounts);
                                 string articlRacer = articlRacerMotors[m].ToString();
-                                
+
                                 DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString());
 
                                 string urlTovar = nethouse.searchTovar(nameTovarRacerMotors, nameTovarRacerMotors);
@@ -247,7 +276,7 @@ namespace RacerMotors
                                         izmen = true;
                                     }
 
-                                    if(tovar[39] != "")
+                                    if (tovar[39] != "")
                                     {
                                         tovar[39] = "";
                                         izmen = true;
@@ -386,6 +415,18 @@ namespace RacerMotors
                 nethouse.UploadCSVNethouse(cookie, "naSite.csv");
 
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
+
+            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = true));
+            btnPrice.Invoke(new Action(() => btnPrice.Enabled = true));
+            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = true));
+            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = true));
+            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = true));
+            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = true));
+            tbDescription.Invoke(new Action(() => tbDescription.Enabled = true));
+            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = true));
+            tbLogin.Invoke(new Action(() => tbLogin.Enabled = true));
+            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = true));
+            tbTitle.Invoke(new Action(() => tbTitle.Enabled = true));
         }
 
         private void btnPrice_Click(object sender, EventArgs e)
