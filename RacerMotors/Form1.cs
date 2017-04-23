@@ -223,6 +223,10 @@ namespace RacerMotors
             ExcelPackage p = new ExcelPackage(file);
             ExcelWorksheet w = p.Workbook.Worksheets[1];
             int q = w.Dimension.Rows;
+
+            lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = (q-14).ToString()));
+            lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Товар"));
+
             for (int i = 14; q > i; i++)
             {
                 if (w.Cells[i, 3].Value == null)
@@ -238,6 +242,7 @@ namespace RacerMotors
                 }
                 else
                 {
+                    lblRazdel.Invoke(new Action(() => lblRazdel.Text = (i - 14).ToString()));
                     if (razdelCSV != "Метизы")
                     {
                         string name = (string)w.Cells[i, 2].Value;
@@ -515,6 +520,7 @@ namespace RacerMotors
 
             otv = webRequest.getRequestEncod("http://racer-motors.ru/spare-parts/");
             MatchCollection modelTovar = new Regex("(?<=<li><a href=\")/spare-parts/.*?(?=\">)").Matches(otv);
+            lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Раздел"));
             lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = modelTovar.Count.ToString()));
             for (int i = 0; modelTovar.Count > i; i++)
             {

@@ -41,7 +41,7 @@
             this.tbPasswords = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblNamePosition = new System.Windows.Forms.Label();
             this.lblRazdel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lblVsegoRazdelov = new System.Windows.Forms.Label();
@@ -163,14 +163,14 @@
             this.label2.TabIndex = 12;
             this.label2.Text = "Пароль:";
             // 
-            // label3
+            // lblNamePosition
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(543, 208);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 13);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Раздел ";
+            this.lblNamePosition.AutoSize = true;
+            this.lblNamePosition.Location = new System.Drawing.Point(543, 208);
+            this.lblNamePosition.Name = "lblNamePosition";
+            this.lblNamePosition.Size = new System.Drawing.Size(47, 13);
+            this.lblNamePosition.TabIndex = 13;
+            this.lblNamePosition.Text = "Раздел ";
             // 
             // lblRazdel
             // 
@@ -207,7 +207,7 @@
             this.Controls.Add(this.lblVsegoRazdelov);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblRazdel);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblNamePosition);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbPasswords);
@@ -246,7 +246,7 @@
         private System.Windows.Forms.TextBox tbPasswords;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblNamePosition;
         private System.Windows.Forms.Label lblRazdel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblVsegoRazdelov;
