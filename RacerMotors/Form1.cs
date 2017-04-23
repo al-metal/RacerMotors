@@ -364,18 +364,15 @@ namespace RacerMotors
                             string slug = chpu.vozvr(name);
                             double actualPrice = webRequest.price(priceCSV, discounts);
 
-                            string minitext = MinitextStr();
-                            string titleText = null;
-                            string descriptionText = null;
-                            string keywordsText = null;
-                            string fullText = FulltextStr();
                             string dblProdSEO = null;
-
                             string dblProduct = "НАЗВАНИЕ также подходит для:<br />" + boldOpen + dopnomenrlatura + boldClose + " аналогичных моделей.";
+
+                            string minitext = minitextTemplate;
+                            string titleText = titleTextTemplate;
+                            string descriptionText = descriptionTextTemplate + " " + dblProdSEO;
+                            string keywordsText = keywordsTextTemplate;
+                            string fullText = fullTextTemplate;                           
                             string nameText = boldOpen + name + boldClose;
-                            titleText = tbTitle.Lines[0].ToString();
-                            descriptionText = tbDescription.Lines[0].ToString() + " " + dblProdSEO;
-                            keywordsText = tbKeywords.Lines[0].ToString();
                             string discount = Discount();
 
                             minitext = minitext.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>").Replace("<p>НОМЕРФОТО</p>", "");
