@@ -46,29 +46,34 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lblVsegoRazdelov = new System.Windows.Forms.Label();
             this.ofdLoadPrice = new System.Windows.Forms.OpenFileDialog();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.менюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // rtbMiniText
             // 
-            this.rtbMiniText.Location = new System.Drawing.Point(9, 10);
+            this.rtbMiniText.Location = new System.Drawing.Point(9, 31);
             this.rtbMiniText.Margin = new System.Windows.Forms.Padding(2);
             this.rtbMiniText.Name = "rtbMiniText";
-            this.rtbMiniText.Size = new System.Drawing.Size(523, 126);
+            this.rtbMiniText.Size = new System.Drawing.Size(523, 130);
             this.rtbMiniText.TabIndex = 0;
             this.rtbMiniText.Text = "";
             // 
             // rtbFullText
             // 
-            this.rtbFullText.Location = new System.Drawing.Point(9, 140);
+            this.rtbFullText.Location = new System.Drawing.Point(9, 161);
             this.rtbFullText.Margin = new System.Windows.Forms.Padding(2);
             this.rtbFullText.Name = "rtbFullText";
-            this.rtbFullText.Size = new System.Drawing.Size(523, 126);
+            this.rtbFullText.Size = new System.Drawing.Size(523, 130);
             this.rtbFullText.TabIndex = 1;
             this.rtbFullText.Text = "";
             // 
             // tbTitle
             // 
-            this.tbTitle.Location = new System.Drawing.Point(9, 270);
+            this.tbTitle.Location = new System.Drawing.Point(9, 291);
             this.tbTitle.Margin = new System.Windows.Forms.Padding(2);
             this.tbTitle.Name = "tbTitle";
             this.tbTitle.Size = new System.Drawing.Size(523, 20);
@@ -76,7 +81,7 @@
             // 
             // tbDescription
             // 
-            this.tbDescription.Location = new System.Drawing.Point(9, 292);
+            this.tbDescription.Location = new System.Drawing.Point(9, 313);
             this.tbDescription.Margin = new System.Windows.Forms.Padding(2);
             this.tbDescription.Name = "tbDescription";
             this.tbDescription.Size = new System.Drawing.Size(523, 20);
@@ -84,7 +89,7 @@
             // 
             // tbKeywords
             // 
-            this.tbKeywords.Location = new System.Drawing.Point(9, 315);
+            this.tbKeywords.Location = new System.Drawing.Point(9, 336);
             this.tbKeywords.Margin = new System.Windows.Forms.Padding(2);
             this.tbKeywords.Name = "tbKeywords";
             this.tbKeywords.Size = new System.Drawing.Size(523, 20);
@@ -92,10 +97,10 @@
             // 
             // btnSaveTemplate
             // 
-            this.btnSaveTemplate.Location = new System.Drawing.Point(543, 315);
+            this.btnSaveTemplate.Location = new System.Drawing.Point(543, 326);
             this.btnSaveTemplate.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveTemplate.Name = "btnSaveTemplate";
-            this.btnSaveTemplate.Size = new System.Drawing.Size(126, 29);
+            this.btnSaveTemplate.Size = new System.Drawing.Size(126, 30);
             this.btnSaveTemplate.TabIndex = 5;
             this.btnSaveTemplate.Text = "Сохранить шаблон";
             this.btnSaveTemplate.UseVisualStyleBackColor = true;
@@ -103,10 +108,10 @@
             // 
             // btnActualPrice
             // 
-            this.btnActualPrice.Location = new System.Drawing.Point(543, 10);
+            this.btnActualPrice.Location = new System.Drawing.Point(543, 30);
             this.btnActualPrice.Margin = new System.Windows.Forms.Padding(2);
             this.btnActualPrice.Name = "btnActualPrice";
-            this.btnActualPrice.Size = new System.Drawing.Size(126, 44);
+            this.btnActualPrice.Size = new System.Drawing.Size(126, 45);
             this.btnActualPrice.TabIndex = 6;
             this.btnActualPrice.Text = "Актуализировать сайт";
             this.btnActualPrice.UseVisualStyleBackColor = true;
@@ -114,9 +119,9 @@
             // 
             // btnPrice
             // 
-            this.btnPrice.Location = new System.Drawing.Point(543, 59);
+            this.btnPrice.Location = new System.Drawing.Point(543, 79);
             this.btnPrice.Name = "btnPrice";
-            this.btnPrice.Size = new System.Drawing.Size(126, 29);
+            this.btnPrice.Size = new System.Drawing.Size(126, 30);
             this.btnPrice.TabIndex = 7;
             this.btnPrice.Text = "Обработать прайс";
             this.btnPrice.UseVisualStyleBackColor = true;
@@ -124,23 +129,23 @@
             // 
             // btnUpdateImg
             // 
-            this.btnUpdateImg.Location = new System.Drawing.Point(543, 94);
+            this.btnUpdateImg.Location = new System.Drawing.Point(543, 114);
             this.btnUpdateImg.Name = "btnUpdateImg";
-            this.btnUpdateImg.Size = new System.Drawing.Size(125, 29);
+            this.btnUpdateImg.Size = new System.Drawing.Size(125, 30);
             this.btnUpdateImg.TabIndex = 8;
             this.btnUpdateImg.Text = "Обновить картинки";
             this.btnUpdateImg.UseVisualStyleBackColor = true;
             // 
             // tbLogin
             // 
-            this.tbLogin.Location = new System.Drawing.Point(543, 146);
+            this.tbLogin.Location = new System.Drawing.Point(543, 166);
             this.tbLogin.Name = "tbLogin";
             this.tbLogin.Size = new System.Drawing.Size(125, 20);
             this.tbLogin.TabIndex = 9;
             // 
             // tbPasswords
             // 
-            this.tbPasswords.Location = new System.Drawing.Point(543, 185);
+            this.tbPasswords.Location = new System.Drawing.Point(543, 205);
             this.tbPasswords.Name = "tbPasswords";
             this.tbPasswords.Size = new System.Drawing.Size(125, 20);
             this.tbPasswords.TabIndex = 10;
@@ -149,7 +154,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(543, 130);
+            this.label1.Location = new System.Drawing.Point(543, 150);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 11;
@@ -158,7 +163,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(543, 169);
+            this.label2.Location = new System.Drawing.Point(543, 189);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(48, 13);
             this.label2.TabIndex = 12;
@@ -167,7 +172,7 @@
             // lblNamePosition
             // 
             this.lblNamePosition.AutoSize = true;
-            this.lblNamePosition.Location = new System.Drawing.Point(543, 208);
+            this.lblNamePosition.Location = new System.Drawing.Point(543, 228);
             this.lblNamePosition.Name = "lblNamePosition";
             this.lblNamePosition.Size = new System.Drawing.Size(47, 13);
             this.lblNamePosition.TabIndex = 13;
@@ -176,7 +181,7 @@
             // lblRazdel
             // 
             this.lblRazdel.AutoSize = true;
-            this.lblRazdel.Location = new System.Drawing.Point(587, 208);
+            this.lblRazdel.Location = new System.Drawing.Point(587, 228);
             this.lblRazdel.Name = "lblRazdel";
             this.lblRazdel.Size = new System.Drawing.Size(13, 13);
             this.lblRazdel.TabIndex = 14;
@@ -185,7 +190,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(543, 221);
+            this.label5.Location = new System.Drawing.Point(543, 241);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(19, 13);
             this.label5.TabIndex = 15;
@@ -194,7 +199,7 @@
             // lblVsegoRazdelov
             // 
             this.lblVsegoRazdelov.AutoSize = true;
-            this.lblVsegoRazdelov.Location = new System.Drawing.Point(568, 221);
+            this.lblVsegoRazdelov.Location = new System.Drawing.Point(568, 241);
             this.lblVsegoRazdelov.Name = "lblVsegoRazdelov";
             this.lblVsegoRazdelov.Size = new System.Drawing.Size(13, 13);
             this.lblVsegoRazdelov.TabIndex = 16;
@@ -205,11 +210,44 @@
             this.ofdLoadPrice.FileName = "openFileDialog1";
             this.ofdLoadPrice.Filter = "Excel|*.xlsx";
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.менюToolStripMenuItem,
+            this.оПрограммеToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(689, 24);
+            this.menuStrip1.TabIndex = 17;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // менюToolStripMenuItem
+            // 
+            this.менюToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.выходToolStripMenuItem});
+            this.менюToolStripMenuItem.Name = "менюToolStripMenuItem";
+            this.менюToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.менюToolStripMenuItem.Text = "Меню";
+            // 
+            // выходToolStripMenuItem
+            // 
+            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
+            // 
+            // оПрограммеToolStripMenuItem
+            // 
+            this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
+            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
+            this.оПрограммеToolStripMenuItem.Text = "О программе";
+            this.оПрограммеToolStripMenuItem.Click += new System.EventHandler(this.оПрограммеToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(689, 349);
+            this.ClientSize = new System.Drawing.Size(689, 372);
             this.Controls.Add(this.lblVsegoRazdelov);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblRazdel);
@@ -227,11 +265,15 @@
             this.Controls.Add(this.tbTitle);
             this.Controls.Add(this.rtbFullText);
             this.Controls.Add(this.rtbMiniText);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Racer Motors";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -257,6 +299,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblVsegoRazdelov;
         private System.Windows.Forms.OpenFileDialog ofdLoadPrice;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem менюToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
     }
 }
 

@@ -1281,5 +1281,15 @@ namespace RacerMotors
             tbLogin.Text = Properties.Settings.Default.login;
             tbPasswords.Text = Properties.Settings.Default.password;
         }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Данная программа служит для получения товара\nс сайта www.racer-motors.ru\nа так же обработки прайса данного сайта\n\n\nПрограмма разработана: al-metal\nemail: al-metal@bk.ru", "О программе",MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
