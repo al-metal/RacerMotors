@@ -215,6 +215,110 @@ namespace RacerMotors
 
         }
 
+        private void btnUpdateImg_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.login = tbLogin.Text;
+            Properties.Settings.Default.password = tbPasswords.Text;
+            Properties.Settings.Default.Save();
+
+            Thread tabl = new Thread(() => UpdateImages());
+            forms = tabl;
+            forms.IsBackground = true;
+            forms.Start();
+
+        }
+        #endregion
+
+        private void UpdateImages()
+        {
+            CookieContainer cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
+            if (cookie.Count == 1)
+            {
+                MessageBox.Show("Логин или пароль для сайта введены не верно", "Ошибка логина/пароля");
+                return;
+            }
+
+            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = false));
+            btnPrice.Invoke(new Action(() => btnPrice.Enabled = false));
+            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = false));
+            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = false));
+            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = false));
+            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = false));
+            tbDescription.Invoke(new Action(() => tbDescription.Enabled = false));
+            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = false));
+            tbLogin.Invoke(new Action(() => tbLogin.Enabled = false));
+            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = false));
+            tbTitle.Invoke(new Action(() => tbTitle.Enabled = false));
+
+            int countUpdateImage = 0;
+            otv = webRequest.getRequest("http://bike18.ru/products/category/1185370");
+            MatchCollection razdel = new Regex("(?<=</div></a><div class=\"category-capt-txt -text-center\"><a href=\").*?(?=\" class=\"blue\">)").Matches(otv);
+
+            lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Раздел"));
+            lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = razdel.Count.ToString()));
+            for (int i = 0; razdel.Count > i; i++)
+            {
+                lblRazdel.Invoke(new Action(() => lblRazdel.Text = (i + 1).ToString()));
+                otv = webRequest.getRequest("http://bike18.ru" + razdel[i].ToString() + "/page/all");
+                MatchCollection tovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*(?=\" >)").Matches(otv);
+                for (int n = 0; tovar.Count > n; n++)
+                {
+                    bool b = false;
+                    string articl = null;
+                    string images = null;
+                    string alsoby = null;
+                    string productGroupe = null;
+
+                    List<string> listProd = nethouse.GetProductList(cookie, tovar[n].ToString());
+                    articl = listProd[6];
+                    images = listProd[32];
+                    alsoby = listProd[42];
+                    productGroupe = listProd[3];
+
+                    if (images == "")
+                    {
+                        if (File.Exists("Pic\\" + articl + ".jpg"))
+                        {
+                            nethouse.UploadImage(cookie, tovar[n].ToString());
+                            b = true;
+                            countUpdateImage++;
+                        }
+                    }
+
+                    if (alsoby == "&alsoBuy[0]=0")
+                    {
+                        listProd[42] = nethouse.alsoBuyTovars(listProd);
+                        b = true;
+                        countUpdateImage++;
+                    }
+
+                    if (productGroupe != "10833347")
+                    {
+                        listProd[3] = "10833347";
+                        b = true;
+                        countUpdateImage++;
+                    }
+
+                    if (b)
+                        nethouse.SaveTovar(cookie, listProd);
+                }
+            }
+
+            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = false));
+            btnPrice.Invoke(new Action(() => btnPrice.Enabled = false));
+            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = false));
+            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = false));
+            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = false));
+            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = false));
+            tbDescription.Invoke(new Action(() => tbDescription.Enabled = false));
+            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = false));
+            tbLogin.Invoke(new Action(() => tbLogin.Enabled = false));
+            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = false));
+            tbTitle.Invoke(new Action(() => tbTitle.Enabled = false));
+
+            MessageBox.Show("Было изменено: " + countUpdateImage + " товаров");
+        }
+
         private void UpdateTovarXLSX()
         {
             CookieContainer cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
@@ -468,62 +572,6 @@ namespace RacerMotors
             tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = true));
             tbTitle.Invoke(new Action(() => tbTitle.Enabled = true));
         }
-
-        private void btnUpdateImg_Click(object sender, EventArgs e)
-        {
-            int countUpdateImage = 0;
-            CookieContainer cookie = webRequest.webCookieBike18();
-            otv = webRequest.getRequest("http://bike18.ru/products/category/1185370");
-            MatchCollection razdel = new Regex("(?<=</div></a><div class=\"category-capt-txt -text-center\"><a href=\").*?(?=\" class=\"blue\">)").Matches(otv);
-            for (int i = 0; razdel.Count > i; i++)
-            {
-                otv = webRequest.getRequest("http://bike18.ru" + razdel[i].ToString() + "/page/all");
-                MatchCollection tovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*(?=\" >)").Matches(otv);
-                for (int n = 0; tovar.Count > n; n++)
-                {
-                    bool b = false;
-                    string articl = null;
-                    string images = null;
-                    string alsoby = null;
-                    string productGroupe = null;
-
-                    List<string> listProd = nethouse.GetProductList(cookie, tovar[n].ToString());
-                    articl = listProd[6];
-                    images = listProd[32];
-                    alsoby = listProd[42];
-                    productGroupe = listProd[3];
-
-                    if (images == "")
-                    {
-                        if (File.Exists("Pic\\" + articl + ".jpg"))
-                        {
-                            nethouse.UploadImage(cookie, tovar[n].ToString());
-                            b = true;
-                            countUpdateImage++;
-                        }
-                    }
-
-                    if (alsoby == "&alsoBuy[0]=0")
-                    {
-                        listProd[42] = nethouse.alsoBuyTovars(listProd);
-                        b = true;
-                        countUpdateImage++;
-                    }
-
-                    if (productGroupe != "10833347")
-                    {
-                        listProd[3] = "10833347";
-                        b = true;
-                        countUpdateImage++;
-                    }
-
-                    if (b)
-                        nethouse.SaveTovar(cookie, listProd);
-                }
-            }
-            MessageBox.Show("Было изменено: " + countUpdateImage + " товаров");
-        }
-        #endregion
 
         private void UpdateTovar()
         {

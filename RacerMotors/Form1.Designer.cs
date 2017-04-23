@@ -135,6 +135,7 @@
             this.btnUpdateImg.TabIndex = 8;
             this.btnUpdateImg.Text = "Обновить картинки";
             this.btnUpdateImg.UseVisualStyleBackColor = true;
+            this.btnUpdateImg.Click += new System.EventHandler(this.btnUpdateImg_Click);
             // 
             // tbLogin
             // 
