@@ -238,17 +238,7 @@ namespace RacerMotors
                 return;
             }
 
-            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = false));
-            btnPrice.Invoke(new Action(() => btnPrice.Enabled = false));
-            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = false));
-            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = false));
-            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = false));
-            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = false));
-            tbDescription.Invoke(new Action(() => tbDescription.Enabled = false));
-            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = false));
-            tbLogin.Invoke(new Action(() => tbLogin.Enabled = false));
-            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = false));
-            tbTitle.Invoke(new Action(() => tbTitle.Enabled = false));
+            ControlsFormEnabledFalse();
 
             int countUpdateImage = 0;
             otv = webRequest.getRequest("http://bike18.ru/products/category/1185370");
@@ -304,6 +294,28 @@ namespace RacerMotors
                 }
             }
 
+            ControlsFormEnabledTrue();
+
+            MessageBox.Show("Было изменено: " + countUpdateImage + " товаров");
+        }
+
+        private void ControlsFormEnabledTrue()
+        {
+            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = true));
+            btnPrice.Invoke(new Action(() => btnPrice.Enabled = true));
+            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = true));
+            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = true));
+            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = true));
+            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = true));
+            tbDescription.Invoke(new Action(() => tbDescription.Enabled = true));
+            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = true));
+            tbLogin.Invoke(new Action(() => tbLogin.Enabled = true));
+            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = true));
+            tbTitle.Invoke(new Action(() => tbTitle.Enabled = true));
+        }
+
+        private void ControlsFormEnabledFalse()
+        {
             btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = false));
             btnPrice.Invoke(new Action(() => btnPrice.Enabled = false));
             btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = false));
@@ -315,8 +327,6 @@ namespace RacerMotors
             tbLogin.Invoke(new Action(() => tbLogin.Enabled = false));
             tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = false));
             tbTitle.Invoke(new Action(() => tbTitle.Enabled = false));
-
-            MessageBox.Show("Было изменено: " + countUpdateImage + " товаров");
         }
 
         private void UpdateTovarXLSX()
@@ -328,17 +338,7 @@ namespace RacerMotors
                 return;
             }
 
-            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = false));
-            btnPrice.Invoke(new Action(() => btnPrice.Enabled = false));
-            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = false));
-            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = false));
-            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = false));
-            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = false));
-            tbDescription.Invoke(new Action(() => tbDescription.Enabled = false));
-            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = false));
-            tbLogin.Invoke(new Action(() => tbLogin.Enabled = false));
-            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = false));
-            tbTitle.Invoke(new Action(() => tbTitle.Enabled = false));
+            ControlsFormEnabledFalse();
 
             int countEditPrice = 0;
             int countAddCSV = 0;
@@ -560,17 +560,7 @@ namespace RacerMotors
 
             MessageBox.Show("Обновлено цен: " + countEditPrice + "\nДобавлено позиций: " + countAddCSV);
 
-            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = true));
-            btnPrice.Invoke(new Action(() => btnPrice.Enabled = true));
-            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = true));
-            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = true));
-            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = true));
-            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = true));
-            tbDescription.Invoke(new Action(() => tbDescription.Enabled = true));
-            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = true));
-            tbLogin.Invoke(new Action(() => tbLogin.Enabled = true));
-            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = true));
-            tbTitle.Invoke(new Action(() => tbTitle.Enabled = true));
+            ControlsFormEnabledTrue();
         }
 
         private void UpdateTovar()
@@ -583,17 +573,7 @@ namespace RacerMotors
                 return;
             }
 
-            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = false));
-            btnPrice.Invoke(new Action(() => btnPrice.Enabled = false));
-            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = false));
-            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = false));
-            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = false));
-            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = false));
-            tbDescription.Invoke(new Action(() => tbDescription.Enabled = false));
-            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = false));
-            tbLogin.Invoke(new Action(() => tbLogin.Enabled = false));
-            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = false));
-            tbTitle.Invoke(new Action(() => tbTitle.Enabled = false));
+            ControlsFormEnabledFalse();
 
             File.Delete("naSite.csv");
             File.Delete("allProducts.csv");
@@ -810,17 +790,7 @@ namespace RacerMotors
 
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
 
-            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = true));
-            btnPrice.Invoke(new Action(() => btnPrice.Enabled = true));
-            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = true));
-            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = true));
-            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = true));
-            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = true));
-            tbDescription.Invoke(new Action(() => tbDescription.Enabled = true));
-            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = true));
-            tbLogin.Invoke(new Action(() => tbLogin.Enabled = true));
-            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = true));
-            tbTitle.Invoke(new Action(() => tbTitle.Enabled = true));
+            ControlsFormEnabledTrue();
         }
 
         private int ReturnCountAdd()
