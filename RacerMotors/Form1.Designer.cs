@@ -45,6 +45,7 @@
             this.lblRazdel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lblVsegoRazdelov = new System.Windows.Forms.Label();
+            this.ofdLoadPrice = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // rtbMiniText
@@ -199,6 +200,11 @@
             this.lblVsegoRazdelov.TabIndex = 16;
             this.lblVsegoRazdelov.Text = "0";
             // 
+            // ofdLoadPrice
+            // 
+            this.ofdLoadPrice.FileName = "openFileDialog1";
+            this.ofdLoadPrice.Filter = "Excel|*.xlsx";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -250,6 +256,7 @@
         private System.Windows.Forms.Label lblRazdel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblVsegoRazdelov;
+        private System.Windows.Forms.OpenFileDialog ofdLoadPrice;
     }
 }
 

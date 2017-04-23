@@ -41,6 +41,7 @@ namespace RacerMotors
         string keywordsTextTemplate;
         string titleTextTemplate;
         string descriptionTextTemplate;
+        string fileUrls;
 
         FileEdit files = new FileEdit();
 
@@ -190,6 +191,17 @@ namespace RacerMotors
             Properties.Settings.Default.password = tbPasswords.Text;
             Properties.Settings.Default.Save();
 
+            fileUrls = "";
+            ofdLoadPrice.ShowDialog();
+            
+            fileUrls = ofdLoadPrice.FileName.ToString();
+
+            if (ofdLoadPrice.FileName == "openFileDialog1" || ofdLoadPrice.FileName == "")
+            {
+                MessageBox.Show("Ошибка при выборе файла", "Ошибка файла");
+                return;
+            }
+
             minitextTemplate = MinitextStr();
             fullTextTemplate = FulltextStr();
             keywordsTextTemplate = tbKeywords.Lines[0].ToString();
@@ -212,6 +224,18 @@ namespace RacerMotors
                 return;
             }
 
+            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = false));
+            btnPrice.Invoke(new Action(() => btnPrice.Enabled = false));
+            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = false));
+            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = false));
+            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = false));
+            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = false));
+            tbDescription.Invoke(new Action(() => tbDescription.Enabled = false));
+            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = false));
+            tbLogin.Invoke(new Action(() => tbLogin.Enabled = false));
+            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = false));
+            tbTitle.Invoke(new Action(() => tbTitle.Enabled = false));
+
             int countEditPrice = 0;
             int countAddCSV = 0;
             File.Delete("naSite.csv");
@@ -219,7 +243,7 @@ namespace RacerMotors
             bool b = false;
             string razdelCSV = null;
 
-            FileInfo file = new FileInfo("Запчасти.xlsx");
+            FileInfo file = new FileInfo(fileUrls);
             ExcelPackage p = new ExcelPackage(file);
             ExcelWorksheet w = p.Workbook.Worksheets[1];
             int q = w.Dimension.Rows;
@@ -431,6 +455,18 @@ namespace RacerMotors
                 nethouse.UploadCSVNethouse(cookie, "naSite.csv");
 
             MessageBox.Show("Обновлено цен: " + countEditPrice + "\nДобавлено позиций: " + countAddCSV);
+
+            btnActualPrice.Invoke(new Action(() => btnActualPrice.Enabled = true));
+            btnPrice.Invoke(new Action(() => btnPrice.Enabled = true));
+            btnSaveTemplate.Invoke(new Action(() => btnSaveTemplate.Enabled = true));
+            btnUpdateImg.Invoke(new Action(() => btnUpdateImg.Enabled = true));
+            rtbFullText.Invoke(new Action(() => rtbFullText.Enabled = true));
+            rtbMiniText.Invoke(new Action(() => rtbMiniText.Enabled = true));
+            tbDescription.Invoke(new Action(() => tbDescription.Enabled = true));
+            tbKeywords.Invoke(new Action(() => tbKeywords.Enabled = true));
+            tbLogin.Invoke(new Action(() => tbLogin.Enabled = true));
+            tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = true));
+            tbTitle.Invoke(new Action(() => tbTitle.Enabled = true));
         }
 
         private void btnUpdateImg_Click(object sender, EventArgs e)
