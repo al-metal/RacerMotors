@@ -359,7 +359,7 @@ namespace RacerMotors
             {
                 if (w.Cells[i, 3].Value == null)
                 {
-                    razdelCSV = (string)w.Cells[i, 2].Value;
+                    razdelCSV = (string)w.Cells[i, 4].Value;
                     razdelCSV = razdelCSV.Trim();
                     if (razdelCSV != "Метизы" & razdelCSV != "Универсальные запчасти")
                         razdelCSV = returnRazdel(razdelCSV);
@@ -375,7 +375,7 @@ namespace RacerMotors
                     {
                         string name = (string)w.Cells[i, 2].Value;
                         name = name.Trim();
-                        string articl = (string)w.Cells[i, 3].Value;
+                        string articl = (string)w.Cells[i, 3].Value.ToString();
                         string nomenclatura = "";
                         try
                         {
@@ -385,7 +385,7 @@ namespace RacerMotors
                         {
                             nomenclatura = "";
                         }
-                        double priceCSV = (double)w.Cells[i, 13].Value;
+                        double priceCSV = (double)w.Cells[i, 10].Value;
                         string dopnomenrlatura = (string)w.Cells[i, 4].Value;
                         if (dopnomenrlatura != null)
                             dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
