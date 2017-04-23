@@ -224,7 +224,7 @@ namespace RacerMotors
             ExcelWorksheet w = p.Workbook.Worksheets[1];
             int q = w.Dimension.Rows;
 
-            lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = (q-14).ToString()));
+            lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = (q - 14).ToString()));
             lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Товар"));
 
             for (int i = 14; q > i; i++)
@@ -371,7 +371,7 @@ namespace RacerMotors
                             string titleText = titleTextTemplate;
                             string descriptionText = descriptionTextTemplate + " " + dblProdSEO;
                             string keywordsText = keywordsTextTemplate;
-                            string fullText = fullTextTemplate;                           
+                            string fullText = fullTextTemplate;
                             string nameText = boldOpen + name + boldClose;
                             string discount = Discount();
 
@@ -629,7 +629,7 @@ namespace RacerMotors
                                         string titleText = titleTextTemplate;
                                         string descriptionText = descriptionTextTemplate + " " + dblProdSEO;
                                         string keywordsText = keywordsTextTemplate;
-                                        string fullText = fullTextTemplate;                                        
+                                        string fullText = fullTextTemplate;
                                         string article = articlRacerMotors[m].ToString();
 
                                         string strCodePage = boldOpen + "Номер " + codePicture[m].ToString() + " на схеме/фото" + boldClose;
