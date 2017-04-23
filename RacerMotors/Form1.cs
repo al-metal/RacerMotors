@@ -190,7 +190,28 @@ namespace RacerMotors
             Properties.Settings.Default.password = tbPasswords.Text;
             Properties.Settings.Default.Save();
 
+            minitextTemplate = MinitextStr();
+            fullTextTemplate = FulltextStr();
+            keywordsTextTemplate = tbKeywords.Lines[0].ToString();
+            titleTextTemplate = tbTitle.Lines[0].ToString();
+            descriptionTextTemplate = tbDescription.Lines[0].ToString();
+
+            Thread tabl = new Thread(() => UpdateTovarXLSX());
+            forms = tabl;
+            forms.IsBackground = true;
+            forms.Start();
+
+        }
+
+        private void UpdateTovarXLSX()
+        {
             CookieContainer cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
+            if (cookie.Count == 1)
+            {
+                MessageBox.Show("Логин или пароль для сайта введены не верно", "Ошибка логина/пароля");
+                return;
+            }
+
             int countEditPrice = 0;
             int countAddCSV = 0;
             File.Delete("naSite.csv");
