@@ -373,20 +373,20 @@ namespace RacerMotors
                     lblRazdel.Invoke(new Action(() => lblRazdel.Text = (i - 14).ToString()));
                     if (razdelCSV != "Метизы")
                     {
-                        string name = (string)w.Cells[i, 2].Value;
+                        string name = (string)w.Cells[i, 4].Value;
                         name = name.Trim();
-                        string articl = (string)w.Cells[i, 3].Value.ToString();
+                        string articl = (string)w.Cells[i, 2].Value.ToString();
                         string nomenclatura = "";
                         try
                         {
-                            nomenclatura = (string)w.Cells[i, 5].Value;
+                            nomenclatura = (string)w.Cells[i, 3].Value;
                         }
                         catch
                         {
                             nomenclatura = "";
                         }
                         double priceCSV = (double)w.Cells[i, 10].Value;
-                        string dopnomenrlatura = (string)w.Cells[i, 4].Value;
+                        string dopnomenrlatura = (string)w.Cells[i, 5].Value;
                         if (dopnomenrlatura != null)
                             dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
 
