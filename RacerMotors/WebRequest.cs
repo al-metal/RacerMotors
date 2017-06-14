@@ -127,10 +127,19 @@ namespace web
 
         internal int price(double priceTovarRacerMotors, double discount)
         {
-            priceTovarRacerMotors = priceTovarRacerMotors - (priceTovarRacerMotors * discount);
-            priceTovarRacerMotors = Math.Round(priceTovarRacerMotors);
-            int price = Convert.ToInt32(priceTovarRacerMotors);
-            price = (price / 10) * 10;
+            int price = 0;
+            if (priceTovarRacerMotors > 500)
+            {
+                priceTovarRacerMotors = priceTovarRacerMotors - (priceTovarRacerMotors * discount);
+                priceTovarRacerMotors = Math.Round(priceTovarRacerMotors);
+                price = Convert.ToInt32(priceTovarRacerMotors);
+                price = (price / 10) * 10;
+            }
+            else
+            {
+                price = Convert.ToInt32(priceTovarRacerMotors);
+            }
+            
             return price;
         }
 
