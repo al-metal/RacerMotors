@@ -175,6 +175,11 @@ namespace RacerMotors
 
             minitextTemplate = MinitextStr();
             fullTextTemplate = FulltextStr();
+            if(tbKeywords.Lines.Length == 0 || tbTitle.Lines.Length == 0 || tbDescription.Lines.Length == 0 || minitextTemplate == "" || fullTextTemplate == "")
+            {
+                MessageBox.Show("Не заполнен шаблон для формирования товара");
+                return;
+            }
             keywordsTextTemplate = tbKeywords.Lines[0].ToString();
             titleTextTemplate = tbTitle.Lines[0].ToString();
             descriptionTextTemplate = tbDescription.Lines[0].ToString();
@@ -204,6 +209,11 @@ namespace RacerMotors
 
             minitextTemplate = MinitextStr();
             fullTextTemplate = FulltextStr();
+            if (tbKeywords.Lines.Length == 0 || tbTitle.Lines.Length == 0 || tbDescription.Lines.Length == 0 || minitextTemplate == "" || fullTextTemplate == "")
+            {
+                MessageBox.Show("Не заполнен шаблон для формирования товара");
+                return;
+            }
             keywordsTextTemplate = tbKeywords.Lines[0].ToString();
             titleTextTemplate = tbTitle.Lines[0].ToString();
             descriptionTextTemplate = tbDescription.Lines[0].ToString();
