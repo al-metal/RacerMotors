@@ -661,13 +661,13 @@ namespace RacerMotors
                             string preciTovarBike = tovar[9].ToString();
                             bool izmen = false;
 
-                            if (nameTovarRacerMotors == nameTovarBike & priceActual.ToString() != preciTovarBike & priceRacerMotors[m].ToString() != "0")
+                            if (nameTovarRacerMotors == nameTovarBike & priceActual.ToString() != preciTovarBike)
                             {
                                 tovar[9] = priceActual.ToString();
                                 izmen = true;
                             }
 
-                            if (priceRacerMotors[m].ToString() != "0")
+                            if (tovar[43] != "100")
                             {
                                 tovar[43] = "100";
                                 izmen = true;
