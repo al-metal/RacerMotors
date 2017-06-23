@@ -826,7 +826,7 @@ namespace RacerMotors
                 string nameRazdel = nameRazdelRacer[i].ToString();
                 if (nameRazdel == razdel)
                 {
-                    string allTovarsInRazdel = httprequest.getRequest("https://bike18.ru/" + razdelRacer[i].ToString() + "?page=all");
+                    string allTovarsInRazdel = httprequest.getRequest("https://bike18.ru" + razdelRacer[i].ToString() + "?page=all");
                     MatchCollection tovars = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*(?=\" >)").Matches(allTovarsInRazdel);
                     MatchCollection nameTovars = new Regex("(?<=\" >).*?(?=</a>)").Matches(allTovarsInRazdel);
                     for (int n = 0; nameTovars.Count > n; n++)
