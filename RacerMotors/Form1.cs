@@ -656,6 +656,7 @@ namespace RacerMotors
                         if (urlTovar != null)
                         {
                             #region Обновление данных товара
+
                             List<string> tovar = nethouse.GetProductList(cookie, urlTovar);
                             string nameTovarBike = tovar[4].ToString();
                             string preciTovarBike = tovar[9].ToString();

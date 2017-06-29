@@ -45,7 +45,7 @@ namespace Bike18
             {
                 string productId = new Regex("(?<=<section class=\"comment\" id=\").*?(?=\">)").Match(otv).ToString();
                 string article = new Regex("(?<=Артикул:)[\\w\\W]*?(?=</div>)").Match(otv).Value.Trim();
-                if (article.Length > 15)
+                if (article.Length > 25)
                 {
                     article = new Regex("(?<=Артикул:)[\\w\\W]*(?=</title>)").Match(otv).ToString().Trim();
                 }
@@ -472,7 +472,7 @@ namespace Bike18
                 string check = "{\"success\":true,\"imports\":{\"state\":1,\"errorCode\":0,\"errorLine\":0}}";
                 do
                 {
-                    System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(3000);
                     otvimg = ChekedLoading(cookie);
                 }
                 while (otvimg == check);
