@@ -259,10 +259,10 @@ namespace RacerMotors
 
             lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Раздел"));
             lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = razdel.Count.ToString()));
-            for (int i = 0; razdel.Count > i; i++)
+            for (int i = 10; razdel.Count > i; i++)
             {
                 lblRazdel.Invoke(new Action(() => lblRazdel.Text = (i + 1).ToString()));
-                otv = webRequest.getRequest("http://bike18.ru" + razdel[i].ToString() + "/page/all");
+                otv = webRequest.getRequest("http://bike18.ru" + razdel[i].ToString() + "?page=all");
                 MatchCollection tovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*(?=\" >)").Matches(otv);
                 for (int n = 0; tovar.Count > n; n++)
                 {
@@ -278,6 +278,9 @@ namespace RacerMotors
                     alsoby = listProd[42];
                     productGroupe = listProd[3];
 
+                    if (listProd[9] == "")
+                        listProd[9] = "0";
+
                     if (images == "")
                     {
                         if (File.Exists("Pic\\" + articl + ".jpg"))
@@ -288,7 +291,7 @@ namespace RacerMotors
                         }
                     }
 
-                    if (alsoby == "&alsoBuy[0]=0")
+                    if (alsoby.Contains("&alsoBuy[0]=0"))
                     {
                         listProd[42] = nethouse.alsoBuyTovars(listProd);
                         b = true;
