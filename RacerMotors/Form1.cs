@@ -259,7 +259,7 @@ namespace RacerMotors
 
             lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Раздел"));
             lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = razdel.Count.ToString()));
-            for (int i = 10; razdel.Count > i; i++)
+            for (int i = 0; razdel.Count > i; i++)
             {
                 lblRazdel.Invoke(new Action(() => lblRazdel.Text = (i + 1).ToString()));
                 otv = webRequest.getRequest("http://bike18.ru" + razdel[i].ToString() + "?page=all");
