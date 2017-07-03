@@ -37,6 +37,7 @@ namespace RacerMotors
         int countUpdate = 0;
         int countDelete = 0;
         bool chekedReplaceMiniText;
+        bool chekedReplaceImagesProduct;
 
         string minitextTemplate;
         string fullTextTemplate;
@@ -237,6 +238,8 @@ namespace RacerMotors
             Properties.Settings.Default.password = tbPasswords.Text;
             Properties.Settings.Default.Save();
 
+            chekedReplaceImagesProduct = cbReplaceImagesProduct.Checked;
+
             Thread tabl = new Thread(() => UpdateImages());
             forms = tabl;
             forms.IsBackground = true;
@@ -266,6 +269,7 @@ namespace RacerMotors
             {
                 lblRazdel.Invoke(new Action(() => lblRazdel.Text = (i + 1).ToString()));
                 otv = webRequest.getRequest("http://bike18.ru" + razdel[i].ToString() + "?page=all");
+                string razdelName = new Regex("(?<=<h1 class=\"category-name\">).*(?=</h1>)").Match(otv).ToString();
                 MatchCollection tovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*(?=\" >)").Matches(otv);
                 for (int n = 0; tovar.Count > n; n++)
                 {
@@ -284,11 +288,11 @@ namespace RacerMotors
                     if (listProd[9] == "")
                         listProd[9] = "0";
 
-                    if (images == "")
+                    if (images == "" || chekedReplaceImagesProduct)
                     {
-                        if (File.Exists("Pic\\" + articl + ".jpg"))
+                        if (File.Exists("Pic\\" + articl + "_" + razdelName + ".jpg"))
                         {
-                            nethouse.UploadImage(cookie, tovar[n].ToString());
+                            nethouse.UploadImage(cookie, tovar[n].ToString(), razdelName);
                             b = true;
                             countUpdateImage++;
                         }
@@ -654,8 +658,9 @@ namespace RacerMotors
                         double priceTovarRacerMotors = Convert.ToDouble(priceTovarRacerMotorsInt);
                         int priceActual = webRequest.price(priceTovarRacerMotors, discounts);
                         string articlRacer = articlRacerMotors[m].ToString();
+                        string razdel = Razdel(objProduct, section1);
 
-                        DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString());
+                        DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString(), razdel);
 
                         string urlTovar = SearchTovar(section1, objProduct, nameTovarRacerMotors);//nethouse.searchTovar(nameTovarRacerMotors, articlRacer);
 
@@ -716,7 +721,6 @@ namespace RacerMotors
                             string dblProdSEO = null;
                             string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
                             string slug = chpu.vozvr(nameTovarRacerMotors);
-                            string razdel = Razdel(objProduct, section1);
                             string minitext = minitextTemplate;
                             string titleText = titleTextTemplate;
                             string descriptionText = descriptionTextTemplate + " " + dblProdSEO;
@@ -873,13 +877,14 @@ namespace RacerMotors
             return addCount;
         }
 
-        private void DownloadImages(string urlImg, object article)
+        private void DownloadImages(string urlImg, object article, string razdel)
         {
-            if (!File.Exists("Pic\\" + article + ".jpg"))
+            razdel = new Regex("(?<=Каталог запчастей RACER => ).*").Match(razdel).ToString();
+            if (!File.Exists("Pic\\" + article + "_" + razdel + ".jpg"))
             {
                 try
                 {
-                    webClient.DownloadFile(urlImg, "Pic\\" + article + ".jpg");
+                    webClient.DownloadFile(urlImg, "Pic\\" + article + "_" + razdel + ".jpg");
                 }
                 catch
                 {

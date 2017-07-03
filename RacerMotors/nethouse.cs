@@ -417,7 +417,7 @@ namespace Bike18
         }
 
         #region Загрузка картинки товара на сайта Bike18.ru
-        public void UploadImage(CookieContainer cookieBike18, string urlProduct)
+        public void UploadImage(CookieContainer cookieBike18, string urlProduct, string razdel)
         {
             string otv = null;
             urlProduct = urlProduct.Replace("http://bike18.ru", "http://bike18.nethouse.ru");
@@ -438,7 +438,7 @@ namespace Bike18
             MatchCollection prId = new Regex("(?<=data-id=\").*?(?=\")").Matches(otv);
             string productId = prId[0].ToString();
 
-            List<double> widthHeigth = GetParamsImg(article);
+            List<double> widthHeigth = GetParamsImg(article, razdel);
 
             if (widthHeigth == null)
                 return;
@@ -454,8 +454,8 @@ namespace Bike18
             req.ContentType = "multipart/form-data; boundary=----WebKitFormBoundaryDxXeyjY3R0nRHgrP";
             req.CookieContainer = cookieBike18;
             req.Headers.Add("X-Requested-With", "XMLHttpRequest");
-            byte[] pic = File.ReadAllBytes("Pic\\" + article + ".jpg");
-            byte[] end = Encoding.ASCII.GetBytes("\r\n------WebKitFormBoundaryDxXeyjY3R0nRHgrP\r\nContent-Disposition: form-data; name=\"_file\"\r\n\r\n" + article + ".jpg\r\n------WebKitFormBoundaryDxXeyjY3R0nRHgrP--\r\n");
+            byte[] pic = File.ReadAllBytes("Pic\\" + article + "_" + razdel + ".jpg");
+            byte[] end = Encoding.ASCII.GetBytes("\r\n------WebKitFormBoundaryDxXeyjY3R0nRHgrP\r\nContent-Disposition: form-data; name=\"_file\"\r\n\r\n" + article + "_" + razdel + ".jpg\r\n------WebKitFormBoundaryDxXeyjY3R0nRHgrP--\r\n");
             byte[] ms1 = Encoding.ASCII.GetBytes("------WebKitFormBoundaryDxXeyjY3R0nRHgrP\r\nContent-Disposition: form-data; name=\"file\"; filename=\"4680329013422.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n");
             req.ContentLength = ms1.Length + pic.Length + end.Length;
             Stream stre1 = req.GetRequestStream();
@@ -487,13 +487,13 @@ namespace Bike18
             string otvSave = ressrSave.ReadToEnd();
         }
 
-        private List<double> GetParamsImg(string article)
+        private List<double> GetParamsImg(string article, string razdel)
         {
             List<double> widthHeigth = new List<double>();
             Image newImg;
             try
             {
-                newImg = Image.FromFile("Pic\\" + article + ".jpg");
+                newImg = Image.FromFile("Pic\\" + article + "_" + razdel + ".jpg");
             }
             catch
             {

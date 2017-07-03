@@ -51,6 +51,7 @@
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbChekedReplaceMiniText = new System.Windows.Forms.CheckBox();
+            this.cbReplaceImagesProduct = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -255,11 +256,22 @@
             this.cbChekedReplaceMiniText.Text = "Замена краткого описания";
             this.cbChekedReplaceMiniText.UseVisualStyleBackColor = true;
             // 
+            // cbReplaceImagesProduct
+            // 
+            this.cbReplaceImagesProduct.AutoSize = true;
+            this.cbReplaceImagesProduct.Location = new System.Drawing.Point(674, 58);
+            this.cbReplaceImagesProduct.Name = "cbReplaceImagesProduct";
+            this.cbReplaceImagesProduct.Size = new System.Drawing.Size(174, 17);
+            this.cbReplaceImagesProduct.TabIndex = 19;
+            this.cbReplaceImagesProduct.Text = "Замена изображений товара";
+            this.cbReplaceImagesProduct.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 372);
+            this.Controls.Add(this.cbReplaceImagesProduct);
             this.Controls.Add(this.cbChekedReplaceMiniText);
             this.Controls.Add(this.lblVsegoRazdelov);
             this.Controls.Add(this.label5);
@@ -317,6 +329,7 @@
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
         private System.Windows.Forms.CheckBox cbChekedReplaceMiniText;
+        private System.Windows.Forms.CheckBox cbReplaceImagesProduct;
     }
 }
 
