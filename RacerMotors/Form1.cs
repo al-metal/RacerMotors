@@ -37,6 +37,7 @@ namespace RacerMotors
         int countUpdate = 0;
         int countDelete = 0;
         bool chekedReplaceMiniText;
+        bool chekedReplaceFullText;
         bool chekedReplaceImagesProduct;
 
         string minitextTemplate;
@@ -190,6 +191,7 @@ namespace RacerMotors
             titleTextTemplate = tbTitle.Lines[0].ToString();
             descriptionTextTemplate = tbDescription.Lines[0].ToString();
             chekedReplaceMiniText = cbChekedReplaceMiniText.Checked;
+            chekedReplaceFullText = cbChekedReplaceFullText.Checked;
 
             Thread tabl = new Thread(() => UpdateTovar());
             forms = tabl;
@@ -608,8 +610,8 @@ namespace RacerMotors
             lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = modelTovar.Count.ToString()));
 
             string otvRazdel = httprequest.getRequest("https://bike18.ru/products/category/katalog-zapchastey-racer");
-            razdelRacer = new Regex("(?<=</div></a><div class=\"category-capt-txt -text-center\"><a href=\").*?(?=\" class=\"blue\">)").Matches(otvRazdel);
-            nameRazdelRacer = new Regex("(?<=class=\"blue\">).*?(?=</a>)").Matches(otvRazdel);
+            razdelRacer = new Regex("(?<=class=\"category-item__link\"><a href=\").*?(?=\">)").Matches(otvRazdel);
+            nameRazdelRacer = new Regex("(?<=class=\"category-item__link\"><a href=\").*?</a></div>").Matches(otvRazdel);
 
             for (int i = 0; modelTovar.Count > i; i++)
             {
@@ -671,20 +673,31 @@ namespace RacerMotors
                             List<string> tovar = nethouse.GetProductList(cookie, urlTovar);
                             string nameTovarBike = tovar[4].ToString();
                             string preciTovarBike = tovar[9].ToString();
+
+                            string strCodePage = boldOpenSite + "Номер " + codePicture[m].ToString() + " на схеме/фото" + boldClose;
+                            string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
+                            string article = articlRacerMotors[m].ToString();
+
                             bool izmen = false;
 
                             if (chekedReplaceMiniText)
                             {
                                 string minitext = minitextTemplate;
-                                string strCodePage = boldOpenSite + "Номер " + codePicture[m].ToString() + " на схеме/фото" + boldClose;
-                                string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
-                                string article = articlRacerMotors[m].ToString();
                                 minitext = Replace(minitext, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "site");
                                 minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
 
                                 tovar[7] = minitext;
                                 izmen = true;
+                            }
 
+                            if (chekedReplaceFullText)
+                            {
+                                string fullText = fullTextTemplate;
+                                fullText = Replace(fullText, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "");
+                                fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
+
+                                tovar[8] = fullText;
+                                izmen = true;
                             }
 
                             if (nameTovarRacerMotors == nameTovarBike & priceActual.ToString() != preciTovarBike)
@@ -849,17 +862,19 @@ namespace RacerMotors
             for (int i = 0; nameRazdelRacer.Count > i; i++)
             {
                 string nameRazdel = nameRazdelRacer[i].ToString();
+                nameRazdel = new Regex("(?<=\">).*?(?=</a>)").Match(nameRazdel).ToString();
                 if (nameRazdel == razdel)
                 {
                     string allTovarsInRazdel = httprequest.getRequest("https://bike18.ru" + razdelRacer[i].ToString() + "?page=all");
-                    MatchCollection tovars = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*(?=\" >)").Matches(allTovarsInRazdel);
-                    MatchCollection nameTovars = new Regex("(?<=\" >).*?(?=</a>)").Matches(allTovarsInRazdel);
+                    MatchCollection tovars = new Regex("(?<=class=\"product-item__link\"><a href=\").*?(?=\">)").Matches(allTovarsInRazdel);
+                    MatchCollection nameTovars = new Regex("(?<=class=\"product-item__link\"><a href=\").*?</a>").Matches(allTovarsInRazdel);
                     for (int n = 0; nameTovars.Count > n; n++)
                     {
                         string name = nameTovars[n].ToString();
+                        name = new Regex("(?<=\">).*?(?=</a>)").Match(name).ToString();
                         if (nameTovarRacerMotors == name)
                         {
-                            url = tovars[n - 1].ToString();
+                            url = tovars[n].ToString();
                             break;
                         }
                     }

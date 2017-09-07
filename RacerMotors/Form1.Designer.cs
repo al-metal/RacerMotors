@@ -52,6 +52,7 @@
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbChekedReplaceMiniText = new System.Windows.Forms.CheckBox();
             this.cbReplaceImagesProduct = new System.Windows.Forms.CheckBox();
+            this.cbChekedReplaceFullText = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -259,18 +260,29 @@
             // cbReplaceImagesProduct
             // 
             this.cbReplaceImagesProduct.AutoSize = true;
-            this.cbReplaceImagesProduct.Location = new System.Drawing.Point(674, 58);
+            this.cbReplaceImagesProduct.Location = new System.Drawing.Point(674, 79);
             this.cbReplaceImagesProduct.Name = "cbReplaceImagesProduct";
             this.cbReplaceImagesProduct.Size = new System.Drawing.Size(174, 17);
             this.cbReplaceImagesProduct.TabIndex = 19;
             this.cbReplaceImagesProduct.Text = "Замена изображений товара";
             this.cbReplaceImagesProduct.UseVisualStyleBackColor = true;
             // 
+            // cbChekedReplaceFullText
+            // 
+            this.cbChekedReplaceFullText.AutoSize = true;
+            this.cbChekedReplaceFullText.Location = new System.Drawing.Point(674, 56);
+            this.cbChekedReplaceFullText.Name = "cbChekedReplaceFullText";
+            this.cbChekedReplaceFullText.Size = new System.Drawing.Size(160, 17);
+            this.cbChekedReplaceFullText.TabIndex = 20;
+            this.cbChekedReplaceFullText.Text = "Замена полного описания";
+            this.cbChekedReplaceFullText.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 372);
+            this.Controls.Add(this.cbChekedReplaceFullText);
             this.Controls.Add(this.cbReplaceImagesProduct);
             this.Controls.Add(this.cbChekedReplaceMiniText);
             this.Controls.Add(this.lblVsegoRazdelov);
@@ -330,6 +342,7 @@
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
         private System.Windows.Forms.CheckBox cbChekedReplaceMiniText;
         private System.Windows.Forms.CheckBox cbReplaceImagesProduct;
+        private System.Windows.Forms.CheckBox cbChekedReplaceFullText;
     }
 }
 
