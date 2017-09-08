@@ -1,20 +1,17 @@
-﻿using Bike18;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using web;
+using NehouseLibrary;
 using Формирование_ЧПУ;
+using xNet.Net;
+using System.Drawing;
+using System.Linq;
 
 namespace RacerMotors
 {
@@ -25,7 +22,7 @@ namespace RacerMotors
         web.WebRequest webRequest = new web.WebRequest();
         nethouse nethouse = new nethouse();
         WebClient webClient = new WebClient();
-        httpRequest httprequest = new httpRequest();
+        //httpRequest httprequest = new httpRequest();
 
         CHPU chpu = new CHPU();
         string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
@@ -139,7 +136,7 @@ namespace RacerMotors
             {
                 if (count - 1 == i)
                 {
-                    if (rtbFullText.Lines[i] == "")
+                    if (rtbMiniText.Lines[i] == "")
                         break;
                 }
                 writers.WriteLine(rtbMiniText.Lines[i].ToString());
@@ -252,7 +249,7 @@ namespace RacerMotors
 
         private void UpdateImages()
         {
-            CookieContainer cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
+            CookieDictionary cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
             if (cookie.Count == 1)
             {
                 MessageBox.Show("Логин или пароль для сайта введены не верно", "Ошибка логина/пароля");
@@ -294,7 +291,7 @@ namespace RacerMotors
                     {
                         if (File.Exists("Pic\\" + articl + "_" + razdelName + ".jpg"))
                         {
-                            nethouse.UploadImage(cookie, tovar[n].ToString(), razdelName);
+                            UploadImage(cookie, tovar[n].ToString(), razdelName);
                             b = true;
                             countUpdateImage++;
                         }
@@ -356,7 +353,7 @@ namespace RacerMotors
 
         private void UpdateTovarXLSX()
         {
-            CookieContainer cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
+            CookieDictionary cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
             if (cookie.Count == 1)
             {
                 MessageBox.Show("Логин или пароль для сайта введены не верно", "Ошибка логина/пароля");
@@ -581,7 +578,7 @@ namespace RacerMotors
             System.Threading.Thread.Sleep(20000);
             string[] naSite1 = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
             if (naSite1.Length > 1)
-                nethouse.UploadCSVNethouse(cookie, "naSite.csv");
+                nethouse.UploadCSVNethouse(cookie, "naSite.csv", tbLogin.Text, tbPasswords.Text);
 
             MessageBox.Show("Обновлено цен: " + countEditPrice + "\nДобавлено позиций: " + countAddCSV);
 
@@ -591,7 +588,7 @@ namespace RacerMotors
         private void UpdateTovar()
         {
 
-            CookieContainer cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
+            CookieDictionary cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
             if (cookie.Count == 1)
             {
                 MessageBox.Show("Логин или пароль для сайта введены не верно", "Ошибка логина/пароля");
@@ -609,7 +606,7 @@ namespace RacerMotors
             lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Раздел"));
             lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = modelTovar.Count.ToString()));
 
-            string otvRazdel = httprequest.getRequest("https://bike18.ru/products/category/katalog-zapchastey-racer");
+            string otvRazdel = nethouse.getRequest("https://bike18.ru/products/category/katalog-zapchastey-racer");
             razdelRacer = new Regex("(?<=class=\"category-item__link\"><a href=\").*?(?=\">)").Matches(otvRazdel);
             nameRazdelRacer = new Regex("(?<=class=\"category-item__link\"><a href=\").*?</a></div>").Matches(otvRazdel);
 
@@ -829,7 +826,7 @@ namespace RacerMotors
             System.Threading.Thread.Sleep(20000);
             string[] naSite1 = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
             if (naSite1.Length > 1)
-                nethouse.UploadCSVNethouse(cookie, "naSite.csv");
+                nethouse.UploadCSVNethouse(cookie, "naSite.csv", tbLogin.Text, tbPasswords.Text);
 
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
 
@@ -865,7 +862,7 @@ namespace RacerMotors
                 nameRazdel = new Regex("(?<=\">).*?(?=</a>)").Match(nameRazdel).ToString();
                 if (nameRazdel == razdel)
                 {
-                    string allTovarsInRazdel = httprequest.getRequest("https://bike18.ru" + razdelRacer[i].ToString() + "?page=all");
+                    string allTovarsInRazdel = nethouse.getRequest("https://bike18.ru" + razdelRacer[i].ToString() + "?page=all");
                     MatchCollection tovars = new Regex("(?<=class=\"product-item__link\"><a href=\").*?(?=\">)").Matches(allTovarsInRazdel);
                     MatchCollection nameTovars = new Regex("(?<=class=\"product-item__link\"><a href=\").*?</a>").Matches(allTovarsInRazdel);
                     for (int n = 0; nameTovars.Count > n; n++)
@@ -1407,5 +1404,108 @@ namespace RacerMotors
         {
             Application.Exit();
         }
+
+        #region Загрузка картинки товара на сайта Bike18.ru
+        public void UploadImage(CookieDictionary cookieBike18, string urlProduct, string razdel)
+        {
+            string otv = null;
+            urlProduct = urlProduct.Replace("http://bike18.ru", "http://bike18.nethouse.ru");
+
+            otv = nethouse.getRequest(cookieBike18, urlProduct);
+            String article = new Regex("(?<=Артикул:)[\\w\\W]*?(?=</div>)").Match(otv).Value.Trim();
+            if (article.Length > 128 || article.Contains(" "))
+            {
+                MatchCollection articles = new Regex("(?<=Артикул:)[\\w\\W]*?(?=</div>)").Matches(otv);
+                if (articles.Count >= 2)
+                    article = articles[1].ToString().Trim();
+                else
+                {
+
+                }
+            }
+
+            MatchCollection prId = new Regex("(?<=data-id=\").*?(?=\")").Matches(otv);
+            string productId = prId[0].ToString();
+
+            List<double> widthHeigth = GetParamsImg(article, razdel);
+
+            if (widthHeigth == null)
+                return;
+
+            double widthImg = widthHeigth[0];
+            double heigthImg = widthHeigth[1];
+
+            string epoch = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds.ToString().Replace(",", "");
+            
+            byte[] pic = File.ReadAllBytes("Pic\\" + article + "_" + razdel + ".jpg");
+            byte[] end = Encoding.ASCII.GetBytes("\r\n------WebKitFormBoundaryDxXeyjY3R0nRHgrP\r\nContent-Disposition: form-data; name=\"_file\"\r\n\r\n" + article + "_" + razdel + ".jpg\r\n------WebKitFormBoundaryDxXeyjY3R0nRHgrP--\r\n");
+
+            byte[] ms1 = Encoding.ASCII.GetBytes("------WebKitFormBoundaryDxXeyjY3R0nRHgrP\r\nContent-Disposition: form-data; name=\"file\"; filename=\"4680329013422.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n");
+            byte[] base_byte = ms1.Concat(pic).ToArray();
+            base_byte = base_byte.Concat(end).ToArray();
+
+            nethouse.Internet();
+            var request = new HttpRequest();
+            request.UserAgent = HttpHelper.RandomChromeUserAgent();
+            request.Proxy = HttpProxyClient.Parse("127.0.0.1:8888");
+            request.Cookies = cookieBike18;
+            request.ContentType = "multipart/form-data; boundary=----WebKitFormBoundaryDxXeyjY3R0nRHgrP";
+            request["X-Requested-With"] = "XMLHttpRequest";
+            HttpResponse response = request.Post("https://bike18.nethouse.ru/putimg?fileapi" + epoch, base_byte);
+            otv = response.ToText();
+
+            string urlSaveImg = new Regex("(?<=url\":\").*?(?=\")").Match(otv).Value.Replace("\\/", "%2F");
+
+
+            byte[] saveImg = Encoding.ASCII.GetBytes("url=" + urlSaveImg + "&id=0&type=4&objectId=" + productId + "&imgCrop[x]=0&imgCrop[y]=0&imgCrop[width]=" + widthImg + "&imgCrop[height]=" + heigthImg + "&imageId=0&iObjectId=" + productId + "&iImageType=4&replacePhoto=0");
+
+            nethouse.Internet();
+            request = new HttpRequest();
+            request.UserAgent = HttpHelper.RandomChromeUserAgent();
+            request.Proxy = HttpProxyClient.Parse("127.0.0.1:8888");
+            request.Cookies = cookieBike18;
+            request.ContentType = "application/x-www-form-urlencoded";
+            response = request.Post("https://bike18.nethouse.ru/api/catalog/save-image", saveImg);
+            otv = response.ToText();
+        }
+
+        private List<double> GetParamsImg(string article, string razdel)
+        {
+            List<double> widthHeigth = new List<double>();
+            Image newImg;
+            try
+            {
+                newImg = Image.FromFile("Pic\\" + article + "_" + razdel + ".jpg");
+            }
+            catch
+            {
+                return widthHeigth = null;
+            }
+
+            double widthImg = newImg.Width;
+            double heigthImg = newImg.Height;
+
+            if (widthImg > heigthImg)
+            {
+                double dblx = widthImg * 0.9;
+                if (dblx < heigthImg)
+                    heigthImg = heigthImg * 0.9;
+                else
+                    widthImg = widthImg * 0.9;
+            }
+            else
+            {
+                double dblx = heigthImg * 0.9;
+                if (dblx < widthImg)
+                    widthImg = widthImg * 0.9;
+                else
+                    heigthImg = heigthImg * 0.9;
+            }
+
+            widthHeigth.Add(widthImg);
+            widthHeigth.Add(heigthImg);
+            return widthHeigth;
+        }
+        #endregion
     }
 }
