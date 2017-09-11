@@ -53,6 +53,7 @@
             this.cbChekedReplaceMiniText = new System.Windows.Forms.CheckBox();
             this.cbReplaceImagesProduct = new System.Windows.Forms.CheckBox();
             this.cbChekedReplaceFullText = new System.Windows.Forms.CheckBox();
+            this.cbChekedReplaceSEO = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -260,7 +261,7 @@
             // cbReplaceImagesProduct
             // 
             this.cbReplaceImagesProduct.AutoSize = true;
-            this.cbReplaceImagesProduct.Location = new System.Drawing.Point(674, 79);
+            this.cbReplaceImagesProduct.Location = new System.Drawing.Point(674, 102);
             this.cbReplaceImagesProduct.Name = "cbReplaceImagesProduct";
             this.cbReplaceImagesProduct.Size = new System.Drawing.Size(174, 17);
             this.cbReplaceImagesProduct.TabIndex = 19;
@@ -277,11 +278,22 @@
             this.cbChekedReplaceFullText.Text = "Замена полного описания";
             this.cbChekedReplaceFullText.UseVisualStyleBackColor = true;
             // 
+            // cbChekedReplaceSEO
+            // 
+            this.cbChekedReplaceSEO.AutoSize = true;
+            this.cbChekedReplaceSEO.Location = new System.Drawing.Point(674, 79);
+            this.cbChekedReplaceSEO.Name = "cbChekedReplaceSEO";
+            this.cbChekedReplaceSEO.Size = new System.Drawing.Size(123, 17);
+            this.cbChekedReplaceSEO.TabIndex = 21;
+            this.cbChekedReplaceSEO.Text = "Замена СЕО полей";
+            this.cbChekedReplaceSEO.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 372);
+            this.Controls.Add(this.cbChekedReplaceSEO);
             this.Controls.Add(this.cbChekedReplaceFullText);
             this.Controls.Add(this.cbReplaceImagesProduct);
             this.Controls.Add(this.cbChekedReplaceMiniText);
@@ -343,6 +355,7 @@
         private System.Windows.Forms.CheckBox cbChekedReplaceMiniText;
         private System.Windows.Forms.CheckBox cbReplaceImagesProduct;
         private System.Windows.Forms.CheckBox cbChekedReplaceFullText;
+        private System.Windows.Forms.CheckBox cbChekedReplaceSEO;
     }
 }
 

@@ -22,7 +22,6 @@ namespace RacerMotors
         web.WebRequest webRequest = new web.WebRequest();
         nethouse nethouse = new nethouse();
         WebClient webClient = new WebClient();
-        //httpRequest httprequest = new httpRequest();
 
         CHPU chpu = new CHPU();
         string boldOpen = "<span style=\"\"font-weight: bold; font-weight: bold; \"\">";
@@ -35,6 +34,7 @@ namespace RacerMotors
         int countDelete = 0;
         bool chekedReplaceMiniText;
         bool chekedReplaceFullText;
+        bool chekedReplaceSEO;
         bool chekedReplaceImagesProduct;
 
         string minitextTemplate;
@@ -189,6 +189,7 @@ namespace RacerMotors
             descriptionTextTemplate = tbDescription.Lines[0].ToString();
             chekedReplaceMiniText = cbChekedReplaceMiniText.Checked;
             chekedReplaceFullText = cbChekedReplaceFullText.Checked;
+            chekedReplaceSEO = cbChekedReplaceSEO.Checked;
 
             Thread tabl = new Thread(() => UpdateTovar());
             forms = tabl;
@@ -514,12 +515,11 @@ namespace RacerMotors
                             string slug = chpu.vozvr(name);
                             double actualPrice = webRequest.price(priceCSV, discounts);
 
-                            string dblProdSEO = null;
                             string dblProduct = "НАЗВАНИЕ также подходит для:<br />" + boldOpen + dopnomenrlatura + boldClose + " аналогичных моделей.";
 
                             string minitext = minitextTemplate;
                             string titleText = titleTextTemplate;
-                            string descriptionText = descriptionTextTemplate + " " + dblProdSEO;
+                            string descriptionText = descriptionTextTemplate;
                             string keywordsText = keywordsTextTemplate;
                             string fullText = fullTextTemplate;
                             string nameText = boldOpen + name + boldClose;
@@ -661,8 +661,8 @@ namespace RacerMotors
 
                         DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString(), razdel);
 
-                        string urlTovar = SearchTovar(section1, objProduct, nameTovarRacerMotors);//nethouse.searchTovar(nameTovarRacerMotors, articlRacer);
-
+                        string urlTovar = SearchTovar(section1, objProduct, nameTovarRacerMotors);
+                        
                         if (urlTovar != null)
                         {
                             #region Обновление данных товара
@@ -697,6 +697,26 @@ namespace RacerMotors
                                 izmen = true;
                             }
 
+                            if (chekedReplaceSEO)
+                            {
+                                string titleText = titleTextTemplate;
+                                string descriptionText = descriptionTextTemplate;
+                                string keywordsText = keywordsTextTemplate;
+
+                                titleText = ReplaceSEO(titleText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+                                descriptionText = ReplaceSEO(descriptionText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+                                keywordsText = ReplaceSEO(keywordsText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+
+                                titleText = Remove(titleText, 255);
+                                descriptionText = Remove(descriptionText, 200);
+                                keywordsText = Remove(keywordsText, 100);
+
+                                tovar[11] = descriptionText;
+                                tovar[12] = keywordsText;
+                                tovar[13] = titleText;
+                                izmen = true;
+                            }
+
                             if (nameTovarRacerMotors == nameTovarBike & priceActual.ToString() != preciTovarBike)
                             {
                                 tovar[9] = priceActual.ToString();
@@ -728,12 +748,11 @@ namespace RacerMotors
                         {
                             #region Запись товара в файл для загрузки
 
-                            string dblProdSEO = null;
                             string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
                             string slug = chpu.vozvr(nameTovarRacerMotors);
                             string minitext = minitextTemplate;
                             string titleText = titleTextTemplate;
-                            string descriptionText = descriptionTextTemplate + " " + dblProdSEO;
+                            string descriptionText = descriptionTextTemplate;
                             string keywordsText = keywordsTextTemplate;
                             string fullText = fullTextTemplate;
                             string article = articlRacerMotors[m].ToString();
