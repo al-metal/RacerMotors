@@ -43,6 +43,8 @@ namespace RacerMotors
         string titleTextTemplate;
         string descriptionTextTemplate;
         string fileUrls;
+        string discountTemplate;
+        string discount;
 
         MatchCollection razdelRacer;
         MatchCollection nameRazdelRacer;
@@ -190,6 +192,7 @@ namespace RacerMotors
             chekedReplaceMiniText = cbChekedReplaceMiniText.Checked;
             chekedReplaceFullText = cbChekedReplaceFullText.Checked;
             chekedReplaceSEO = cbChekedReplaceSEO.Checked;
+            discountTemplate = nethouse.Discount();
 
             Thread tabl = new Thread(() => UpdateTovar());
             forms = tabl;
@@ -523,7 +526,6 @@ namespace RacerMotors
                             string keywordsText = keywordsTextTemplate;
                             string fullText = fullTextTemplate;
                             string nameText = boldOpen + name + boldClose;
-                            string discount = Discount();
 
                             minitext = minitext.Replace("СКИДКА", discount).Replace("РАЗДЕЛ", dopnomenrlatura).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameText).Replace("АРТИКУЛ", articl).Replace("<p><br /></p><p><br /></p><p><br /></p><p>", "<p><br /></p>").Replace("<p>НОМЕРФОТО</p>", "");
 
@@ -666,8 +668,13 @@ namespace RacerMotors
                         if (urlTovar != null)
                         {
                             #region Обновление данных товара
-
+                            discount = discountTemplate;
                             List<string> tovar = nethouse.GetProductList(cookie, urlTovar);
+                            if(tovar == null)
+                            {
+                                continue;
+                            }
+
                             string nameTovarBike = tovar[4].ToString();
                             string preciTovarBike = tovar[9].ToString();
 
@@ -692,6 +699,7 @@ namespace RacerMotors
                                 string fullText = fullTextTemplate;
                                 fullText = Replace(fullText, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "");
                                 fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
+                                fullText = fullText.Replace("\"\"", "\"");
 
                                 tovar[8] = fullText;
                                 izmen = true;
@@ -747,6 +755,8 @@ namespace RacerMotors
                         else
                         {
                             #region Запись товара в файл для загрузки
+
+                            discount = discountTemplate.Replace("\"", "\"\"");
 
                             string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
                             string slug = chpu.vozvr(nameTovarRacerMotors);
@@ -990,7 +1000,6 @@ namespace RacerMotors
             else
                 bOpen = boldOpen;
 
-            string discount = Discount();
             string nameText = bOpen + nameTovarRacerMotors + boldClose;
             string nameRazdel = bOpen + section1 + boldClose;
             string namePodrazdel = bOpen + section2 + boldClose;
@@ -1000,15 +1009,8 @@ namespace RacerMotors
 
         private string ReplaceSEO(string text, string nameTovarRacerMotors, string section1, string section2, string article, string dblProduct, string strCodePage)
         {
-            string discount = Discount();
             text = text.Replace("СКИДКА", discount).Replace("ПОДРАЗДЕЛ", section2).Replace("РАЗДЕЛ", section1).Replace("НОМЕРФОТО", strCodePage).Replace("ДУБЛЬ", dblProduct).Replace("НАЗВАНИЕ", nameTovarRacerMotors).Replace("АРТИКУЛ", article);
             return text;
-        }
-
-        private string Discount()
-        {
-            string discount = "<p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> Сделай ТРОЙНОЙ удар по нашим ценам! </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 1. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Скидки за отзывы о товарах!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 2. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Друзьям скидки и подарки!</a> </span></p><p style=\"\"text-align: right;\"\"><span style=\"\"font -weight: bold; font-weight: bold;\"\"> 3. <a target=\"\"_blank\"\" href =\"\"http://bike18.ru/stock\"\"> Нашли дешевле!? 110% разницы Ваши!</a></span></p>";
-            return discount;
         }
 
         private string Remove(string text, int v)
