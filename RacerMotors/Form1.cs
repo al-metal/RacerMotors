@@ -19,7 +19,7 @@ namespace RacerMotors
     {
         Thread forms;
 
-        web.WebRequest webRequest = new web.WebRequest();
+        web.WebRequest webRequest1 = new web.WebRequest();
         nethouse nethouse = new nethouse();
         WebClient webClient = new WebClient();
 
@@ -263,7 +263,7 @@ namespace RacerMotors
             ControlsFormEnabledFalse();
 
             int countUpdateImage = 0;
-            otv = webRequest.getRequest("http://bike18.ru/products/category/1185370");
+            otv = nethouse.getRequest("http://bike18.ru/products/category/1185370");
             MatchCollection razdel = new Regex("(?<=</div></a><div class=\"category-capt-txt -text-center\"><a href=\").*?(?=\" class=\"blue\">)").Matches(otv);
 
             lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Раздел"));
@@ -271,7 +271,7 @@ namespace RacerMotors
             for (int i = 0; razdel.Count > i; i++)
             {
                 lblRazdel.Invoke(new Action(() => lblRazdel.Text = (i + 1).ToString()));
-                otv = webRequest.getRequest("http://bike18.ru" + razdel[i].ToString() + "?page=all");
+                otv = nethouse.getRequest("http://bike18.ru" + razdel[i].ToString() + "?page=all");
                 string razdelName = new Regex("(?<=<h1 class=\"category-name\">).*(?=</h1>)").Match(otv).ToString();
                 MatchCollection tovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*(?=\" >)").Matches(otv);
                 for (int n = 0; tovar.Count > n; n++)
@@ -416,13 +416,13 @@ namespace RacerMotors
                         if (dopnomenrlatura != null)
                             dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
 
-                        otv = webRequest.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=+" + articl);
+                        otv = nethouse.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=+" + articl);
                         string urlTovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*?(?=\" >)").Match(otv).ToString();
 
                         if (urlTovar != "")
                         {
                             string priceTovar = new Regex("(?<=<span class=\"product-price-data\" data-cost=\").*?(?=\">)").Match(otv).ToString();
-                            double actualPrice = webRequest.price(priceCSV, discounts);
+                            double actualPrice = nethouse.ReturnPrice(priceCSV, discounts);
 
                             if (actualPrice != Convert.ToDouble(priceTovar))
                             {
@@ -438,13 +438,13 @@ namespace RacerMotors
                             string razdelchik = "";
                             if (razdelCSV == "Универсальные запчасти")
                             {
-                                otv = webRequest.getRequestEncod("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
+                                otv = nethouse.getRequestEncoding1251("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
                                 string newSearch = new Regex("(?<=В запросе \"<a href=\").*(?=\" onclick=\")").Match(otv).ToString();
                                 razdelchik = new Regex("(?<=<br /><hr />)[\\w\\W]*(?=<p></p>)").Match(otv).ToString();
                                 if (razdelchik != "")
                                 {
                                     razdelchik = new Regex("(?<=<a href=\").*(?=\">)").Match(razdelchik).ToString();
-                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + razdelchik);
+                                    otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + razdelchik);
                                     MatchCollection articlesNames = new Regex("(?<=<td >).*?(?=</td>)").Matches(otv);
                                     foreach (Match str in articlesNames)
                                     {
@@ -461,7 +461,7 @@ namespace RacerMotors
                                     string urlProductSearch = "";
                                     if (newSearch != "")
                                     {
-                                        otv = webRequest.getRequestEncod("http://racer-motors.ru" + newSearch);
+                                        otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + newSearch);
                                         urlProductSearch = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
                                     }
                                     else
@@ -472,19 +472,19 @@ namespace RacerMotors
 
                                     if (urlProductSearch != "")
                                     {
-                                        otv = webRequest.getRequestEncod("http://racer-motors.ru" + urlProductSearch);
+                                        otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + urlProductSearch);
                                         razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "");
                                     }
                                 }
                             }
                             if (razdelCSV.Contains("Разное"))
                             {
-                                otv = webRequest.getRequestEncod("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
+                                otv = nethouse.getRequestEncoding1251("http://racer-motors.ru/search/index.php?q=" + nomenclatura + "&s=");
                                 string newSearch = new Regex("(?<=В запросе \"<a href=\").*(?=\" onclick=\")").Match(otv).ToString();
                                 razdelchik = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
                                 if (razdelchik != "")
                                 {
-                                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + razdelchik);
+                                    otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + razdelchik);
                                     razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "").Replace("! ", "");
                                 }
                                 else
@@ -492,7 +492,7 @@ namespace RacerMotors
                                     string urlProductSearch = "";
                                     if (newSearch != "")
                                     {
-                                        otv = webRequest.getRequestEncod("http://racer-motors.ru" + newSearch);
+                                        otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + newSearch);
                                         urlProductSearch = new Regex("(?<=<a href=\").*(?=\"><b>)").Match(otv).ToString();
                                     }
                                     else
@@ -503,7 +503,7 @@ namespace RacerMotors
 
                                     if (urlProductSearch != "")
                                     {
-                                        otv = webRequest.getRequestEncod("http://racer-motors.ru" + urlProductSearch);
+                                        otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + urlProductSearch);
                                         razdelchik = new Regex("(?<=<h1> <span class=\"name_model\">).*?(?=</span></h1>)").Match(otv).ToString().Replace(",", "");
                                     }
                                 }
@@ -516,7 +516,7 @@ namespace RacerMotors
 
                             //Добавляем на сайт
                             string slug = chpu.vozvr(name);
-                            double actualPrice = webRequest.price(priceCSV, discounts);
+                            double actualPrice = nethouse.ReturnPrice(priceCSV, discounts);
 
                             string dblProduct = "НАЗВАНИЕ также подходит для:<br />" + boldOpen + dopnomenrlatura + boldClose + " аналогичных моделей.";
 
@@ -603,7 +603,7 @@ namespace RacerMotors
             File.Delete("allProducts.csv");
             List<string> newProduct = newList();
 
-            otv = webRequest.getRequestEncod("http://racer-motors.ru/spare-parts/");
+            otv = nethouse.getRequestEncoding1251("http://racer-motors.ru/spare-parts/");
             MatchCollection modelTovar = new Regex("(?<=<li><a href=\")/spare-parts/.*?(?=\">)").Matches(otv);
             lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Раздел"));
             lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = modelTovar.Count.ToString()));
@@ -622,7 +622,7 @@ namespace RacerMotors
                 if (shlak)
                     continue;
 
-                otv = webRequest.getRequestEncod("http://racer-motors.ru" + modelTovar[i].ToString());
+                otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + modelTovar[i].ToString());
 
                 bool b = modelTovar[i].ToString().Contains("pitbike");
                 bool a = modelTovar[i].ToString().Contains("dvigatel");
@@ -639,7 +639,7 @@ namespace RacerMotors
                 MatchCollection podrazdel = new Regex("(?<=<li><a href=\")/spare-parts/.*/(?=\">)").Matches(otv);
                 for (int n = 0; podrazdel.Count > n; n++)
                 {
-                    otv = webRequest.getRequestEncod("http://racer-motors.ru" + podrazdel[n].ToString());
+                    otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + podrazdel[n].ToString());
 
                     MatchCollection articlRacerMotors = new Regex("(?<=<td >).*?(?=</td>\n.*<td >)").Matches(otv);
                     MatchCollection priceRacerMotors = new Regex("(?<=<td>).*?(?=</td>)").Matches(otv);
@@ -657,7 +657,7 @@ namespace RacerMotors
                         string nameTovarRacerMotors = namesRacerMotors[m].ToString().Trim();
                         int priceTovarRacerMotorsInt = Convert.ToInt32(priceRacerMotors[m].ToString());
                         double priceTovarRacerMotors = Convert.ToDouble(priceTovarRacerMotorsInt);
-                        int priceActual = webRequest.price(priceTovarRacerMotors, discounts);
+                        int priceActual = nethouse.ReturnPrice(priceTovarRacerMotors, discounts);
                         string articlRacer = articlRacerMotors[m].ToString();
                         string razdel = Razdel(objProduct, section1);
 
