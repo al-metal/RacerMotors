@@ -654,8 +654,11 @@ namespace RacerMotors
 
                     for (int m = 0; articlRacerMotors.Count > m; m++)
                     {
+                        string strPrice = priceRacerMotors[m].ToString();
+                        double dblPrice = Convert.ToDouble(strPrice);
+
                         string nameTovarRacerMotors = namesRacerMotors[m].ToString().Trim();
-                        int priceTovarRacerMotorsInt = Convert.ToInt32(priceRacerMotors[m].ToString());
+                        int priceTovarRacerMotorsInt = Convert.ToInt32(dblPrice);
                         double priceTovarRacerMotors = Convert.ToDouble(priceTovarRacerMotorsInt);
                         int priceActual = nethouse.ReturnPrice(priceTovarRacerMotors, discounts);
                         string articlRacer = articlRacerMotors[m].ToString();
