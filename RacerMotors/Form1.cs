@@ -32,6 +32,7 @@ namespace RacerMotors
         double discounts = 0.02;
         int countUpdate = 0;
         int countDelete = 0;
+        int deletedProducts = 0;
         bool chekedReplaceMiniText;
         bool chekedReplaceFullText;
         bool chekedReplaceSEO;
@@ -600,7 +601,6 @@ namespace RacerMotors
             ControlsFormEnabledFalse();
 
             File.Delete("naSite.csv");
-            File.Delete("allProducts.csv");
             List<string> newProduct = newList();
 
             otv = nethouse.getRequestEncoding1251("http://racer-motors.ru/spare-parts/");
@@ -752,6 +752,16 @@ namespace RacerMotors
                             {
                                 tovar[39] = "";
                                 izmen = true;
+                            }
+
+                            if (tovar[42] == "&alsoBuy[0]=0&alsoBuy[1]=0&alsoBuy[2]=0&alsoBuy[3]=0")
+                            {
+                                tovar[42] = nethouse.alsoBuyTovars(tovar);
+                                izmen = true;
+                            }
+                            else
+                            {
+
                             }
 
                             if (izmen)
@@ -1569,7 +1579,20 @@ namespace RacerMotors
 
         private void DeletePosition()
         {
-            throw new NotImplementedException();
+            CookieDictionary cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
+            if (cookie.Count == 1)
+            {
+                MessageBox.Show("Логин или пароль для сайта введены не верно", "Ошибка логина/пароля");
+                return;
+            }
+
+            ControlsFormEnabledFalse();
+
+
+            MessageBox.Show("Удалено " + deletedProducts + " позиций с сайта");
+            File.Delete("allProducts.csv");
+
+            ControlsFormEnabledTrue();
         }
     }
 }
