@@ -54,6 +54,7 @@
             this.cbReplaceImagesProduct = new System.Windows.Forms.CheckBox();
             this.cbChekedReplaceFullText = new System.Windows.Forms.CheckBox();
             this.cbChekedReplaceSEO = new System.Windows.Forms.CheckBox();
+            this.btnDeletePosition = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -135,7 +136,7 @@
             // 
             this.btnUpdateImg.Location = new System.Drawing.Point(543, 114);
             this.btnUpdateImg.Name = "btnUpdateImg";
-            this.btnUpdateImg.Size = new System.Drawing.Size(125, 30);
+            this.btnUpdateImg.Size = new System.Drawing.Size(126, 30);
             this.btnUpdateImg.TabIndex = 8;
             this.btnUpdateImg.Text = "Обновить картинки";
             this.btnUpdateImg.UseVisualStyleBackColor = true;
@@ -143,14 +144,14 @@
             // 
             // tbLogin
             // 
-            this.tbLogin.Location = new System.Drawing.Point(543, 166);
+            this.tbLogin.Location = new System.Drawing.Point(540, 192);
             this.tbLogin.Name = "tbLogin";
             this.tbLogin.Size = new System.Drawing.Size(125, 20);
             this.tbLogin.TabIndex = 9;
             // 
             // tbPasswords
             // 
-            this.tbPasswords.Location = new System.Drawing.Point(543, 205);
+            this.tbPasswords.Location = new System.Drawing.Point(540, 231);
             this.tbPasswords.Name = "tbPasswords";
             this.tbPasswords.Size = new System.Drawing.Size(125, 20);
             this.tbPasswords.TabIndex = 10;
@@ -159,7 +160,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(543, 150);
+            this.label1.Location = new System.Drawing.Point(540, 176);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 11;
@@ -168,7 +169,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(543, 189);
+            this.label2.Location = new System.Drawing.Point(540, 215);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(48, 13);
             this.label2.TabIndex = 12;
@@ -177,7 +178,7 @@
             // lblNamePosition
             // 
             this.lblNamePosition.AutoSize = true;
-            this.lblNamePosition.Location = new System.Drawing.Point(543, 228);
+            this.lblNamePosition.Location = new System.Drawing.Point(540, 254);
             this.lblNamePosition.Name = "lblNamePosition";
             this.lblNamePosition.Size = new System.Drawing.Size(47, 13);
             this.lblNamePosition.TabIndex = 13;
@@ -186,7 +187,7 @@
             // lblRazdel
             // 
             this.lblRazdel.AutoSize = true;
-            this.lblRazdel.Location = new System.Drawing.Point(587, 228);
+            this.lblRazdel.Location = new System.Drawing.Point(584, 254);
             this.lblRazdel.Name = "lblRazdel";
             this.lblRazdel.Size = new System.Drawing.Size(13, 13);
             this.lblRazdel.TabIndex = 14;
@@ -195,7 +196,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(543, 241);
+            this.label5.Location = new System.Drawing.Point(540, 267);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(19, 13);
             this.label5.TabIndex = 15;
@@ -204,7 +205,7 @@
             // lblVsegoRazdelov
             // 
             this.lblVsegoRazdelov.AutoSize = true;
-            this.lblVsegoRazdelov.Location = new System.Drawing.Point(568, 241);
+            this.lblVsegoRazdelov.Location = new System.Drawing.Point(565, 267);
             this.lblVsegoRazdelov.Name = "lblVsegoRazdelov";
             this.lblVsegoRazdelov.Size = new System.Drawing.Size(13, 13);
             this.lblVsegoRazdelov.TabIndex = 16;
@@ -288,11 +289,22 @@
             this.cbChekedReplaceSEO.Text = "Замена СЕО полей";
             this.cbChekedReplaceSEO.UseVisualStyleBackColor = true;
             // 
+            // btnDeletePosition
+            // 
+            this.btnDeletePosition.Location = new System.Drawing.Point(543, 150);
+            this.btnDeletePosition.Name = "btnDeletePosition";
+            this.btnDeletePosition.Size = new System.Drawing.Size(126, 23);
+            this.btnDeletePosition.TabIndex = 22;
+            this.btnDeletePosition.Text = "Удалить позиции";
+            this.btnDeletePosition.UseVisualStyleBackColor = true;
+            this.btnDeletePosition.Click += new System.EventHandler(this.btnDeletePosition_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(846, 372);
+            this.Controls.Add(this.btnDeletePosition);
             this.Controls.Add(this.cbChekedReplaceSEO);
             this.Controls.Add(this.cbChekedReplaceFullText);
             this.Controls.Add(this.cbReplaceImagesProduct);
@@ -356,6 +368,7 @@
         private System.Windows.Forms.CheckBox cbReplaceImagesProduct;
         private System.Windows.Forms.CheckBox cbChekedReplaceFullText;
         private System.Windows.Forms.CheckBox cbChekedReplaceSEO;
+        private System.Windows.Forms.Button btnDeletePosition;
     }
 }
 

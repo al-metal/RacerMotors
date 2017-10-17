@@ -664,6 +664,11 @@ namespace RacerMotors
                         string articlRacer = articlRacerMotors[m].ToString();
                         string razdel = Razdel(objProduct, section1);
 
+                        if(articlRacer == "R0000074078")
+                        {
+
+                        }
+
                         DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString(), razdel);
 
                         string urlTovar = SearchTovar(section1, objProduct, nameTovarRacerMotors);
@@ -675,7 +680,10 @@ namespace RacerMotors
                             List<string> tovar = nethouse.GetProductList(cookie, urlTovar);
                             if(tovar == null)
                             {
-                                continue;
+                                Thread.Sleep(10000);
+                                tovar = nethouse.GetProductList(cookie, urlTovar);
+                                if (tovar == null)
+                                    continue;
                             }
 
                             string nameTovarBike = tovar[4].ToString();
@@ -1531,5 +1539,37 @@ namespace RacerMotors
             return widthHeigth;
         }
         #endregion
+
+        private void btnDeletePosition_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.login = tbLogin.Text;
+            Properties.Settings.Default.password = tbPasswords.Text;
+            Properties.Settings.Default.Save();
+
+            minitextTemplate = MinitextStr();
+            fullTextTemplate = FulltextStr();
+            if (tbKeywords.Lines.Length == 0 || tbTitle.Lines.Length == 0 || tbDescription.Lines.Length == 0 || minitextTemplate == "" || fullTextTemplate == "")
+            {
+                MessageBox.Show("Не заполнен шаблон для формирования товара");
+                return;
+            }
+            keywordsTextTemplate = tbKeywords.Lines[0].ToString();
+            titleTextTemplate = tbTitle.Lines[0].ToString();
+            descriptionTextTemplate = tbDescription.Lines[0].ToString();
+            chekedReplaceMiniText = cbChekedReplaceMiniText.Checked;
+            chekedReplaceFullText = cbChekedReplaceFullText.Checked;
+            chekedReplaceSEO = cbChekedReplaceSEO.Checked;
+            discountTemplate = nethouse.Discount();
+
+            Thread tabl = new Thread(() => DeletePosition());
+            forms = tabl;
+            forms.IsBackground = true;
+            forms.Start();
+        }
+
+        private void DeletePosition()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
