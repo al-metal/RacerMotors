@@ -836,6 +836,9 @@ namespace RacerMotors
                         allProducts.Add(articlRacerMotors[m].ToString());
                         allProducts.Add(section1);
                         allProducts.Add(section2);
+                        string[] allRazdel = razdel.Split('>');
+                        razdel = allRazdel[allRazdel.Length - 1];
+                        allProducts.Add(razdel);
                         files.fileWriterCSV(allProducts, "allProducts");
                     }
                 }
@@ -1587,6 +1590,28 @@ namespace RacerMotors
             }
 
             ControlsFormEnabledFalse();
+
+            string otvRazdel = nethouse.getRequest("https://bike18.ru/products/category/katalog-zapchastey-racer");
+            razdelRacer = new Regex("(?<=class=\"category-item__link\"><a href=\").*?(?=\">)").Matches(otvRazdel);
+
+            for(int i = 0; razdelRacer.Count > i; i++)
+            {
+                string urlRazdel = "https://bike18.ru" + razdelRacer[i].ToString() + "?page=all";
+
+                otv = nethouse.getRequest(urlRazdel);
+
+                MatchCollection products = new Regex("(?<=<div class=\"product-item__link\"><a href=\").*?(?=\">)").Matches(otv);
+
+                foreach (Match mt in products)
+                {
+                    string urlProduct = mt.ToString();
+                    List<string> product = nethouse.GetProductList(cookie, urlProduct);
+
+                    string name = product[4];
+                    string article = product[6];
+                    string nameRazdel = product[47];
+                }
+            }
 
 
             MessageBox.Show("Удалено " + deletedProducts + " позиций с сайта");
