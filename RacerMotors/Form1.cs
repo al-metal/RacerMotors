@@ -339,6 +339,7 @@ namespace RacerMotors
             tbLogin.Invoke(new Action(() => tbLogin.Enabled = true));
             tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = true));
             tbTitle.Invoke(new Action(() => tbTitle.Enabled = true));
+            btnDeletePosition.Invoke(new Action(() => btnDeletePosition.Enabled = true));
         }
 
         private void ControlsFormEnabledFalse()
@@ -354,6 +355,7 @@ namespace RacerMotors
             tbLogin.Invoke(new Action(() => tbLogin.Enabled = false));
             tbPasswords.Invoke(new Action(() => tbPasswords.Enabled = false));
             tbTitle.Invoke(new Action(() => tbTitle.Enabled = false));
+            btnDeletePosition.Invoke(new Action(() => btnDeletePosition.Enabled = false));
         }
 
         private void UpdateTovarXLSX()
@@ -664,7 +666,7 @@ namespace RacerMotors
                         string articlRacer = articlRacerMotors[m].ToString();
                         string razdel = Razdel(objProduct, section1);
 
-                        if(articlRacer == "R0000074078")
+                        if (articlRacer == "R0000074078")
                         {
 
                         }
@@ -672,13 +674,13 @@ namespace RacerMotors
                         DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString(), razdel);
 
                         string urlTovar = SearchTovar(section1, objProduct, nameTovarRacerMotors);
-                        
+
                         if (urlTovar != null)
                         {
                             #region Обновление данных товара
                             discount = discountTemplate;
                             List<string> tovar = nethouse.GetProductList(cookie, urlTovar);
-                            if(tovar == null)
+                            if (tovar == null)
                             {
                                 Thread.Sleep(10000);
                                 tovar = nethouse.GetProductList(cookie, urlTovar);
@@ -1481,7 +1483,7 @@ namespace RacerMotors
             double heigthImg = widthHeigth[1];
 
             string epoch = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds.ToString().Replace(",", "");
-            
+
             byte[] pic = File.ReadAllBytes("Pic\\" + article + "_" + razdel + ".jpg");
             byte[] end = Encoding.ASCII.GetBytes("\r\n------WebKitFormBoundaryDxXeyjY3R0nRHgrP\r\nContent-Disposition: form-data; name=\"_file\"\r\n\r\n" + article + "_" + razdel + ".jpg\r\n------WebKitFormBoundaryDxXeyjY3R0nRHgrP--\r\n");
 
@@ -1582,6 +1584,7 @@ namespace RacerMotors
 
         private void DeletePosition()
         {
+            bool boolProd;
             CookieDictionary cookie = nethouse.CookieNethouse(tbLogin.Text, tbPasswords.Text);
             if (cookie.Count == 1)
             {
@@ -1591,10 +1594,12 @@ namespace RacerMotors
 
             ControlsFormEnabledFalse();
 
+            string[] allProducts = File.ReadAllLines("allProducts.csv", Encoding.GetEncoding(1251));
+
             string otvRazdel = nethouse.getRequest("https://bike18.ru/products/category/katalog-zapchastey-racer");
             razdelRacer = new Regex("(?<=class=\"category-item__link\"><a href=\").*?(?=\">)").Matches(otvRazdel);
 
-            for(int i = 0; razdelRacer.Count > i; i++)
+            for (int i = 0; razdelRacer.Count > i; i++)
             {
                 string urlRazdel = "https://bike18.ru" + razdelRacer[i].ToString() + "?page=all";
 
@@ -1604,15 +1609,36 @@ namespace RacerMotors
 
                 foreach (Match mt in products)
                 {
+                    boolProd = false;
                     string urlProduct = mt.ToString();
+
                     List<string> product = nethouse.GetProductList(cookie, urlProduct);
 
                     string name = product[4];
                     string article = product[6];
-                    string nameRazdel = product[47];
+                    string razdel = product[47];
+
+                    foreach (string str in allProducts)
+                    {
+                        string[] productsCSV = str.Split(';');
+                        string nameCSV = productsCSV[0];
+                        string articleCSV = productsCSV[1];
+                        string razdelCSV = productsCSV[4].Trim();
+
+                        if (name == nameCSV && article == articleCSV && razdel == razdelCSV)
+                        {
+                            boolProd = true;
+                            break;
+                        }
+                    }
+
+                    if (!boolProd)
+                    {
+                        nethouse.DeleteProduct(cookie, product);
+                        deletedProducts++;
+                    }
                 }
             }
-
 
             MessageBox.Show("Удалено " + deletedProducts + " позиций с сайта");
             File.Delete("allProducts.csv");
