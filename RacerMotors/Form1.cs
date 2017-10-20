@@ -419,21 +419,34 @@ namespace RacerMotors
                         if (dopnomenrlatura != null)
                             dopnomenrlatura = dopnomenrlatura.Replace("\"", "");
 
-                        otv = nethouse.getRequest("http://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=+" + articl);
-                        string urlTovar = new Regex("(?<=<div class=\"product-link -text-center\"><a href=\").*?(?=\" >)").Match(otv).ToString();
+                        List<string> urlProducts = searchAllTovar(articl);
 
-                        if (urlTovar != "")
+                        if (urlProducts.Count != 0)
                         {
-                            string priceTovar = new Regex("(?<=<span class=\"product-price-data\" data-cost=\").*?(?=\">)").Match(otv).ToString();
-                            double actualPrice = nethouse.ReturnPrice(priceCSV, discounts);
-
-                            if (actualPrice != Convert.ToDouble(priceTovar))
+                            foreach (string url in urlProducts)
                             {
-                                urlTovar = urlTovar.Replace("http://bike18.ru/", "http://bike18.nethouse.ru/");
-                                List<string> tovar = nethouse.GetProductList(cookie, urlTovar);
-                                tovar[9] = actualPrice.ToString();
-                                nethouse.SaveTovar(cookie, tovar);
-                                countEditPrice++;
+                                List<string> product = nethouse.GetProductList(cookie, url);
+                                if (product == null)
+                                {
+                                    break;
+                                }
+
+                                string actualPrice = nethouse.ReturnPrice(priceCSV, discounts).ToString();
+                                string priceB18 = product[9];
+                                if (actualPrice != priceB18)
+                                {
+                                    product[9] = actualPrice;
+                                    nethouse.SaveTovar(cookie, product);
+                                    countEditPrice++;
+                                }
+
+                                List<string> allProducts = new List<string>();
+                                allProducts.Add(product[4]);
+                                allProducts.Add(product[6]);
+                                allProducts.Add("");
+                                allProducts.Add("");
+                                allProducts.Add(product[47]);
+                                files.fileWriterCSV(allProducts, "allProducts");
                             }
                         }
                         else
@@ -576,6 +589,16 @@ namespace RacerMotors
                             }
                             if (b)
                                 razdelCSV = "Универсальные запчасти";
+
+                            List<string> allProducts = new List<string>();
+                            allProducts.Add(name);
+                            allProducts.Add(articl);
+                            allProducts.Add("");
+                            allProducts.Add("");
+                            string[] allRazdel = razdel.Split('>');
+                            razdel = allRazdel[allRazdel.Length - 1];
+                            allProducts.Add(razdel);
+                            files.fileWriterCSV(allProducts, "allProducts");
                         }
                     }
                 }
@@ -588,6 +611,43 @@ namespace RacerMotors
             MessageBox.Show("Обновлено цен: " + countEditPrice + "\nДобавлено позиций: " + countAddCSV);
 
             ControlsFormEnabledTrue();
+        }
+
+        private List<string> searchAllTovar(string articl)
+        {
+            List<string> allUrlProduct = new List<string>();
+            string urlSearch = "https://bike18.ru/products/search/page/1?sort=0&balance=&categoryId=&min_cost=&max_cost=&text=+" + articl;
+
+            allUrlProduct = GetUrlSearch(allUrlProduct, urlSearch);
+
+            string countPages = new Regex("(?<=<a class=\"pagination__item\")[\\w\\W]*?(?=\">)").Match(otv).ToString();
+            if(countPages != "")
+            {
+                int count = Convert.ToInt32(new Regex("(?<=page=).*").Match(countPages).ToString());
+                for(int i = 2; count > i; i++)
+                {
+                    urlSearch = "https://bike18.ru/products/search?text=" + articl + "&sort=0&balance=&categoryId=&min_cost=&max_cost=&page=" + i;
+
+                    allUrlProduct = GetUrlSearch(allUrlProduct, urlSearch);
+                }
+            }
+            
+            return allUrlProduct;
+        }
+
+        private List<string> GetUrlSearch(List<string> allUrlProduct, string urlSearch)
+        {
+            otv = nethouse.getRequest(urlSearch);
+
+            MatchCollection arrUrlProduct = new Regex("(?<=<div class=\"product-item__link\"><a href=\").*?(?=\">)").Matches(otv);
+
+            for (int i = 0; arrUrlProduct.Count > i; i++)
+            {
+                string urlProduct = arrUrlProduct[i].ToString();
+                allUrlProduct.Add(urlProduct);
+            }
+
+            return allUrlProduct;
         }
 
         private void UpdateTovar()
@@ -665,11 +725,6 @@ namespace RacerMotors
                         int priceActual = nethouse.ReturnPrice(priceTovarRacerMotors, discounts);
                         string articlRacer = articlRacerMotors[m].ToString();
                         string razdel = Razdel(objProduct, section1);
-
-                        if (articlRacer == "R0000074078")
-                        {
-
-                        }
 
                         DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString(), razdel);
 
