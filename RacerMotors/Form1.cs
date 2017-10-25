@@ -621,17 +621,17 @@ namespace RacerMotors
             allUrlProduct = GetUrlSearch(allUrlProduct, urlSearch);
 
             string countPages = new Regex("(?<=<a class=\"pagination__item\")[\\w\\W]*?(?=\">)").Match(otv).ToString();
-            if(countPages != "")
+            if (countPages != "")
             {
                 int count = Convert.ToInt32(new Regex("(?<=page=).*").Match(countPages).ToString());
-                for(int i = 2; count > i; i++)
+                for (int i = 2; count > i; i++)
                 {
                     urlSearch = "https://bike18.ru/products/search?text=" + articl + "&sort=0&balance=&categoryId=&min_cost=&max_cost=&page=" + i;
 
                     allUrlProduct = GetUrlSearch(allUrlProduct, urlSearch);
                 }
             }
-            
+
             return allUrlProduct;
         }
 
@@ -662,244 +662,244 @@ namespace RacerMotors
 
             ControlsFormEnabledFalse();
 
-            File.Delete("naSite.csv");
-            List<string> newProduct = newList();
+            //File.Delete("naSite.csv");
+            //List<string> newProduct = newList();
 
-            otv = nethouse.getRequestEncoding1251("http://racer-motors.ru/spare-parts/");
-            MatchCollection modelTovar = new Regex("(?<=<li><a href=\")/spare-parts/.*?(?=\">)").Matches(otv);
-            lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Раздел"));
-            lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = modelTovar.Count.ToString()));
+            //otv = nethouse.getRequestEncoding1251("http://racer-motors.ru/spare-parts/");
+            //MatchCollection modelTovar = new Regex("(?<=<li><a href=\")/spare-parts/.*?(?=\">)").Matches(otv);
+            //lblNamePosition.Invoke(new Action(() => lblNamePosition.Text = "Раздел"));
+            //lblVsegoRazdelov.Invoke(new Action(() => lblVsegoRazdelov.Text = modelTovar.Count.ToString()));
 
-            string otvRazdel = nethouse.getRequest("https://bike18.ru/products/category/katalog-zapchastey-racer");
-            razdelRacer = new Regex("(?<=class=\"category-item__link\"><a href=\").*?(?=\">)").Matches(otvRazdel);
-            nameRazdelRacer = new Regex("(?<=class=\"category-item__link\"><a href=\").*?</a></div>").Matches(otvRazdel);
+            //string otvRazdel = nethouse.getRequest("https://bike18.ru/products/category/katalog-zapchastey-racer");
+            //razdelRacer = new Regex("(?<=class=\"category-item__link\"><a href=\").*?(?=\">)").Matches(otvRazdel);
+            //nameRazdelRacer = new Regex("(?<=class=\"category-item__link\"><a href=\").*?</a></div>").Matches(otvRazdel);
 
-            for (int i = 0; modelTovar.Count > i; i++)
-            {
-                lblRazdel.Invoke(new Action(() => lblRazdel.Text = (i + 1).ToString()));
-                string objProduct = null;
-                bool shlak = false;
-                shlak = modelTovar[i].ToString().Contains("aksessuary");
+            //for (int i = 0; modelTovar.Count > i; i++)
+            //{
+            //    lblRazdel.Invoke(new Action(() => lblRazdel.Text = (i + 1).ToString()));
+            //    string objProduct = null;
+            //    bool shlak = false;
+            //    shlak = modelTovar[i].ToString().Contains("aksessuary");
 
-                if (shlak)
-                    continue;
+            //    if (shlak)
+            //        continue;
 
-                otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + modelTovar[i].ToString());
+            //    otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + modelTovar[i].ToString());
 
-                bool b = modelTovar[i].ToString().Contains("pitbike");
-                bool a = modelTovar[i].ToString().Contains("dvigatel");
+            //    bool b = modelTovar[i].ToString().Contains("pitbike");
+            //    bool a = modelTovar[i].ToString().Contains("dvigatel");
 
-                if (b)
-                    objProduct = "pitbike";
-                else if (a)
-                    objProduct = "dvigatel";
-                else
-                    objProduct = new Regex("(?<=/spare-parts/).*?(?=/)").Match(modelTovar[i].ToString()).ToString();
+            //    if (b)
+            //        objProduct = "pitbike";
+            //    else if (a)
+            //        objProduct = "dvigatel";
+            //    else
+            //        objProduct = new Regex("(?<=/spare-parts/).*?(?=/)").Match(modelTovar[i].ToString()).ToString();
 
-                string section1 = new Regex("(?<=\"  class=\"sel\">).*?(?=</a></li>)").Match(otv).ToString();
-                section1 = section1.Replace(",", "");
-                MatchCollection podrazdel = new Regex("(?<=<li><a href=\")/spare-parts/.*/(?=\">)").Matches(otv);
-                for (int n = 0; podrazdel.Count > n; n++)
-                {
-                    otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + podrazdel[n].ToString());
+            //    string section1 = new Regex("(?<=\"  class=\"sel\">).*?(?=</a></li>)").Match(otv).ToString();
+            //    section1 = section1.Replace(",", "");
+            //    MatchCollection podrazdel = new Regex("(?<=<li><a href=\")/spare-parts/.*/(?=\">)").Matches(otv);
+            //    for (int n = 0; podrazdel.Count > n; n++)
+            //    {
+            //        otv = nethouse.getRequestEncoding1251("http://racer-motors.ru" + podrazdel[n].ToString());
 
-                    MatchCollection articlRacerMotors = new Regex("(?<=<td >).*?(?=</td>\n.*<td >)").Matches(otv);
-                    MatchCollection priceRacerMotors = new Regex("(?<=<td>).*?(?=</td>)").Matches(otv);
-                    MatchCollection namesRacerMotors = new Regex("(?<=<div class=\"name_elem\">)[\\w\\W]*?(?=</div>)").Matches(otv);
-                    MatchCollection codePicture = new Regex("(?<=<td class=\"code_td\">).*(?=</td>)").Matches(otv);
+            //        MatchCollection articlRacerMotors = new Regex("(?<=<td >).*?(?=</td>\n.*<td >)").Matches(otv);
+            //        MatchCollection priceRacerMotors = new Regex("(?<=<td>).*?(?=</td>)").Matches(otv);
+            //        MatchCollection namesRacerMotors = new Regex("(?<=<div class=\"name_elem\">)[\\w\\W]*?(?=</div>)").Matches(otv);
+            //        MatchCollection codePicture = new Regex("(?<=<td class=\"code_td\">).*(?=</td>)").Matches(otv);
 
-                    string section2 = new Regex("(?<=<div class=\"name\">)[\\w\\W]*?(?=</div>)").Match(otv).ToString().Trim();
-                    string imageProduct = new Regex("(?<=<img src=\").*?(?=\" border=\"0\" alt=\"\" width=\"732\" height=\"383\" />)").Match(otv).ToString();
+            //        string section2 = new Regex("(?<=<div class=\"name\">)[\\w\\W]*?(?=</div>)").Match(otv).ToString().Trim();
+            //        string imageProduct = new Regex("(?<=<img src=\").*?(?=\" border=\"0\" alt=\"\" width=\"732\" height=\"383\" />)").Match(otv).ToString();
 
-                    if (articlRacerMotors.Count != priceRacerMotors.Count & namesRacerMotors.Count != priceRacerMotors.Count & articlRacerMotors.Count != namesRacerMotors.Count)
-                        continue;
+            //        if (articlRacerMotors.Count != priceRacerMotors.Count & namesRacerMotors.Count != priceRacerMotors.Count & articlRacerMotors.Count != namesRacerMotors.Count)
+            //            continue;
 
-                    for (int m = 0; articlRacerMotors.Count > m; m++)
-                    {
-                        string strPrice = priceRacerMotors[m].ToString();
-                        double dblPrice = Convert.ToDouble(strPrice);
+            //        for (int m = 0; articlRacerMotors.Count > m; m++)
+            //        {
+            //            string strPrice = priceRacerMotors[m].ToString();
+            //            double dblPrice = Convert.ToDouble(strPrice);
 
-                        string nameTovarRacerMotors = namesRacerMotors[m].ToString().Trim();
-                        int priceTovarRacerMotorsInt = Convert.ToInt32(dblPrice);
-                        double priceTovarRacerMotors = Convert.ToDouble(priceTovarRacerMotorsInt);
-                        int priceActual = nethouse.ReturnPrice(priceTovarRacerMotors, discounts);
-                        string articlRacer = articlRacerMotors[m].ToString();
-                        string razdel = Razdel(objProduct, section1);
+            //            string nameTovarRacerMotors = namesRacerMotors[m].ToString().Trim();
+            //            int priceTovarRacerMotorsInt = Convert.ToInt32(dblPrice);
+            //            double priceTovarRacerMotors = Convert.ToDouble(priceTovarRacerMotorsInt);
+            //            int priceActual = nethouse.ReturnPrice(priceTovarRacerMotors, discounts);
+            //            string articlRacer = articlRacerMotors[m].ToString();
+            //            string razdel = Razdel(objProduct, section1);
 
-                        DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString(), razdel);
+            //            DownloadImages("http://racer-motors.ru" + imageProduct, articlRacerMotors[m].ToString(), razdel);
 
-                        string urlTovar = SearchTovar(section1, objProduct, nameTovarRacerMotors);
+            //            string urlTovar = SearchTovar(section1, objProduct, nameTovarRacerMotors);
 
-                        if (urlTovar != null)
-                        {
-                            #region Обновление данных товара
-                            discount = discountTemplate;
-                            List<string> tovar = nethouse.GetProductList(cookie, urlTovar);
-                            if (tovar == null)
-                            {
-                                Thread.Sleep(10000);
-                                tovar = nethouse.GetProductList(cookie, urlTovar);
-                                if (tovar == null)
-                                    continue;
-                            }
+            //            if (urlTovar != null)
+            //            {
+            //                #region Обновление данных товара
+            //                discount = discountTemplate;
+            //                List<string> tovar = nethouse.GetProductList(cookie, urlTovar);
+            //                if (tovar == null)
+            //                {
+            //                    Thread.Sleep(10000);
+            //                    tovar = nethouse.GetProductList(cookie, urlTovar);
+            //                    if (tovar == null)
+            //                        continue;
+            //                }
 
-                            string nameTovarBike = tovar[4].ToString();
-                            string preciTovarBike = tovar[9].ToString();
+            //                string nameTovarBike = tovar[4].ToString();
+            //                string preciTovarBike = tovar[9].ToString();
 
-                            string strCodePage = boldOpenSite + "Номер " + codePicture[m].ToString() + " на схеме/фото" + boldClose;
-                            string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
-                            string article = articlRacerMotors[m].ToString();
+            //                string strCodePage = boldOpenSite + "Номер " + codePicture[m].ToString() + " на схеме/фото" + boldClose;
+            //                string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
+            //                string article = articlRacerMotors[m].ToString();
 
-                            bool izmen = false;
+            //                bool izmen = false;
 
-                            if (chekedReplaceMiniText)
-                            {
-                                string minitext = minitextTemplate;
-                                minitext = Replace(minitext, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "site");
-                                minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
+            //                if (chekedReplaceMiniText)
+            //                {
+            //                    string minitext = minitextTemplate;
+            //                    minitext = Replace(minitext, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "site");
+            //                    minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
 
-                                tovar[7] = minitext;
-                                izmen = true;
-                            }
+            //                    tovar[7] = minitext;
+            //                    izmen = true;
+            //                }
 
-                            if (chekedReplaceFullText)
-                            {
-                                string fullText = fullTextTemplate;
-                                fullText = Replace(fullText, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "");
-                                fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
-                                fullText = fullText.Replace("\"\"", "\"");
+            //                if (chekedReplaceFullText)
+            //                {
+            //                    string fullText = fullTextTemplate;
+            //                    fullText = Replace(fullText, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "");
+            //                    fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
+            //                    fullText = fullText.Replace("\"\"", "\"");
 
-                                tovar[8] = fullText;
-                                izmen = true;
-                            }
+            //                    tovar[8] = fullText;
+            //                    izmen = true;
+            //                }
 
-                            if (chekedReplaceSEO)
-                            {
-                                string titleText = titleTextTemplate;
-                                string descriptionText = descriptionTextTemplate;
-                                string keywordsText = keywordsTextTemplate;
+            //                if (chekedReplaceSEO)
+            //                {
+            //                    string titleText = titleTextTemplate;
+            //                    string descriptionText = descriptionTextTemplate;
+            //                    string keywordsText = keywordsTextTemplate;
 
-                                titleText = ReplaceSEO(titleText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
-                                descriptionText = ReplaceSEO(descriptionText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
-                                keywordsText = ReplaceSEO(keywordsText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+            //                    titleText = ReplaceSEO(titleText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+            //                    descriptionText = ReplaceSEO(descriptionText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+            //                    keywordsText = ReplaceSEO(keywordsText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
 
-                                titleText = Remove(titleText, 255);
-                                descriptionText = Remove(descriptionText, 200);
-                                keywordsText = Remove(keywordsText, 100);
+            //                    titleText = Remove(titleText, 255);
+            //                    descriptionText = Remove(descriptionText, 200);
+            //                    keywordsText = Remove(keywordsText, 100);
 
-                                tovar[11] = descriptionText;
-                                tovar[12] = keywordsText;
-                                tovar[13] = titleText;
-                                izmen = true;
-                            }
+            //                    tovar[11] = descriptionText;
+            //                    tovar[12] = keywordsText;
+            //                    tovar[13] = titleText;
+            //                    izmen = true;
+            //                }
 
-                            if (nameTovarRacerMotors == nameTovarBike & priceActual.ToString() != preciTovarBike)
-                            {
-                                tovar[9] = priceActual.ToString();
-                                izmen = true;
-                            }
+            //                if (nameTovarRacerMotors == nameTovarBike & priceActual.ToString() != preciTovarBike)
+            //                {
+            //                    tovar[9] = priceActual.ToString();
+            //                    izmen = true;
+            //                }
 
-                            if (tovar[43] != "100")
-                            {
-                                tovar[43] = "100";
-                                izmen = true;
-                            }
+            //                if (tovar[43] != "100")
+            //                {
+            //                    tovar[43] = "100";
+            //                    izmen = true;
+            //                }
 
-                            if (tovar[39] != "")
-                            {
-                                tovar[39] = "";
-                                izmen = true;
-                            }
+            //                if (tovar[39] != "")
+            //                {
+            //                    tovar[39] = "";
+            //                    izmen = true;
+            //                }
 
-                            if (tovar[42] == "&alsoBuy[0]=0&alsoBuy[1]=0&alsoBuy[2]=0&alsoBuy[3]=0")
-                            {
-                                tovar[42] = nethouse.alsoBuyTovars(tovar);
-                                izmen = true;
-                            }
-                            else
-                            {
+            //                if (tovar[42] == "&alsoBuy[0]=0&alsoBuy[1]=0&alsoBuy[2]=0&alsoBuy[3]=0")
+            //                {
+            //                    tovar[42] = nethouse.alsoBuyTovars(tovar);
+            //                    izmen = true;
+            //                }
+            //                else
+            //                {
 
-                            }
+            //                }
 
-                            if (izmen)
-                            {
-                                tovar[39] = "";
-                                nethouse.SaveTovar(cookie, tovar);
-                                countUpdate++;
-                            }
+            //                if (izmen)
+            //                {
+            //                    tovar[39] = "";
+            //                    nethouse.SaveTovar(cookie, tovar);
+            //                    countUpdate++;
+            //                }
 
-                            #endregion
-                        }
-                        else
-                        {
-                            #region Запись товара в файл для загрузки
+            //                #endregion
+            //            }
+            //            else
+            //            {
+            //                #region Запись товара в файл для загрузки
 
-                            discount = discountTemplate.Replace("\"", "\"\"");
+            //                discount = discountTemplate.Replace("\"", "\"\"");
 
-                            string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
-                            string slug = chpu.vozvr(nameTovarRacerMotors);
-                            string minitext = minitextTemplate;
-                            string titleText = titleTextTemplate;
-                            string descriptionText = descriptionTextTemplate;
-                            string keywordsText = keywordsTextTemplate;
-                            string fullText = fullTextTemplate;
-                            string article = articlRacerMotors[m].ToString();
+            //                string dblProduct = "НАЗВАНИЕ также подходит для: аналогичных моделей.";
+            //                string slug = chpu.vozvr(nameTovarRacerMotors);
+            //                string minitext = minitextTemplate;
+            //                string titleText = titleTextTemplate;
+            //                string descriptionText = descriptionTextTemplate;
+            //                string keywordsText = keywordsTextTemplate;
+            //                string fullText = fullTextTemplate;
+            //                string article = articlRacerMotors[m].ToString();
 
-                            string strCodePage = boldOpen + "Номер " + codePicture[m].ToString() + " на схеме/фото" + boldClose;
+            //                string strCodePage = boldOpen + "Номер " + codePicture[m].ToString() + " на схеме/фото" + boldClose;
 
-                            minitext = Replace(minitext, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "");
-                            minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
+            //                minitext = Replace(minitext, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "");
+            //                minitext = minitext.Remove(minitext.LastIndexOf("<p>"));
 
-                            fullText = Replace(fullText, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "");
-                            fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
+            //                fullText = Replace(fullText, section2, section1, strCodePage, dblProduct, nameTovarRacerMotors, article, "");
+            //                fullText = fullText.Remove(fullText.LastIndexOf("<p>"));
 
-                            titleText = ReplaceSEO(titleText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
-                            descriptionText = ReplaceSEO(descriptionText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
-                            keywordsText = ReplaceSEO(keywordsText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+            //                titleText = ReplaceSEO(titleText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+            //                descriptionText = ReplaceSEO(descriptionText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
+            //                keywordsText = ReplaceSEO(keywordsText, nameTovarRacerMotors, section1, section2, article, dblProduct, strCodePage);
 
-                            titleText = Remove(titleText, 255);
-                            descriptionText = Remove(descriptionText, 200);
-                            keywordsText = Remove(keywordsText, 100);
-                            slug = Remove(slug, 64);
+            //                titleText = Remove(titleText, 255);
+            //                descriptionText = Remove(descriptionText, 200);
+            //                keywordsText = Remove(keywordsText, 100);
+            //                slug = Remove(slug, 64);
 
-                            newProduct = new List<string>();
-                            newProduct.Add(""); //id
-                            newProduct.Add("\"" + articlRacerMotors[m].ToString() + "\""); //артикул
-                            newProduct.Add("\"" + nameTovarRacerMotors + "\"");  //название
-                            newProduct.Add("\"" + priceActual + "\""); //стоимость
-                            newProduct.Add("\"" + "" + "\""); //со скидкой
-                            newProduct.Add("\"" + razdel + "\""); //раздел товара
-                            newProduct.Add("\"" + "100" + "\""); //в наличии
-                            newProduct.Add("\"" + "0" + "\"");//поставка
-                            newProduct.Add("\"" + "1" + "\"");//срок поставки
-                            newProduct.Add("\"" + minitext + "\"");//краткий текст
-                            newProduct.Add("\"" + fullText + "\"");//полностью текст
-                            newProduct.Add("\"" + titleText + "\""); //заголовок страницы
-                            newProduct.Add("\"" + descriptionText + "\""); //описание
-                            newProduct.Add("\"" + keywordsText + "\"");//ключевые слова
-                            newProduct.Add("\"" + slug + "\""); //ЧПУ
-                            newProduct.Add(""); //с этим товаром покупают
-                            newProduct.Add("");   //рекламные метки
-                            newProduct.Add("\"" + "1" + "\"");  //показывать
-                            newProduct.Add("\"" + "0" + "\""); //удалить
+            //                newProduct = new List<string>();
+            //                newProduct.Add(""); //id
+            //                newProduct.Add("\"" + articlRacerMotors[m].ToString() + "\""); //артикул
+            //                newProduct.Add("\"" + nameTovarRacerMotors + "\"");  //название
+            //                newProduct.Add("\"" + priceActual + "\""); //стоимость
+            //                newProduct.Add("\"" + "" + "\""); //со скидкой
+            //                newProduct.Add("\"" + razdel + "\""); //раздел товара
+            //                newProduct.Add("\"" + "100" + "\""); //в наличии
+            //                newProduct.Add("\"" + "0" + "\"");//поставка
+            //                newProduct.Add("\"" + "1" + "\"");//срок поставки
+            //                newProduct.Add("\"" + minitext + "\"");//краткий текст
+            //                newProduct.Add("\"" + fullText + "\"");//полностью текст
+            //                newProduct.Add("\"" + titleText + "\""); //заголовок страницы
+            //                newProduct.Add("\"" + descriptionText + "\""); //описание
+            //                newProduct.Add("\"" + keywordsText + "\"");//ключевые слова
+            //                newProduct.Add("\"" + slug + "\""); //ЧПУ
+            //                newProduct.Add(""); //с этим товаром покупают
+            //                newProduct.Add("");   //рекламные метки
+            //                newProduct.Add("\"" + "1" + "\"");  //показывать
+            //                newProduct.Add("\"" + "0" + "\""); //удалить
 
-                            files.fileWriterCSV(newProduct, "naSite");
+            //                files.fileWriterCSV(newProduct, "naSite");
 
-                        }
-                        #endregion
+            //            }
+            //            #endregion
 
-                        List<string> allProducts = new List<string>();
-                        allProducts.Add(nameTovarRacerMotors);
-                        allProducts.Add(articlRacerMotors[m].ToString());
-                        allProducts.Add(section1);
-                        allProducts.Add(section2);
-                        string[] allRazdel = razdel.Split('>');
-                        razdel = allRazdel[allRazdel.Length - 1];
-                        allProducts.Add(razdel);
-                        files.fileWriterCSV(allProducts, "allProducts");
-                    }
-                }
-            }
+            //            List<string> allProducts = new List<string>();
+            //            allProducts.Add(nameTovarRacerMotors);
+            //            allProducts.Add(articlRacerMotors[m].ToString());
+            //            allProducts.Add(section1);
+            //            allProducts.Add(section2);
+            //            string[] allRazdel = razdel.Split('>');
+            //            razdel = allRazdel[allRazdel.Length - 1];
+            //            allProducts.Add(razdel);
+            //            files.fileWriterCSV(allProducts, "allProducts");
+            //        }
+            //    }
+            //}
 
             #region Аналогичные товары в краткое описание товара
             string[] allProductsLines = File.ReadAllLines("allProducts.csv", Encoding.GetEncoding(1251));
@@ -916,13 +916,22 @@ namespace RacerMotors
                     string[] newProducts = noProducts[i].Split(';');
                     string articlNewProduct = newProducts[1].Replace("\"", "");
                     string nameNewProduct = newProducts[2].Replace("\"", "");
-                    foreach (string str in allProductsLines)
+                    bool zip = true;
+                    if (nameNewProduct.Contains("Гайка") || nameNewProduct.Contains("Болт") || nameNewProduct.Contains("Шайба") || nameNewProduct.Contains("Свеча зажигания") || nameNewProduct.Contains("Набор инструментов") || nameNewProduct.Contains("Светоотражатель прямоугольный") || nameNewProduct.Contains("Хомут") || nameNewProduct.Contains("Тормозные колодки") || nameNewProduct.Contains("PD19J") || nameNewProduct.Contains("PD18J") || nameNewProduct.Contains("Свечной провод") || nameNewProduct.Contains("Сальник") || nameNewProduct.Contains("Воздушный фильтр") || nameNewProduct.Contains("Двигатель 139QMB") || nameNewProduct.Contains("Диск задний R12") || nameNewProduct.Contains("Карбюратор PD24J") || nameNewProduct.Contains("Боковой светоотражатель") || nameNewProduct.Contains("Аккумулятор") || nameNewProduct.Contains("Клаксон") || nameNewProduct.Contains("Топливный фильтр") || nameNewProduct.Contains("Реле поворотов") || nameNewProduct.Contains("Зажигание CDI") || nameNewProduct.Contains("Стабилизатор напряжения") || nameNewProduct.Contains("Реле стартера") || nameNewProduct.Contains("Пружина") || nameNewProduct.Contains("Заклепка") || nameNewProduct.Contains("Сервисная книжка") || nameNewProduct.Contains("Крышка бензобака") || nameNewProduct.Contains("Тесьма-завязка") || nameNewProduct.Contains("Бензоклапан") || nameNewProduct.Contains("Покрышка") || nameNewProduct.Contains("Карбюратор PD24J") || nameNewProduct.Contains("Шуруп") || nameNewProduct.Contains("Клипса") || nameNewProduct.Contains("Винт") || nameNewProduct.Contains("Золотник") || nameNewProduct.Contains("Предохранитель") || nameNewProduct.Contains("Шплинт") || nameNewProduct.Contains("Подшипник"))
                     {
-                        string[] allProducts = str.Split(';');
-                        string allProductsArticl = allProducts[1].Replace("\"", "");
-                        if (articlNewProduct == allProductsArticl)
+                        zip = false;
+                    }
+
+                    if (zip)
+                    {
+                        foreach (string str in allProductsLines)
                         {
-                            dblProduct += "<br />-" + boldOpen + allProducts[2].Replace("\"", "") + boldClose + " раздел " + boldOpen + allProducts[3].Replace("\"", "") + boldClose;
+                            string[] allProducts = str.Split(';');
+                            string allProductsArticl = allProducts[1].Replace("\"", "");
+                            if (articlNewProduct == allProductsArticl)
+                            {
+                                dblProduct += "<br />-" + boldOpen + allProducts[2].Replace("\"", "") + boldClose + " раздел " + boldOpen + allProducts[3].Replace("\"", "") + boldClose;
+                            }
                         }
                     }
                     dblProduct = dblProduct + "<br />и аналогичных моделей.";
@@ -936,7 +945,7 @@ namespace RacerMotors
             System.Threading.Thread.Sleep(20000);
             string[] naSite1 = File.ReadAllLines("naSite.csv", Encoding.GetEncoding(1251));
             if (naSite1.Length > 1)
-                nethouse.UploadCSVNethouse(cookie, "naSite.csv", tbLogin.Text, tbPasswords.Text);
+               nethouse.UploadCSVNethouse(cookie, "naSite.csv", tbLogin.Text, tbPasswords.Text);
 
             MessageBox.Show("Обновлено товаров на сайте: " + countUpdate + "\nУдалено товаров с сайта: " + countDelete);
 
